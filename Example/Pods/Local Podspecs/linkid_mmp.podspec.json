@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "summary": "A short description of linkid_mmp.",
   "description": "TODO: Add long description of the pod here.",
-  "homepage": "https://github.com/Tuan Dinh/linkid_mmp",
+  "homepage": "https://github.com/leonacky/linkid_mmp",
   "license": {
     "type": "MIT",
     "file": "LICENSE"
@@ -12,7 +12,7 @@
     "Tuan Dinh": "leonacky@gmail.com"
   },
   "source": {
-    "git": "https://github.com/Tuan Dinh/linkid_mmp.git",
+    "git": "https://github.com/leonacky/linkid_mmp.git",
     "tag": "0.1.0"
   },
   "platforms": {
