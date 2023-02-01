@@ -4,6 +4,7 @@ platform :ios, '10.0'
 
 target 'linkid_mmp_Example' do
   pod 'linkid_mmp', :path => '../'
+  pod 'SnapKit', '~> 5.6.0'
 
   target 'linkid_mmp_Tests' do
     inherit! :search_paths

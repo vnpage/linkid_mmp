@@ -18,5 +18,16 @@
   "platforms": {
     "ios": "10.0"
   },
-  "source_files": "linkid_mmp/Classes/**/*"
+  "source_files": "linkid_mmp/Classes/**/*",
+  "dependencies": {
+    "SQLite.swift": [
+      "~> 0.14.0"
+    ],
+    "KeychainSwift": [
+      "~> 20.0"
+    ],
+    "CryptoSwift": [
+      "~> 1.5.1"
+    ]
+  }
 }
