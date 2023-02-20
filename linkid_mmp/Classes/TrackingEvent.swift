@@ -10,7 +10,7 @@ import SQLite
 
 class TrackingEvent {
     private static let syncInterval: TimeInterval = 10 // sync every 5 seconds
-    private static let syncEventCount = 10 // sync after every 10 events
+    private static let syncEventCount = 100 // sync after every 10 events
     private static var eventQueue: [EventData] = [] // queue to store events that are waiting to be synced
     private static var syncTimer: Timer? // timer to schedule syncs at regular intervals
     private static let semaphore = DispatchSemaphore(value: 1) // semaphore to limit the number of concurrent syncs
@@ -107,7 +107,7 @@ class TrackingEvent {
                 print(error)
                 eventQueue += _data
             }
-            if eventQueue.count>0 {
+            if eventQueue.count > 0 {
                 startSyncTimer()
             }
         }
