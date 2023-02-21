@@ -5,8 +5,9 @@ public class LinkIdMMP {
         TrackingEvent.trackEvent(name: "\(name)_\(TrackingEvent.getTotalCount()+1)", data: data)
     }
     
-    static public func intSDK(partnerCode: String, appId: String) {
+    static public func intSDK(partnerCode: String) {
         //http://178.128.221.107:3001/public/partner/auth
+        let appId = Bundle.main.bundleIdentifier ?? ""
         let deviceId = StorageHelper.shared.getDeviceId()
         StorageHelper.shared.savePartnerCode(partnerCode)
         StorageHelper.shared.saveAppId(appId)

@@ -44,7 +44,7 @@ class ViewController: UIViewController {
         
         button2.addTarget(self, action: #selector(btnClick2(_:)), for: .touchUpInside)
         
-        LinkIdMMP.intSDK(partnerCode: "partner_code_01", appId: "com.vpbank.linkid_mmp_test")
+        LinkIdMMP.intSDK(partnerCode: "partner_code_01")
 
     }
     
