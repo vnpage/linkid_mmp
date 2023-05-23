@@ -57,12 +57,20 @@ class EventData {
         return eventsDictionary
     }
     
+    public func getSessionId() -> String {
+        var s = sessionId
+        if s == "" {
+            s = StorageHelper.shared.getAuthData()?.data?.sessionId ?? ""
+        }
+        return s
+    }
+    
     public static func convertToDictionary(_ event: EventData) -> [String: Any] {
         var data = [[String: Any]]()
         for dataInfo in event.data {
             data.append(["key": dataInfo.key, "value": dataInfo.value])
         }
-        return ["id": event.id, "key": event.key, "time": event.time, "sessionId": event.sessionId, "realtime": event.realtime, "data": data]
+        return ["id": event.id, "key": event.key, "time": event.time, "sessionId": event.getSessionId(), "realtime": event.realtime, "data": data]
     }
 }
 

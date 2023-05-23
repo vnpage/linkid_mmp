@@ -39,7 +39,13 @@ TODO: Add long description of the pod here.
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
   # s.dependency 'AFNetworking', '~> 2.3'
-  s.dependency 'SQLite.swift', '~> 0.14.0'
-  s.dependency 'KeychainSwift', '~> 20.0'
-  s.dependency 'CryptoSwift', '~> 1.5.1'
+#  s.dependency 'SQLite.swift', '~> 0.14.0'
+#  s.dependency 'KeychainSwift', '~> 20.0'
+#  s.dependency 'CryptoSwift', '~> 1.3.3'
+  s.preserve_paths = 'CryptoSwift.xcframework/**/*'
+  s.xcconfig = { 'OTHER_LDFLAGS' => '-framework CryptoSwift' }
+  s.vendored_frameworks = 'CryptoSwift.xcframework'
+  
 end
+
+

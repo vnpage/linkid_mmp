@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import CryptoSwift
+//import CryptoSwift
 
 //
 //// HtppError enum which shows all possible Network errors
@@ -68,7 +68,12 @@ class HttpClient {
     static let shared = HttpClient()
     
     func get(with urlString: String, params: [String: String]?, completion: @escaping (Data?, Error?) -> Void) {
-        guard var urlComponents = URLComponents(string: urlString) else {
+        var newUrl = urlString
+        if newUrl.startWiths("http") == false {
+            newUrl = SessionManager.baseUrl + newUrl
+        }
+        print("newUrl \(newUrl)")
+        guard var urlComponents = URLComponents(string: newUrl) else {
             completion(nil, NSError(domain: "Invalid URL", code: 0, userInfo: nil))
             return
         }
@@ -93,7 +98,12 @@ class HttpClient {
     }
     
     func post(with urlString: String, params: [String: Any]?, completion: @escaping (Data?, Error?) -> Void) {
-        guard let url = URL(string: urlString) else {
+        var newUrl = urlString
+        if newUrl.startWiths("http") == false {
+            newUrl = SessionManager.baseUrl + newUrl
+        }
+        print("newUrl \(newUrl)")
+        guard let url = URL(string: newUrl) else {
             completion(nil, NSError(domain: "Invalid URL", code: 0, userInfo: nil))
             return
         }
@@ -110,23 +120,26 @@ class HttpClient {
         } catch {
             print(error)
         }
-        if urlString.endWiths("/partner/auth") {
+        if newUrl.endWiths("/partner/auth") {
             let timestamp = Int64(Date().timeIntervalSince1970)
-            let str = "\(StorageHelper.shared.getPartnerCode())\(StorageHelper.shared.getAppId())\(StorageHelper.shared.getDeviceId())\(timestamp)IJODNVU@OJIFOISJF"
+            let str = "\(StorageHelper.shared.getPartnerCode())\(DeviceInfo.getAppId())\(StorageHelper.shared.getDeviceId())\(timestamp)IJODNVU@OJIFOISJF"
             let auth = str.sha256()
+            let tokenDecode = "\(auth.suffix(10))\(auth.prefix(10))";
+            print("tokenDecode \(tokenDecode)")
             request.allHTTPHeaderFields = [
                 "t": "\(timestamp)",
-                "v": "\(auth.suffix(10))\(auth.prefix(10))",
+                "v": tokenDecode,
                 "Content-Type": "application/json"
             ]
 //            request.addValue("t", forHTTPHeaderField: "\(timestamp)")
 //            request.addValue("v", forHTTPHeaderField: "\(auth.suffix(10))\(auth.prefix(10))")
         } else {
             let authData = StorageHelper.shared.getAuthData()
-            if let authData = authData {
+            if let authData = authData, let sessionData = authData.data {
 //                request.addValue("Authorization", forHTTPHeaderField: "\(authData.data?.token)")
+                print("authToken \(sessionData.token)")
                 request.allHTTPHeaderFields = [
-                    "Authorization": "\(authData.data.token)",
+                    "Authorization": "\(sessionData.token)",
                     "Content-Type": "application/json"
                 ]
             }

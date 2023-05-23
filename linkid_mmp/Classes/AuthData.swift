@@ -10,11 +10,18 @@ import Foundation
 struct AuthData: Decodable {
     let responseCode: Int
     let responseText: String
-    let data: SessionData
+    let data: SessionData?
 }
 
 struct SessionData: Decodable {
     let sessionId: String
     let token: String
     let sessionExpireTimeInSeconds: Int64
+    let deeplinkExpired: Int64?
+    let deferredDeeplinkExpired: Int64?
+}
+
+struct ResultData: Decodable {
+    let responseCode: Int
+    let responseText: String
 }

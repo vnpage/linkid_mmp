@@ -44,18 +44,21 @@ class ViewController: UIViewController {
         
         button2.addTarget(self, action: #selector(btnClick2(_:)), for: .touchUpInside)
         
-        LinkIdMMP.intSDK(partnerCode: "partner_code_01")
-
+        LinkIdMMP.intSDK(partnerCode: "myvpbank_uat", appSecret: "7fe95468c204397de9bcda2d702d4501a174976b1d003d92d1e5550b03f9fcb5")
     }
     
     @objc func btnClick1(_ sender:UIButton!) {
-        LinkIdMMP.event(name: "event1", data: nil)
+        LinkIdMMP.logEvent(name: "event1", data: nil)
+//        let exception = NSException(name: NSExceptionName(rawValue: "arbitrary ffdfdf"), reason: "arbitrary reason", userInfo: nil)
+//        exception.raise()
     }
     
     @objc func btnClick2(_ sender:UIButton!) {
-        for i in 0...100 {
-            LinkIdMMP.event(name: "event2", data: ["key": "value"])
-        }
+//        LinkIdMMP.setUserInfo(userInfo: UserInfo.create(userId: "tuandv8", name: "", gender: "", email: "", phone: "", age: 0, country: "", city: "", deviceToken: ""))
+//        var user: UserInfo?
+//        print("\(user!.toDictionary())")
+        let exception = NSException(name: NSExceptionName(rawValue: "arbitrary"), reason: "arbitrary reason", userInfo: nil)
+        exception.raise()
     }
 
     override func didReceiveMemoryWarning() {

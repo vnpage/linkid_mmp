@@ -6,62 +6,62 @@
 //
 
 import Foundation
-import SQLite
+//import SQLite
 
 class TrackingEvent {
-    private static let syncInterval: TimeInterval = 10 // sync every 5 seconds
-    private static let syncEventCount = 100 // sync after every 10 events
+    private static let syncInterval: TimeInterval = 5 // sync every 5 seconds
+    private static let syncEventCount = 10 // sync after every 10 events
     private static var eventQueue: [EventData] = [] // queue to store events that are waiting to be synced
     private static var syncTimer: Timer? // timer to schedule syncs at regular intervals
     private static let semaphore = DispatchSemaphore(value: 1) // semaphore to limit the number of concurrent syncs
-    private static var lastEventTime: Date? // last event time
+    private static var lastSyncTime: Date? // last event time
     private static var eventTotalCounter = 0;
     private static var isSyncing = false;
     
-    private static var db: Connection?
+//    private static var db: Connection?
     private static var authData: AuthData?
     
-    class func initDb() {
-        do {
-            if(TrackingEvent.db==nil) {
-                let path = NSSearchPathForDirectoriesInDomains(
-                    .documentDirectory, .userDomainMask, true
-                ).first!
-                TrackingEvent.db = try Connection("\(path)/linkid_mmp.sqlite3")
-                let events = Table("events")
-                let name = Expression<String>("name")
-                let data = Expression<String>("data")
-                
-                try! db?.run(events.create(ifNotExists: true) { t in
-                    t.column(name)
-                    t.column(data)
-                })
-            }
-        } catch {
-            // handle the error
-            print("Error reading file: \(error.localizedDescription)")
-        }
-    }
+//    class func initDb() {
+//        do {
+//            if(TrackingEvent.db==nil) {
+//                let path = NSSearchPathForDirectoriesInDomains(
+//                    .documentDirectory, .userDomainMask, true
+//                ).first!
+//                TrackingEvent.db = try Connection("\(path)/linkid_mmp.sqlite3")
+//                let events = Table("events")
+//                let name = Expression<String>("name")
+//                let data = Expression<String>("data")
+//                
+//                try! db?.run(events.create(ifNotExists: true) { t in
+//                    t.column(name)
+//                    t.column(data)
+//                })
+//            }
+//        } catch {
+//            // handle the error
+//            print("Error reading file: \(error.localizedDescription)")
+//        }
+//    }
     
     class func checkAuth() {
         authData = StorageHelper.shared.getAuthData()
+        if(authData==nil) {
+            SessionManager.retry()
+        }
     }
 
     class func trackEvent(name: String, data: [String: Any]?) {
         print("tracking event: \(name)")
-        initDb()
+//        initDb()
         checkAuth()
-        
-        eventQueue.append(EventData.makeEvent(key: name, sessionId: authData?.data.sessionId ?? "", realtime: false, data: data))
+        eventQueue.append(EventData.makeEvent(key: name, sessionId: authData?.data?.sessionId ?? "", realtime: false, data: data))
         eventTotalCounter += 1
-        lastEventTime = Date()
 
-        if syncTimer == nil {
-            startSyncTimer()
-        }
+        checkTimer()
 
         // check if it's time to sync
         if eventQueue.count >= syncEventCount {
+            print("eventQueue.count >= syncEventCount")
             sync()
         }
     }
@@ -77,7 +77,7 @@ class TrackingEvent {
         if(isSyncing==true) {
             return
         }
-        stopSyncTimer()
+        lastSyncTime = Date()
         isSyncing = true
         print("----- syncing -----")
         
@@ -86,41 +86,54 @@ class TrackingEvent {
             _data += eventQueue.prefix(syncEventCount)
             eventQueue = eventQueue.suffix(eventQueue.count-syncEventCount)
         } else {
-            lastEventTime = nil
             _data += eventQueue
             eventQueue.removeAll()
         }
         
-        HttpClient.shared.post(with: "http://178.128.221.107:3001/partner/event/log", params: ["events": EventData.convertToArray(_data)]) { data, error in
+        HttpClient.shared.post(with: "/partner/event/log", params: ["events": EventData.convertToArray(_data)]) { data, _error in
             isSyncing = false
             if let data = data {
-                // handle received data
-                print("----- sync successful -----")
-                if let responseString = String(data: data, encoding: .utf8) {
-                    print(responseString)
-                    // handle response string
-                } else {
-                    // handle error converting data to string
+                do {
+                    let result = try JSONDecoder().decode(ResultData.self, from: data)
+                    if result.responseCode == 200 {
+                        print("----- sync successful -----")
+                    } else {
+                        print("----- sync error -----")
+                        print(result.responseText)
+                        eventQueue += _data
+                    }
+                } catch {
+                    print("----- sync error -----")
+                    eventQueue += _data
+                    print(error)
                 }
             } else {
                 print("----- sync error -----")
-                print(error)
+                print(_error)
                 eventQueue += _data
             }
             if eventQueue.count > 0 {
-                startSyncTimer()
+                checkTimer()
             }
+        }
+    }
+    
+    private class func checkTimer() {
+        if syncTimer == nil {
+            startSyncTimer()
         }
     }
 
     private class func startSyncTimer() {
-        syncTimer = Timer.scheduledTimer(withTimeInterval: syncInterval, repeats: true) { _ in
-            if let lastEventTime = lastEventTime {
-                print("lastEventTime \(lastEventTime)")
-                print("eventQueue.count \(eventQueue.count)")
-                if Date().timeIntervalSince(lastEventTime) >= syncInterval && eventQueue.count>0 {
-                    print("time to sync")
-                    sync()
+        lastSyncTime = Date()
+        print("startSyncTimer")
+        DispatchQueue.main.async {
+            syncTimer = Timer.scheduledTimer(withTimeInterval: syncInterval, repeats: true) { _ in
+                if lastSyncTime != nil {
+                    if Date().timeIntervalSince(lastSyncTime!) >= syncInterval && eventQueue.count>0 {
+                        print("time to sync")
+                        sync()
+                    }
                 }
             }
         }
@@ -131,16 +144,3 @@ class TrackingEvent {
         syncTimer = nil
     }
 }
-
-extension Dictionary {
-    func mergedWith(otherDictionary: [Key: Value]) -> [Key: Value] {
-        var mergedDict: [Key: Value] = [:]
-        [self, otherDictionary].forEach { dict in
-            for (key, value) in dict {
-                mergedDict[key] = value
-            }
-        }
-        return mergedDict
-    }
-}
-

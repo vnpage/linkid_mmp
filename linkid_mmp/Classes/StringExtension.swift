@@ -27,4 +27,19 @@ extension String {
     func startWiths(_ str: String) -> Bool {
         return self.prefix(str.count) == str
     }
+    
+    init?(hex: String) {
+        var hex = hex
+        var data = Data()
+        while !hex.isEmpty {
+            let subIndex = hex.index(hex.startIndex, offsetBy: 2)
+            let subString = String(hex[..<subIndex])
+            hex = String(hex[subIndex...])
+            guard let byte = UInt8(subString, radix: 16) else {
+                return nil
+            }
+            data.append(byte)
+        }
+        self.init(data: data, encoding: .utf8)
+    }
 }

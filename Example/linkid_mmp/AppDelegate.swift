@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import linkid_mmp
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,6 +17,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        self.window = DetectWindowTouch(frame: UIScreen.main.bounds)
+        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let controller = mainStoryboard.instantiateViewController(withIdentifier: "controller")
+
+        self.window?.rootViewController = controller
+        self.window?.makeKeyAndVisible()
         return true
     }
 
@@ -41,6 +48,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+      let url = userActivity.webpageURL!
+      print(url)
+      // Take decision according to URL
+      return true
+    }
+    
+    func application(_ application: UIApplication,
+                                  continue userActivity: NSUserActivity,
+                                  restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+        if let incomigURL = userActivity.webpageURL{
+            print(incomigURL)
+            return true
+        }
+        print("userActivity = nil")
+        return false
+    }
 
 }
 
