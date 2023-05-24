@@ -209,15 +209,15 @@ class DeviceInfo {
     }
     
     public static func isDeviceCharging() -> Bool {
-        return UIDevice.current.batteryState == UIDeviceBatteryState.charging
+        return UIDevice.current.batteryState == UIDevice.BatteryState.charging
     }
     
     public static func getDeviceBatteryStatus() -> String {
-        if(UIDevice.current.batteryState == UIDeviceBatteryState.charging) {
+        if(UIDevice.current.batteryState == UIDevice.BatteryState.charging) {
             return "CHAGRING"
-        } else if(UIDevice.current.batteryState == UIDeviceBatteryState.full) {
+        } else if(UIDevice.current.batteryState == UIDevice.BatteryState.full) {
             return "FULL"
-        } else if(UIDevice.current.batteryState == UIDeviceBatteryState.unplugged) {
+        } else if(UIDevice.current.batteryState == UIDevice.BatteryState.unplugged) {
             return "UNPLUGGED"
         } else {
             return "UNKNOWN"

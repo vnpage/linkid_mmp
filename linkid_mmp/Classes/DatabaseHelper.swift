@@ -80,7 +80,7 @@ class DatabaseHelper {
             ids.append(event.id)
         }
         do {
-            let result = try dbQueue?.write { db in
+            _ = try dbQueue?.write { db in
                 try EventData.deleteAll(db, keys: ids)
             }
         } catch {

@@ -101,7 +101,7 @@ public class Crashlytics {
     }
     
     private static func sendCrashLogToServer(_ crashLog: String, hash: String) {
-        var bugs = [
+        let bugs = [
             "platform": "ios",
             "hash": hash,
             "deviceModel": DeviceInfo.getDeviceIdentifier(),

@@ -100,7 +100,6 @@ class EventData: Codable, FetchableRecord, PersistableRecord {
         if let key = data["key"] as? String, let id = data["id"] as? String, let time = data["time"] as? Int, let realtime = data["realtime"] as? Bool  {
             let sessionId = (data["sessionId"] as? String) ?? ""
             let jsonString = (data["data"] as? String) ?? "{}"
-            let eventData = EventData.jsonStringToDict(jsonString: jsonString)
             let event = EventData.init(id: id, key: key, time: time, sessionId: sessionId, realtime: realtime, data: jsonString)
             return event
         }
