@@ -76,7 +76,7 @@ class SessionManager {
     public class func updateInfo(data: [String: Any]?) {
         HttpClient.shared.post(with: "/partner/device-info/update", params: data) { _data, _error in
             if let _data = _data {
-                do {
+//                do {
                     let dataStr = String(data: _data, encoding: .utf8)
                     print(dataStr ?? "Khong lay duoc du lieu")
 //                    let authData = try JSONDecoder().decode(AuthData.self, from: _data)
@@ -86,9 +86,9 @@ class SessionManager {
 //                    } else {
 //                        StorageHelper.shared.removeAuthData()
 //                    }
-                } catch let error {
-                    print(error)
-                }
+//                } catch {
+//                    print(error)
+//                }
             }
         }
     }

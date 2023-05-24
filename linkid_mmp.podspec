@@ -42,6 +42,8 @@ TODO: Add long description of the pod here.
 #  s.dependency 'SQLite.swift', '~> 0.14.0'
 #  s.dependency 'KeychainSwift', '~> 20.0'
 #  s.dependency 'CryptoSwift', '~> 1.3.3'
+  
+  s.dependency 'GRDB.swift', '~> 4.14.0'
   s.preserve_paths = 'CryptoSwift.xcframework/**/*'
   s.xcconfig = { 'OTHER_LDFLAGS' => '-framework CryptoSwift' }
   s.vendored_frameworks = 'CryptoSwift.xcframework'

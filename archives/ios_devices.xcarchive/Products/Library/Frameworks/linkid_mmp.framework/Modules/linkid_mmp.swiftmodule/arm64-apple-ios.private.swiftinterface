@@ -2,16 +2,24 @@
 // swift-compiler-version: Apple Swift version 5.7.1 effective-4.1.50 (swiftlang-5.7.1.135.3 clang-1400.0.29.51)
 // swift-module-flags: -target arm64-apple-ios10.0 -enable-objc-interop -enable-library-evolution -swift-version 4 -enforce-exclusivity=checked -O -module-name linkid_mmp
 // swift-module-flags-ignorable: -enable-bare-slash-regex
+import CoreData
 import CoreTelephony
 import CryptoSwift
 import DeviceCheck
 import Foundation
+import GRDB
 import Swift
 import UIKit
 import _Concurrency
 import _StringProcessing
 @_exported import linkid_mmp
 @_hasMissingDesignatedInitializers public class Common {
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class Crashlytics {
+  public static func setup()
+  public static func recordError(name: Swift.String, stackTrace: Swift.String)
+  public static func check()
   @objc deinit
 }
 @_hasMissingDesignatedInitializers public class DeepLinkHandler {
@@ -46,12 +54,6 @@ import _StringProcessing
 @_hasMissingDesignatedInitializers public class PurchaseItem {
   public static func convertToArray(_ items: [linkid_mmp.PurchaseItem]) -> [[Swift.String : Any]]
   public static func convertToDictionary(_ item: linkid_mmp.PurchaseItem) -> [Swift.String : Any]
-  @objc deinit
-}
-@_hasMissingDesignatedInitializers public class Crashlytics {
-  public static func setup()
-  public static func recordError(name: Swift.String, stackTrace: Swift.String)
-  public static func check()
   @objc deinit
 }
 @_hasMissingDesignatedInitializers @objcMembers public class UserInfo {

@@ -57,8 +57,9 @@ class ViewController: UIViewController {
 //        LinkIdMMP.setUserInfo(userInfo: UserInfo.create(userId: "tuandv8", name: "", gender: "", email: "", phone: "", age: 0, country: "", city: "", deviceToken: ""))
 //        var user: UserInfo?
 //        print("\(user!.toDictionary())")
-        let exception = NSException(name: NSExceptionName(rawValue: "arbitrary"), reason: "arbitrary reason", userInfo: nil)
-        exception.raise()
+//        let exception = NSException(name: NSExceptionName(rawValue: "arbitrary"), reason: "arbitrary reason", userInfo: nil)
+//        exception.raise()
+        LinkIdMMP.logEvent(name: "event2", data: ["tuandv8": "IT-DF"])
     }
 
     override func didReceiveMemoryWarning() {

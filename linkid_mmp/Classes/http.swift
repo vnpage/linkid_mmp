@@ -114,7 +114,7 @@ class HttpClient {
         do {
             if params != nil {
                 print(params!)
-                let _data = try JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
+                let _data = try JSONSerialization.data(withJSONObject: params!, options: .prettyPrinted)
                 request.httpBody = _data
             }
         } catch {

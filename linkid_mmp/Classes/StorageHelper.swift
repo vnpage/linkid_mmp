@@ -35,7 +35,7 @@ class StorageHelper {
     }
     
     func getLastEventTime() -> Int64 {
-        var time = getValue(forKey: "MMP_LastEventTime")
+        let time = getValue(forKey: "MMP_LastEventTime")
         return Int64(time ?? "0") ?? 0
     }
     
@@ -44,7 +44,7 @@ class StorageHelper {
     }
     
     func getExpireTime() -> Int64 {
-        var expireTime = getValue(forKey: "MMP_SessionExpireTimeInSeconds")
+        let expireTime = getValue(forKey: "MMP_SessionExpireTimeInSeconds")
         return Int64(expireTime ?? "0") ?? 0
     }
     
@@ -53,7 +53,7 @@ class StorageHelper {
     }
     
     func getDeeplinkExpireTime() -> Int64 {
-        var expireTime = getValue(forKey: "MMP_SessionExpireTimeInSeconds_Deeplink")
+        let expireTime = getValue(forKey: "MMP_SessionExpireTimeInSeconds_Deeplink")
         return Int64(expireTime ?? "0") ?? 0
     }
     
@@ -62,7 +62,7 @@ class StorageHelper {
     }
     
     func getDefferredDeeplinkExpireTime() -> Int64 {
-        var expireTime = getValue(forKey: "MMP_SessionExpireTimeInSeconds_DefferredDeeplink")
+        let expireTime = getValue(forKey: "MMP_SessionExpireTimeInSeconds_DefferredDeeplink")
         return Int64(expireTime ?? "0") ?? 0
     }
     
@@ -71,7 +71,7 @@ class StorageHelper {
     }
     
     func getDeeplink() -> String {
-        var data = getValue(forKey: "MMP_Deeplink")
+        let data = getValue(forKey: "MMP_Deeplink")
         return data ?? ""
     }
     
@@ -80,7 +80,7 @@ class StorageHelper {
     }
     
     func getDeferredDeeplink() -> String {
-        var data = getValue(forKey: "MMP_DeferredDeeplink")
+        let data = getValue(forKey: "MMP_DeferredDeeplink")
         return data ?? ""
     }
     
@@ -89,7 +89,7 @@ class StorageHelper {
     }
     
     func getBaseUrl() -> String {
-        var data = getValue(forKey: "MMP_BaseUrl")
+        let data = getValue(forKey: "MMP_BaseUrl")
         return data ?? ""
     }
     
@@ -98,7 +98,7 @@ class StorageHelper {
     }
     
     func getPartnerCode() -> String {
-        var code = getValue(forKey: "MMP_PartnerCode")
+        let code = getValue(forKey: "MMP_PartnerCode")
         return code ?? ""
     }
     
@@ -107,7 +107,7 @@ class StorageHelper {
     }
     
     func getAppSecret() -> String {
-        var code = getValue(forKey: "MMP_AppSecret")
+        let code = getValue(forKey: "MMP_AppSecret")
         return code ?? ""
     }
     

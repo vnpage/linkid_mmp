@@ -124,7 +124,7 @@ public class Crashlytics {
                     print(error)
                 }
             } else {
-                print(_error)
+                print(_error ?? "")
             }
             saveCrashLog(crashLog, hash: hash)
         }
