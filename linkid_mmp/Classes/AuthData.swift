@@ -25,3 +25,14 @@ struct ResultData: Decodable {
     let responseCode: Int
     let responseText: String
 }
+
+struct DeepLinkResultData: Decodable {
+    let responseCode: Int
+    let responseText: String
+    let data: DeepLinkData?
+}
+
+struct DeepLinkData: Decodable {
+    let short_link: String
+    let long_link: String
+}

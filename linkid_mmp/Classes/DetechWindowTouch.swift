@@ -13,14 +13,14 @@ public class DetectWindowTouch: UIWindow {
         if let touch = event.allTouches?.first {
             switch touch.phase {
             case .began:
-                print(touch.location(in: self))
-                print("Touch Began")
+                Logger.log(touch.location(in: self))
+                Logger.log("Touch Began")
             case .moved:
-                print("Touch Move")
+                Logger.log("Touch Move")
             case .ended:
-                print("Touch End")
+                Logger.log("Touch End")
             case .cancelled:
-                print("Touch Cancelled")
+                Logger.log("Touch Cancelled")
             default:
                 break
             }

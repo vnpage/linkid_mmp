@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import GRDB
+@_implementationOnly import GRDB
 
 class DatabaseHelper {
     static let shared = DatabaseHelper()
@@ -53,7 +53,7 @@ class DatabaseHelper {
                 try event.insert(db)
             }
         } catch {
-            print("\(error)")
+            Logger.log("\(error)")
         }
     }
     
@@ -84,7 +84,7 @@ class DatabaseHelper {
                 try EventData.deleteAll(db, keys: ids)
             }
         } catch {
-            print("Error removing records: \(error)")
+            Logger.log("Error removing records: \(error)")
         }
     }
 }

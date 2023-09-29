@@ -28,7 +28,7 @@ class TrackingEvent {
     }
 
     class func trackEvent(name: String, data: [String: Any]?) {
-        print("tracking event: \(name)")
+        Logger.log("tracking event: \(name)")
         checkAuth()
         let event = EventData.makeEvent(key: name, sessionId: authData?.data?.sessionId ?? "", realtime: false, data: data)
         DatabaseHelper.shared.addEvent(event: event)
@@ -37,7 +37,7 @@ class TrackingEvent {
 
         // check if it's time to sync
         if eventTotalCounter >= syncEventCount {
-            print("eventTotalCounter >= syncEventCount")
+            Logger.log("eventTotalCounter >= syncEventCount")
             sync()
         }
     }
@@ -56,7 +56,7 @@ class TrackingEvent {
         let events = DatabaseHelper.shared.getEvents(limit: 50)
         lastSyncTime = Date()
         isSyncing = true
-        print("----- syncing: \(events?.count ?? 0) events -----")
+        Logger.log("----- syncing: \(events?.count ?? 0) events -----")
         eventTotalCounter = 0
         var _data: [EventData] = []
         _data.append(contentsOf: events ?? [])
@@ -70,19 +70,19 @@ class TrackingEvent {
                 do {
                     let result = try JSONDecoder().decode(ResultData.self, from: data)
                     if result.responseCode == 200 {
-                        print("----- sync successful -----")
+                        Logger.log("----- sync successful -----")
                         DatabaseHelper.shared.removeEvents(events: _data)
                     } else {
-                        print("----- sync error -----")
-                        print(result.responseText)
+                        Logger.log("----- sync error -----")
+                        Logger.log(result.responseText)
                     }
                 } catch {
-                    print("----- sync error -----")
-                    print(error)
+                    Logger.log("----- sync error -----")
+                    Logger.log(error)
                 }
             } else {
-                print("----- sync error -----")
-                print(_error ?? "Error from request")
+                Logger.log("----- sync error -----")
+                Logger.log(_error ?? "Error from request")
             }
             checkTimer()
         }
@@ -96,12 +96,12 @@ class TrackingEvent {
 
     private class func startSyncTimer() {
         lastSyncTime = Date()
-        print("startSyncTimer")
+        Logger.log("startSyncTimer")
         DispatchQueue.main.async {
             syncTimer = Timer.scheduledTimer(withTimeInterval: syncInterval, repeats: true) { _ in
                 if lastSyncTime != nil {
                     if Date().timeIntervalSince(lastSyncTime!) >= syncInterval {
-                        print("time to sync")
+                        Logger.log("time to sync")
                         sync()
                     }
                 }

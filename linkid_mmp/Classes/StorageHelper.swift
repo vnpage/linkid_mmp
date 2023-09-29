@@ -57,30 +57,12 @@ class StorageHelper {
         return Int64(expireTime ?? "0") ?? 0
     }
     
-    func saveDefferredDeeplinkExpireTime(_ expireTime: Int64) {
-        save("\(expireTime)", forKey: "MMP_SessionExpireTimeInSeconds_DefferredDeeplink")
-    }
-    
-    func getDefferredDeeplinkExpireTime() -> Int64 {
-        let expireTime = getValue(forKey: "MMP_SessionExpireTimeInSeconds_DefferredDeeplink")
-        return Int64(expireTime ?? "0") ?? 0
-    }
-    
     func saveDeeplink(_ data: String) {
         save(data, forKey: "MMP_Deeplink")
     }
     
     func getDeeplink() -> String {
         let data = getValue(forKey: "MMP_Deeplink")
-        return data ?? ""
-    }
-    
-    func saveDeferredDeeplink(_ data: String) {
-        save(data, forKey: "MMP_DeferredDeeplink")
-    }
-    
-    func getDeferredDeeplink() -> String {
-        let data = getValue(forKey: "MMP_DeferredDeeplink")
         return data ?? ""
     }
     

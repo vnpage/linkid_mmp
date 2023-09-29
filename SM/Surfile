@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+        <key>output_path</key>
+        <string>output</string>
+        <key>framework</key>
+        <string>linkid_mmp</string>
+        <key>targets</key>
+        <array>
+            <dict>
+                <key>sdk</key>
+                <string>iOS</string>
+                <key>workspace</key>
+                <string>Example/linkid_mmp.xcworkspace</string>
+                <key>scheme</key>
+                <string>linkid_mmp</string>
+            </dict>
+            <dict>
+                <key>sdk</key>
+                <string>iOSSimulator</string>
+                <key>workspace</key>
+                <string>Example/linkid_mmp.xcworkspace</string>
+                <key>scheme</key>
+                <string>linkid_mmp</string>
+            </dict>
+            <!--
+               Remove this comment and add more targets for Simulators and the Devices.
+            -->
+        </array>
+        <key>finalActions</key>
+        <array>
+            <string>openDirectory</string>
+        </array>
+    </dict>
+</plist>

@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import GRDB
+@_implementationOnly import GRDB
 
 class EventData: Codable, FetchableRecord, PersistableRecord {
     var id: String
@@ -72,7 +72,7 @@ class EventData: Codable, FetchableRecord, PersistableRecord {
                 }
             }
         } catch {
-            print("Error converting dictionary to JSON string: \(error)")
+            Logger.log("Error converting dictionary to JSON string: \(error)")
         }
         return "{}"
     }
@@ -86,7 +86,7 @@ class EventData: Codable, FetchableRecord, PersistableRecord {
             let dictionary = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any]
             return dictionary
         } catch {
-            print("Error converting JSON string to dictionary: \(error)")
+            Logger.log("Error converting JSON string to dictionary: \(error)")
         }
         
         return nil

@@ -26,41 +26,58 @@ class SessionManager {
         }
     }
     
-    public class func authWithBaseUrl(partnerCode: String, appSecret: String, baseUrl: String) {
+    public class func sendSessionDeeplink() {
         DeepLinkHandler.initDeeplink()
+        if(DeepLinkHandler.getLastDeepLink() != "" && !DeepLinkHandler.getLastDeepLink().isEmpty) {
+            let data = ["deeplink": DeepLinkHandler.getLastDeepLink()]
+            HttpClient.shared.post(with: "/partner/session-deeplink", params: data) { data, error in
+                if let data = data {
+                    do {
+                        let dataStr = String(data: data, encoding: .utf8)
+                        Logger.log(dataStr ?? "No data")
+                    } catch let error {
+                        Logger.log(error)
+                    }
+                }
+            }
+        }
+    }
+    
+    public class func authWithBaseUrl(partnerCode: String, appSecret: String, baseUrl: String) {
         SessionManager.baseUrl = baseUrl
         let deviceId = DeviceInfo.getDeviceId()
         let appId = DeviceInfo.getAppId()
-        let data = ["partnerCode": partnerCode, "appId": appId, "deviceId": deviceId, "deeplink": DeepLinkHandler.getDeepLink(), "deferredDeeplink": DeepLinkHandler.getDeferredDeepLink()]
+        let data = ["partnerCode": partnerCode, "appId": appId, "deviceId": deviceId, "deeplink": DeepLinkHandler.getLastDeepLink()]
         HttpClient.shared.post(with: "/public/partner/auth", params: data) { data, error in
             if let data = data {
                 do {
                     let dataStr = String(data: data, encoding: .utf8)
-                    print(dataStr ?? "Khong lay duoc du lieu")
+                    Logger.log(dataStr ?? "Khong lay duoc du lieu")
                     let authData = try JSONDecoder().decode(AuthData.self, from: data)
                     if authData.responseCode == 200 {
-                        print(authData.data?.token ?? "")
+                        Logger.log(authData.data?.token ?? "")
                         StorageHelper.shared.saveAuthData(data)
                         updateInfo(data: DeviceInfo.getDeviceInfo())
                         let is_first = StorageHelper.shared.getValue(forKey: "___first_open") ?? "0"
                         if is_first == "0" {
                             StorageHelper.shared.save("1", forKey: "___first_open")
                             TrackingEvent.trackEvent(name: "lid_mmp_first_open", data: [
-                                "deeplink": DeepLinkHandler.getDeepLink(),
-                                "deferred_deeplink": DeepLinkHandler.getDeferredDeepLink()
+                                "deeplink": DeepLinkHandler.getLastDeepLink(),
                             ])
+                            DeepLinkHandler.getUDL()
+                        } else {
+                            sendSessionDeeplink()
                         }
                         TrackingEvent.trackEvent(name: "lid_mmp_start_session", data: [
-                            "deeplink": DeepLinkHandler.getDeepLink(),
-                            "deferred_deeplink": DeepLinkHandler.getDeferredDeepLink()
+                            "deeplink": DeepLinkHandler.getLastDeepLink(),
                         ])
-                        DeepLinkHandler.saveDeeplink(deeplinkCountDate: authData.data?.deeplinkExpired ?? 0, deferredDeeplinkCountDate: authData.data?.deferredDeeplinkExpired ?? 0)
+                        DeepLinkHandler.saveDeeplink(deeplinkCountDate: authData.data?.deeplinkExpired ?? 0)
                         Crashlytics.check()
                     } else {
                         StorageHelper.shared.removeAuthData()
                     }
                 } catch let error {
-                    print(error)
+                    Logger.log(error)
                 }
             }
         }
@@ -68,7 +85,7 @@ class SessionManager {
     
     public class func auth(partnerCode: String, appSecret: String) {
         baseUrl = Common.decrypt(encrypted: appSecret, key: partnerCode)
-        print("baseUrl \(baseUrl)")
+        Logger.log("baseUrl \(baseUrl)")
         authWithBaseUrl(partnerCode: partnerCode, appSecret: appSecret, baseUrl: baseUrl)
         
     }
@@ -78,7 +95,7 @@ class SessionManager {
             if let _data = _data {
 //                do {
                     let dataStr = String(data: _data, encoding: .utf8)
-                    print(dataStr ?? "Khong lay duoc du lieu")
+                Logger.log(dataStr ?? "Khong lay duoc du lieu")
 //                    let authData = try JSONDecoder().decode(AuthData.self, from: _data)
 //                    if authData.responseCode == 200 {
 //                        print(authData.data?.token ?? "")

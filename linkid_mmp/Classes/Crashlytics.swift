@@ -117,14 +117,14 @@ public class Crashlytics {
                         saveCrashLog("", hash: "")
                         return
                     } else {
-                        print(result.responseText)
+                        Logger.log(result.responseText)
                         
                     }
                 } catch {
-                    print(error)
+                    Logger.log(error)
                 }
             } else {
-                print(_error ?? "")
+                Logger.log(_error ?? "")
             }
             saveCrashLog(crashLog, hash: hash)
         }

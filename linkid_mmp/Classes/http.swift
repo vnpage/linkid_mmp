@@ -72,11 +72,13 @@ class HttpClient {
         if newUrl.startWiths("http") == false {
             newUrl = SessionManager.baseUrl + newUrl
         }
-        print("newUrl \(newUrl)")
         guard var urlComponents = URLComponents(string: newUrl) else {
             completion(nil, NSError(domain: "Invalid URL", code: 0, userInfo: nil))
             return
         }
+        
+        Logger.log("---- GET URL ----")
+        Logger.log(newUrl)
         
         var queryItems = [URLQueryItem]()
         if params != nil {
@@ -85,6 +87,8 @@ class HttpClient {
             }
         }
         urlComponents.queryItems = queryItems
+        Logger.log("---- PARAMS ----")
+        Logger.log(queryItems)
         
         guard let url = urlComponents.url else {
             completion(nil, NSError(domain: "Invalid URL", code: 0, userInfo: nil))
@@ -102,7 +106,6 @@ class HttpClient {
         if newUrl.startWiths("http") == false {
             newUrl = SessionManager.baseUrl + newUrl
         }
-        print("newUrl \(newUrl)")
         guard let url = URL(string: newUrl) else {
             completion(nil, NSError(domain: "Invalid URL", code: 0, userInfo: nil))
             return
@@ -110,40 +113,42 @@ class HttpClient {
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
+        Logger.log("---- POST URL ----")
+        Logger.log(newUrl)
+        
         
         do {
             if params != nil {
-                print(params!)
+                Logger.log("---- PARAMS ----")
+                Logger.log(params!)
                 let _data = try JSONSerialization.data(withJSONObject: params!, options: .prettyPrinted)
                 request.httpBody = _data
             }
         } catch {
-            print(error)
+            Logger.log(error)
         }
         if newUrl.endWiths("/partner/auth") {
             let timestamp = Int64(Date().timeIntervalSince1970)
             let str = "\(StorageHelper.shared.getPartnerCode())\(DeviceInfo.getAppId())\(StorageHelper.shared.getDeviceId())\(timestamp)IJODNVU@OJIFOISJF"
             let auth = str.sha256()
             let tokenDecode = "\(auth.suffix(10))\(auth.prefix(10))";
-            print("tokenDecode \(tokenDecode)")
             request.allHTTPHeaderFields = [
                 "t": "\(timestamp)",
                 "v": tokenDecode,
                 "Content-Type": "application/json"
             ]
-//            request.addValue("t", forHTTPHeaderField: "\(timestamp)")
-//            request.addValue("v", forHTTPHeaderField: "\(auth.suffix(10))\(auth.prefix(10))")
         } else {
             let authData = StorageHelper.shared.getAuthData()
             if let authData = authData, let sessionData = authData.data {
-//                request.addValue("Authorization", forHTTPHeaderField: "\(authData.data?.token)")
-                print("authToken \(sessionData.token)")
                 request.allHTTPHeaderFields = [
                     "Authorization": "\(sessionData.token)",
                     "Content-Type": "application/json"
                 ]
             }
         }
+        
+        Logger.log("---- HEADER ----")
+        Logger.log(request.allHTTPHeaderFields)
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             completion(data, error)

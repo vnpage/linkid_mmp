@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import CryptoSwift
+@_implementationOnly import CryptoSwift
 
 public class Common {
     
@@ -48,7 +48,7 @@ public class Common {
             let decryptedString = String(bytes: decryptedData, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines).replacingOccurrences(of: "\0", with: "") ?? ""
             return decryptedString
         } catch {
-            print("error \(error)")
+            Logger.log("error \(error)")
             return ""
         }
     }

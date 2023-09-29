@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'linkid_mmp'
-  s.version          = '1.0.4'
+  s.version          = '1.0.5'
   s.summary          = 'LinkId Mobile Marketing Platform.'
 
 # This description is used to generate tags and improve search results.
@@ -42,11 +42,10 @@ TODO: Add long description of the pod here.
 #  s.dependency 'SQLite.swift', '~> 0.14.0'
 #  s.dependency 'KeychainSwift', '~> 20.0'
   s.dependency 'CryptoSwift', '~> 1.3.3'
-  
   s.dependency 'GRDB.swift', '~> 4.14.0'
-#  s.preserve_paths = 'CryptoSwift.xcframework/**/*'
-#  s.xcconfig = { 'OTHER_LDFLAGS' => '-framework CryptoSwift' }
-#  s.vendored_frameworks = 'CryptoSwift.xcframework'
+#  s.preserve_paths = 'MMPCryptoSwift.xcframework/**/*'
+#  s.xcconfig = { 'OTHER_LDFLAGS' => '-framework MMPCryptoSwift' }
+#  s.vendored_frameworks = 'MMPCryptoSwift.xcframework'
   
 end
 

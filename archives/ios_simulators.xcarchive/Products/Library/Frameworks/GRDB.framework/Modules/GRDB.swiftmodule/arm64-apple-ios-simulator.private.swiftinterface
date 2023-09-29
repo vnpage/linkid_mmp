@@ -1,6 +1,6 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 5.7.1 (swiftlang-5.7.1.135.3 clang-1400.0.29.51)
-// swift-module-flags: -target arm64-apple-ios9.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name GRDB
+// swift-compiler-version: Apple Swift version 5.8.1 (swiftlang-5.8.0.124.5 clang-1403.0.22.11.100)
+// swift-module-flags: -target arm64-apple-ios10.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name GRDB
 // swift-module-flags-ignorable: -enable-bare-slash-regex
 import CoreGraphics
 import Dispatch
@@ -25,13 +25,13 @@ extension GRDB.Association {
   public func _joining(required association: GRDB.SQLAssociation) -> Self
 }
 extension GRDB.Association {
-  public func select(_ selection: [GRDB.SQLSelectable]) -> Self
-  public func annotated(with selection: [GRDB.SQLSelectable]) -> Self
-  public func filter(_ predicate: @escaping (GRDB.Database) throws -> GRDB.SQLExpressible) -> Self
-  public func order(_ orderings: @escaping (GRDB.Database) throws -> [GRDB.SQLOrderingTerm]) -> Self
+  public func select(_ selection: [any GRDB.SQLSelectable]) -> Self
+  public func annotated(with selection: [any GRDB.SQLSelectable]) -> Self
+  public func filter(_ predicate: @escaping (GRDB.Database) throws -> any GRDB.SQLExpressible) -> Self
+  public func order(_ orderings: @escaping (GRDB.Database) throws -> [any GRDB.SQLOrderingTerm]) -> Self
   public func reversed() -> Self
   public func unordered() -> Self
-  public func forKey(_ codingKey: Swift.CodingKey) -> Self
+  public func forKey(_ codingKey: any Swift.CodingKey) -> Self
   public func aliased(_ alias: GRDB.TableAlias) -> Self
 }
 extension GRDB.Association {
@@ -56,10 +56,10 @@ extension GRDB.AssociationToMany {
   public var isEmpty: GRDB.AssociationAggregate<Self.OriginRowDecoder> {
     get
   }
-  public func average(_ expression: GRDB.SQLExpressible) -> GRDB.AssociationAggregate<Self.OriginRowDecoder>
-  public func max(_ expression: GRDB.SQLExpressible) -> GRDB.AssociationAggregate<Self.OriginRowDecoder>
-  public func min(_ expression: GRDB.SQLExpressible) -> GRDB.AssociationAggregate<Self.OriginRowDecoder>
-  public func sum(_ expression: GRDB.SQLExpressible) -> GRDB.AssociationAggregate<Self.OriginRowDecoder>
+  public func average(_ expression: any GRDB.SQLExpressible) -> GRDB.AssociationAggregate<Self.OriginRowDecoder>
+  public func max(_ expression: any GRDB.SQLExpressible) -> GRDB.AssociationAggregate<Self.OriginRowDecoder>
+  public func min(_ expression: any GRDB.SQLExpressible) -> GRDB.AssociationAggregate<Self.OriginRowDecoder>
+  public func sum(_ expression: any GRDB.SQLExpressible) -> GRDB.AssociationAggregate<Self.OriginRowDecoder>
 }
 public struct AssociationAggregate<RowDecoder> {
 }
@@ -68,58 +68,58 @@ extension GRDB.AssociationAggregate {
   public func aliased(_ name: Swift.String) -> GRDB.AssociationAggregate<RowDecoder>
   public func forKey(_ key: Swift.String) -> GRDB.AssociationAggregate<RowDecoder>
   @available(*, deprecated, renamed: "forKey(_:)")
-  public func aliased(_ key: Swift.CodingKey) -> GRDB.AssociationAggregate<RowDecoder>
-  public func forKey(_ key: Swift.CodingKey) -> GRDB.AssociationAggregate<RowDecoder>
+  public func aliased(_ key: any Swift.CodingKey) -> GRDB.AssociationAggregate<RowDecoder>
+  public func forKey(_ key: any Swift.CodingKey) -> GRDB.AssociationAggregate<RowDecoder>
 }
 prefix public func ! <RowDecoder>(aggregate: GRDB.AssociationAggregate<RowDecoder>) -> GRDB.AssociationAggregate<RowDecoder>
 public func && <RowDecoder>(lhs: GRDB.AssociationAggregate<RowDecoder>, rhs: GRDB.AssociationAggregate<RowDecoder>) -> GRDB.AssociationAggregate<RowDecoder>
-public func && <RowDecoder>(lhs: GRDB.AssociationAggregate<RowDecoder>, rhs: GRDB.SQLExpressible) -> GRDB.AssociationAggregate<RowDecoder>
-public func && <RowDecoder>(lhs: GRDB.SQLExpressible, rhs: GRDB.AssociationAggregate<RowDecoder>) -> GRDB.AssociationAggregate<RowDecoder>
+public func && <RowDecoder>(lhs: GRDB.AssociationAggregate<RowDecoder>, rhs: any GRDB.SQLExpressible) -> GRDB.AssociationAggregate<RowDecoder>
+public func && <RowDecoder>(lhs: any GRDB.SQLExpressible, rhs: GRDB.AssociationAggregate<RowDecoder>) -> GRDB.AssociationAggregate<RowDecoder>
 public func || <RowDecoder>(lhs: GRDB.AssociationAggregate<RowDecoder>, rhs: GRDB.AssociationAggregate<RowDecoder>) -> GRDB.AssociationAggregate<RowDecoder>
-public func || <RowDecoder>(lhs: GRDB.AssociationAggregate<RowDecoder>, rhs: GRDB.SQLExpressible) -> GRDB.AssociationAggregate<RowDecoder>
-public func || <RowDecoder>(lhs: GRDB.SQLExpressible, rhs: GRDB.AssociationAggregate<RowDecoder>) -> GRDB.AssociationAggregate<RowDecoder>
+public func || <RowDecoder>(lhs: GRDB.AssociationAggregate<RowDecoder>, rhs: any GRDB.SQLExpressible) -> GRDB.AssociationAggregate<RowDecoder>
+public func || <RowDecoder>(lhs: any GRDB.SQLExpressible, rhs: GRDB.AssociationAggregate<RowDecoder>) -> GRDB.AssociationAggregate<RowDecoder>
 public func == <RowDecoder>(lhs: GRDB.AssociationAggregate<RowDecoder>, rhs: GRDB.AssociationAggregate<RowDecoder>) -> GRDB.AssociationAggregate<RowDecoder>
-public func == <RowDecoder>(lhs: GRDB.AssociationAggregate<RowDecoder>, rhs: GRDB.SQLExpressible) -> GRDB.AssociationAggregate<RowDecoder>
-public func == <RowDecoder>(lhs: GRDB.SQLExpressible, rhs: GRDB.AssociationAggregate<RowDecoder>) -> GRDB.AssociationAggregate<RowDecoder>
+public func == <RowDecoder>(lhs: GRDB.AssociationAggregate<RowDecoder>, rhs: any GRDB.SQLExpressible) -> GRDB.AssociationAggregate<RowDecoder>
+public func == <RowDecoder>(lhs: any GRDB.SQLExpressible, rhs: GRDB.AssociationAggregate<RowDecoder>) -> GRDB.AssociationAggregate<RowDecoder>
 public func == <RowDecoder>(lhs: GRDB.AssociationAggregate<RowDecoder>, rhs: Swift.Bool) -> GRDB.AssociationAggregate<RowDecoder>
 public func == <RowDecoder>(lhs: Swift.Bool, rhs: GRDB.AssociationAggregate<RowDecoder>) -> GRDB.AssociationAggregate<RowDecoder>
 public func != <RowDecoder>(lhs: GRDB.AssociationAggregate<RowDecoder>, rhs: GRDB.AssociationAggregate<RowDecoder>) -> GRDB.AssociationAggregate<RowDecoder>
-public func != <RowDecoder>(lhs: GRDB.AssociationAggregate<RowDecoder>, rhs: GRDB.SQLExpressible) -> GRDB.AssociationAggregate<RowDecoder>
-public func != <RowDecoder>(lhs: GRDB.SQLExpressible, rhs: GRDB.AssociationAggregate<RowDecoder>) -> GRDB.AssociationAggregate<RowDecoder>
+public func != <RowDecoder>(lhs: GRDB.AssociationAggregate<RowDecoder>, rhs: any GRDB.SQLExpressible) -> GRDB.AssociationAggregate<RowDecoder>
+public func != <RowDecoder>(lhs: any GRDB.SQLExpressible, rhs: GRDB.AssociationAggregate<RowDecoder>) -> GRDB.AssociationAggregate<RowDecoder>
 public func != <RowDecoder>(lhs: GRDB.AssociationAggregate<RowDecoder>, rhs: Swift.Bool) -> GRDB.AssociationAggregate<RowDecoder>
 public func != <RowDecoder>(lhs: Swift.Bool, rhs: GRDB.AssociationAggregate<RowDecoder>) -> GRDB.AssociationAggregate<RowDecoder>
 public func === <RowDecoder>(lhs: GRDB.AssociationAggregate<RowDecoder>, rhs: GRDB.AssociationAggregate<RowDecoder>) -> GRDB.AssociationAggregate<RowDecoder>
-public func === <RowDecoder>(lhs: GRDB.AssociationAggregate<RowDecoder>, rhs: GRDB.SQLExpressible) -> GRDB.AssociationAggregate<RowDecoder>
-public func === <RowDecoder>(lhs: GRDB.SQLExpressible, rhs: GRDB.AssociationAggregate<RowDecoder>) -> GRDB.AssociationAggregate<RowDecoder>
+public func === <RowDecoder>(lhs: GRDB.AssociationAggregate<RowDecoder>, rhs: any GRDB.SQLExpressible) -> GRDB.AssociationAggregate<RowDecoder>
+public func === <RowDecoder>(lhs: any GRDB.SQLExpressible, rhs: GRDB.AssociationAggregate<RowDecoder>) -> GRDB.AssociationAggregate<RowDecoder>
 public func !== <RowDecoder>(lhs: GRDB.AssociationAggregate<RowDecoder>, rhs: GRDB.AssociationAggregate<RowDecoder>) -> GRDB.AssociationAggregate<RowDecoder>
-public func !== <RowDecoder>(lhs: GRDB.AssociationAggregate<RowDecoder>, rhs: GRDB.SQLExpressible) -> GRDB.AssociationAggregate<RowDecoder>
-public func !== <RowDecoder>(lhs: GRDB.SQLExpressible, rhs: GRDB.AssociationAggregate<RowDecoder>) -> GRDB.AssociationAggregate<RowDecoder>
+public func !== <RowDecoder>(lhs: GRDB.AssociationAggregate<RowDecoder>, rhs: any GRDB.SQLExpressible) -> GRDB.AssociationAggregate<RowDecoder>
+public func !== <RowDecoder>(lhs: any GRDB.SQLExpressible, rhs: GRDB.AssociationAggregate<RowDecoder>) -> GRDB.AssociationAggregate<RowDecoder>
 public func <= <RowDecoder>(lhs: GRDB.AssociationAggregate<RowDecoder>, rhs: GRDB.AssociationAggregate<RowDecoder>) -> GRDB.AssociationAggregate<RowDecoder>
-public func <= <RowDecoder>(lhs: GRDB.AssociationAggregate<RowDecoder>, rhs: GRDB.SQLExpressible) -> GRDB.AssociationAggregate<RowDecoder>
-public func <= <RowDecoder>(lhs: GRDB.SQLExpressible, rhs: GRDB.AssociationAggregate<RowDecoder>) -> GRDB.AssociationAggregate<RowDecoder>
+public func <= <RowDecoder>(lhs: GRDB.AssociationAggregate<RowDecoder>, rhs: any GRDB.SQLExpressible) -> GRDB.AssociationAggregate<RowDecoder>
+public func <= <RowDecoder>(lhs: any GRDB.SQLExpressible, rhs: GRDB.AssociationAggregate<RowDecoder>) -> GRDB.AssociationAggregate<RowDecoder>
 public func < <RowDecoder>(lhs: GRDB.AssociationAggregate<RowDecoder>, rhs: GRDB.AssociationAggregate<RowDecoder>) -> GRDB.AssociationAggregate<RowDecoder>
-public func < <RowDecoder>(lhs: GRDB.AssociationAggregate<RowDecoder>, rhs: GRDB.SQLExpressible) -> GRDB.AssociationAggregate<RowDecoder>
-public func < <RowDecoder>(lhs: GRDB.SQLExpressible, rhs: GRDB.AssociationAggregate<RowDecoder>) -> GRDB.AssociationAggregate<RowDecoder>
+public func < <RowDecoder>(lhs: GRDB.AssociationAggregate<RowDecoder>, rhs: any GRDB.SQLExpressible) -> GRDB.AssociationAggregate<RowDecoder>
+public func < <RowDecoder>(lhs: any GRDB.SQLExpressible, rhs: GRDB.AssociationAggregate<RowDecoder>) -> GRDB.AssociationAggregate<RowDecoder>
 public func > <RowDecoder>(lhs: GRDB.AssociationAggregate<RowDecoder>, rhs: GRDB.AssociationAggregate<RowDecoder>) -> GRDB.AssociationAggregate<RowDecoder>
-public func > <RowDecoder>(lhs: GRDB.AssociationAggregate<RowDecoder>, rhs: GRDB.SQLExpressible) -> GRDB.AssociationAggregate<RowDecoder>
-public func > <RowDecoder>(lhs: GRDB.SQLExpressible, rhs: GRDB.AssociationAggregate<RowDecoder>) -> GRDB.AssociationAggregate<RowDecoder>
+public func > <RowDecoder>(lhs: GRDB.AssociationAggregate<RowDecoder>, rhs: any GRDB.SQLExpressible) -> GRDB.AssociationAggregate<RowDecoder>
+public func > <RowDecoder>(lhs: any GRDB.SQLExpressible, rhs: GRDB.AssociationAggregate<RowDecoder>) -> GRDB.AssociationAggregate<RowDecoder>
 public func >= <RowDecoder>(lhs: GRDB.AssociationAggregate<RowDecoder>, rhs: GRDB.AssociationAggregate<RowDecoder>) -> GRDB.AssociationAggregate<RowDecoder>
-public func >= <RowDecoder>(lhs: GRDB.AssociationAggregate<RowDecoder>, rhs: GRDB.SQLExpressible) -> GRDB.AssociationAggregate<RowDecoder>
-public func >= <RowDecoder>(lhs: GRDB.SQLExpressible, rhs: GRDB.AssociationAggregate<RowDecoder>) -> GRDB.AssociationAggregate<RowDecoder>
+public func >= <RowDecoder>(lhs: GRDB.AssociationAggregate<RowDecoder>, rhs: any GRDB.SQLExpressible) -> GRDB.AssociationAggregate<RowDecoder>
+public func >= <RowDecoder>(lhs: any GRDB.SQLExpressible, rhs: GRDB.AssociationAggregate<RowDecoder>) -> GRDB.AssociationAggregate<RowDecoder>
 prefix public func - <RowDecoder>(aggregate: GRDB.AssociationAggregate<RowDecoder>) -> GRDB.AssociationAggregate<RowDecoder>
 public func + <RowDecoder>(lhs: GRDB.AssociationAggregate<RowDecoder>, rhs: GRDB.AssociationAggregate<RowDecoder>) -> GRDB.AssociationAggregate<RowDecoder>
-public func + <RowDecoder>(lhs: GRDB.AssociationAggregate<RowDecoder>, rhs: GRDB.SQLExpressible) -> GRDB.AssociationAggregate<RowDecoder>
-public func + <RowDecoder>(lhs: GRDB.SQLExpressible, rhs: GRDB.AssociationAggregate<RowDecoder>) -> GRDB.AssociationAggregate<RowDecoder>
+public func + <RowDecoder>(lhs: GRDB.AssociationAggregate<RowDecoder>, rhs: any GRDB.SQLExpressible) -> GRDB.AssociationAggregate<RowDecoder>
+public func + <RowDecoder>(lhs: any GRDB.SQLExpressible, rhs: GRDB.AssociationAggregate<RowDecoder>) -> GRDB.AssociationAggregate<RowDecoder>
 public func - <RowDecoder>(lhs: GRDB.AssociationAggregate<RowDecoder>, rhs: GRDB.AssociationAggregate<RowDecoder>) -> GRDB.AssociationAggregate<RowDecoder>
-public func - <RowDecoder>(lhs: GRDB.AssociationAggregate<RowDecoder>, rhs: GRDB.SQLExpressible) -> GRDB.AssociationAggregate<RowDecoder>
-public func - <RowDecoder>(lhs: GRDB.SQLExpressible, rhs: GRDB.AssociationAggregate<RowDecoder>) -> GRDB.AssociationAggregate<RowDecoder>
+public func - <RowDecoder>(lhs: GRDB.AssociationAggregate<RowDecoder>, rhs: any GRDB.SQLExpressible) -> GRDB.AssociationAggregate<RowDecoder>
+public func - <RowDecoder>(lhs: any GRDB.SQLExpressible, rhs: GRDB.AssociationAggregate<RowDecoder>) -> GRDB.AssociationAggregate<RowDecoder>
 public func * <RowDecoder>(lhs: GRDB.AssociationAggregate<RowDecoder>, rhs: GRDB.AssociationAggregate<RowDecoder>) -> GRDB.AssociationAggregate<RowDecoder>
-public func * <RowDecoder>(lhs: GRDB.AssociationAggregate<RowDecoder>, rhs: GRDB.SQLExpressible) -> GRDB.AssociationAggregate<RowDecoder>
-public func * <RowDecoder>(lhs: GRDB.SQLExpressible, rhs: GRDB.AssociationAggregate<RowDecoder>) -> GRDB.AssociationAggregate<RowDecoder>
+public func * <RowDecoder>(lhs: GRDB.AssociationAggregate<RowDecoder>, rhs: any GRDB.SQLExpressible) -> GRDB.AssociationAggregate<RowDecoder>
+public func * <RowDecoder>(lhs: any GRDB.SQLExpressible, rhs: GRDB.AssociationAggregate<RowDecoder>) -> GRDB.AssociationAggregate<RowDecoder>
 public func / <RowDecoder>(lhs: GRDB.AssociationAggregate<RowDecoder>, rhs: GRDB.AssociationAggregate<RowDecoder>) -> GRDB.AssociationAggregate<RowDecoder>
-public func / <RowDecoder>(lhs: GRDB.AssociationAggregate<RowDecoder>, rhs: GRDB.SQLExpressible) -> GRDB.AssociationAggregate<RowDecoder>
-public func / <RowDecoder>(lhs: GRDB.SQLExpressible, rhs: GRDB.AssociationAggregate<RowDecoder>) -> GRDB.AssociationAggregate<RowDecoder>
-public func ?? <RowDecoder>(lhs: GRDB.AssociationAggregate<RowDecoder>, rhs: GRDB.SQLExpressible) -> GRDB.AssociationAggregate<RowDecoder>
+public func / <RowDecoder>(lhs: GRDB.AssociationAggregate<RowDecoder>, rhs: any GRDB.SQLExpressible) -> GRDB.AssociationAggregate<RowDecoder>
+public func / <RowDecoder>(lhs: any GRDB.SQLExpressible, rhs: GRDB.AssociationAggregate<RowDecoder>) -> GRDB.AssociationAggregate<RowDecoder>
+public func ?? <RowDecoder>(lhs: GRDB.AssociationAggregate<RowDecoder>, rhs: any GRDB.SQLExpressible) -> GRDB.AssociationAggregate<RowDecoder>
 public struct BelongsToAssociation<Origin, Destination> : GRDB.AssociationToOne where Origin : GRDB.TableRecord, Destination : GRDB.TableRecord {
   public typealias OriginRowDecoder = Origin
   public typealias RowDecoder = Destination
@@ -137,13 +137,13 @@ public protocol ColumnExpression : GRDB.SQLExpression {
 }
 extension GRDB.ColumnExpression {
   public func expressionSQL(_ context: inout GRDB.SQLGenerationContext, wrappedInParenthesis: Swift.Bool) -> Swift.String
-  public func qualifiedExpression(with alias: GRDB.TableAlias) -> GRDB.SQLExpression
+  public func qualifiedExpression(with alias: GRDB.TableAlias) -> any GRDB.SQLExpression
 }
 public struct Column : GRDB.ColumnExpression {
   public static let rowID: GRDB.Column
   public var name: Swift.String
   public init(_ name: Swift.String)
-  public init(_ codingKey: Swift.CodingKey)
+  public init(_ codingKey: any Swift.CodingKey)
 }
 extension GRDB.ColumnExpression where Self : Swift.RawRepresentable, Self.RawValue == Swift.String {
   public var name: Swift.String {
@@ -606,8 +606,8 @@ public struct DatabaseDateComponents : GRDB.DatabaseValueConvertible, GRDB.State
     get
   }
   public static func fromDatabaseValue(_ dbValue: GRDB.DatabaseValue) -> GRDB.DatabaseDateComponents?
-  public init(from decoder: Swift.Decoder) throws
-  public func encode(to encoder: Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
 }
 public struct ResultCode : Swift.RawRepresentable, Swift.Equatable, Swift.CustomStringConvertible {
   public let rawValue: Swift.Int32
@@ -755,7 +755,7 @@ final public class DatabaseFunction : Swift.Hashable {
   final public var name: Swift.String {
     get
   }
-  public init(_ name: Swift.String, argumentCount: Swift.Int32? = nil, pure: Swift.Bool = false, function: @escaping ([GRDB.DatabaseValue]) throws -> GRDB.DatabaseValueConvertible?)
+  public init(_ name: Swift.String, argumentCount: Swift.Int32? = nil, pure: Swift.Bool = false, function: @escaping ([GRDB.DatabaseValue]) throws -> (any GRDB.DatabaseValueConvertible)?)
   public init<Aggregate>(_ name: Swift.String, argumentCount: Swift.Int32? = nil, pure: Swift.Bool = false, aggregate: Aggregate.Type) where Aggregate : GRDB.DatabaseAggregate
   @objc deinit
   final public var hashValue: Swift.Int {
@@ -769,7 +769,7 @@ extension GRDB.DatabaseFunction {
 public protocol DatabaseAggregate {
   init()
   mutating func step(_ dbValues: [GRDB.DatabaseValue]) throws
-  func finalize() throws -> GRDB.DatabaseValueConvertible?
+  func finalize() throws -> (any GRDB.DatabaseValueConvertible)?
 }
 public struct DatabaseMigrator {
   public var eraseDatabaseOnSchemaChange: Swift.Bool
@@ -777,19 +777,19 @@ public struct DatabaseMigrator {
   public mutating func registerMigration(_ identifier: Swift.String, migrate: @escaping (GRDB.Database) throws -> Swift.Void)
   @available(*, deprecated, renamed: "registerMigration(_:migrate:)")
   public mutating func registerMigrationWithDeferredForeignKeyCheck(_ identifier: Swift.String, migrate: @escaping (GRDB.Database) throws -> Swift.Void)
-  public func migrate(_ writer: GRDB.DatabaseWriter) throws
-  public func migrate(_ writer: GRDB.DatabaseWriter, upTo targetIdentifier: Swift.String) throws
+  public func migrate(_ writer: any GRDB.DatabaseWriter) throws
+  public func migrate(_ writer: any GRDB.DatabaseWriter, upTo targetIdentifier: Swift.String) throws
   @available(*, deprecated, message: "Wrap this method: reader.read(migrator.appliedMigrations) }")
-  public func appliedMigrations(in reader: GRDB.DatabaseReader) throws -> Swift.Set<Swift.String>
+  public func appliedMigrations(in reader: any GRDB.DatabaseReader) throws -> Swift.Set<Swift.String>
   public func appliedMigrations(_ db: GRDB.Database) throws -> [Swift.String]
   public func completedMigrations(_ db: GRDB.Database) throws -> [Swift.String]
   @available(*, deprecated, message: "Wrap this method: reader.read(migrator.hasCompletedMigrations) }")
-  public func hasCompletedMigrations(in reader: GRDB.DatabaseReader) throws -> Swift.Bool
+  public func hasCompletedMigrations(in reader: any GRDB.DatabaseReader) throws -> Swift.Bool
   public func hasCompletedMigrations(_ db: GRDB.Database) throws -> Swift.Bool
   @available(*, deprecated, message: "Prefer reader.read(migrator.completedMigrations).contains(targetIdentifier)")
-  public func hasCompletedMigrations(in reader: GRDB.DatabaseReader, through targetIdentifier: Swift.String) throws -> Swift.Bool
+  public func hasCompletedMigrations(in reader: any GRDB.DatabaseReader, through targetIdentifier: Swift.String) throws -> Swift.Bool
   @available(*, deprecated, message: "Prefer reader.read(migrator.completedMigrations).last")
-  public func lastCompletedMigration(in reader: GRDB.DatabaseReader) throws -> Swift.String?
+  public func lastCompletedMigration(in reader: any GRDB.DatabaseReader) throws -> Swift.String?
   public func appliedIdentifiers(_ db: GRDB.Database) throws -> Swift.Set<Swift.String>
 }
 final public class DatabasePool : GRDB.DatabaseWriter {
@@ -813,12 +813,12 @@ extension GRDB.DatabasePool {
 extension GRDB.DatabasePool : GRDB.DatabaseReader {
   final public func interrupt()
   final public func read<T>(_ block: (GRDB.Database) throws -> T) throws -> T
-  final public func asyncRead(_ block: @escaping (Swift.Result<GRDB.Database, Swift.Error>) -> Swift.Void)
+  final public func asyncRead(_ block: @escaping (Swift.Result<GRDB.Database, any Swift.Error>) -> Swift.Void)
   final public func unsafeRead<T>(_ block: (GRDB.Database) throws -> T) throws -> T
   final public func unsafeReentrantRead<T>(_ block: (GRDB.Database) throws -> T) throws -> T
   final public func concurrentRead<T>(_ block: @escaping (GRDB.Database) throws -> T) -> GRDB.DatabaseFuture<T>
-  final public func spawnConcurrentRead(_ block: @escaping (Swift.Result<GRDB.Database, Swift.Error>) -> Swift.Void)
-  final public func asyncConcurrentRead(_ block: @escaping (Swift.Result<GRDB.Database, Swift.Error>) -> Swift.Void)
+  final public func spawnConcurrentRead(_ block: @escaping (Swift.Result<GRDB.Database, any Swift.Error>) -> Swift.Void)
+  final public func asyncConcurrentRead(_ block: @escaping (Swift.Result<GRDB.Database, any Swift.Error>) -> Swift.Void)
   final public func invalidateReadOnlyConnections()
   final public func writeWithoutTransaction<T>(_ updates: (GRDB.Database) throws -> T) rethrows -> T
   final public func barrierWriteWithoutTransaction<T>(_ updates: (GRDB.Database) throws -> T) rethrows -> T
@@ -852,11 +852,11 @@ extension GRDB.DatabaseQueue {
 extension GRDB.DatabaseQueue {
   final public func interrupt()
   final public func read<T>(_ block: (GRDB.Database) throws -> T) rethrows -> T
-  final public func asyncRead(_ block: @escaping (Swift.Result<GRDB.Database, Swift.Error>) -> Swift.Void)
+  final public func asyncRead(_ block: @escaping (Swift.Result<GRDB.Database, any Swift.Error>) -> Swift.Void)
   final public func unsafeRead<T>(_ block: (GRDB.Database) throws -> T) rethrows -> T
   final public func unsafeReentrantRead<T>(_ block: (GRDB.Database) throws -> T) rethrows -> T
   final public func concurrentRead<T>(_ block: @escaping (GRDB.Database) throws -> T) -> GRDB.DatabaseFuture<T>
-  final public func spawnConcurrentRead(_ block: @escaping (Swift.Result<GRDB.Database, Swift.Error>) -> Swift.Void)
+  final public func spawnConcurrentRead(_ block: @escaping (Swift.Result<GRDB.Database, any Swift.Error>) -> Swift.Void)
   final public func inTransaction(_ kind: GRDB.Database.TransactionKind? = nil, _ updates: (GRDB.Database) throws -> GRDB.Database.TransactionCompletion) throws
   final public func writeWithoutTransaction<T>(_ updates: (GRDB.Database) throws -> T) rethrows -> T
   final public func barrierWriteWithoutTransaction<T>(_ updates: (GRDB.Database) throws -> T) rethrows -> T
@@ -872,35 +872,35 @@ public protocol DatabaseReader : AnyObject {
   var configuration: GRDB.Configuration { get }
   func interrupt()
   func read<T>(_ block: (GRDB.Database) throws -> T) throws -> T
-  func asyncRead(_ block: @escaping (Swift.Result<GRDB.Database, Swift.Error>) -> Swift.Void)
+  func asyncRead(_ block: @escaping (Swift.Result<GRDB.Database, any Swift.Error>) -> Swift.Void)
   func unsafeRead<T>(_ block: (GRDB.Database) throws -> T) throws -> T
   func unsafeReentrantRead<T>(_ block: (GRDB.Database) throws -> T) throws -> T
   func add(function: GRDB.DatabaseFunction)
   func remove(function: GRDB.DatabaseFunction)
   func add(collation: GRDB.DatabaseCollation)
   func remove(collation: GRDB.DatabaseCollation)
-  func add<Reducer>(observation: GRDB.ValueObservation<Reducer>, onError: @escaping (Swift.Error) -> Swift.Void, onChange: @escaping (Reducer.Value) -> Swift.Void) -> GRDB.TransactionObserver where Reducer : GRDB.ValueReducer
-  func remove(transactionObserver: GRDB.TransactionObserver)
+  func add<Reducer>(observation: GRDB.ValueObservation<Reducer>, onError: @escaping (any Swift.Error) -> Swift.Void, onChange: @escaping (Reducer.Value) -> Swift.Void) -> any GRDB.TransactionObserver where Reducer : GRDB.ValueReducer
+  func remove(transactionObserver: any GRDB.TransactionObserver)
 }
 extension GRDB.DatabaseReader {
-  public func backup(to writer: GRDB.DatabaseWriter) throws
+  public func backup(to writer: any GRDB.DatabaseWriter) throws
 }
 final public class AnyDatabaseReader : GRDB.DatabaseReader {
-  public init(_ base: GRDB.DatabaseReader)
+  public init(_ base: any GRDB.DatabaseReader)
   final public var configuration: GRDB.Configuration {
     get
   }
   final public func interrupt()
   final public func read<T>(_ block: (GRDB.Database) throws -> T) throws -> T
-  final public func asyncRead(_ block: @escaping (Swift.Result<GRDB.Database, Swift.Error>) -> Swift.Void)
+  final public func asyncRead(_ block: @escaping (Swift.Result<GRDB.Database, any Swift.Error>) -> Swift.Void)
   final public func unsafeRead<T>(_ block: (GRDB.Database) throws -> T) throws -> T
   final public func unsafeReentrantRead<T>(_ block: (GRDB.Database) throws -> T) throws -> T
   final public func add(function: GRDB.DatabaseFunction)
   final public func remove(function: GRDB.DatabaseFunction)
   final public func add(collation: GRDB.DatabaseCollation)
   final public func remove(collation: GRDB.DatabaseCollation)
-  final public func add<Reducer>(observation: GRDB.ValueObservation<Reducer>, onError: @escaping (Swift.Error) -> Swift.Void, onChange: @escaping (Reducer.Value) -> Swift.Void) -> GRDB.TransactionObserver where Reducer : GRDB.ValueReducer
-  final public func remove(transactionObserver: GRDB.TransactionObserver)
+  final public func add<Reducer>(observation: GRDB.ValueObservation<Reducer>, onError: @escaping (any Swift.Error) -> Swift.Void, onChange: @escaping (Reducer.Value) -> Swift.Void) -> any GRDB.TransactionObserver where Reducer : GRDB.ValueReducer
+  final public func remove(transactionObserver: any GRDB.TransactionObserver)
   @objc deinit
 }
 public struct DatabaseRegion : Swift.CustomStringConvertible, Swift.Equatable {
@@ -933,18 +933,18 @@ extension GRDB.DatabaseRegion : GRDB.DatabaseRegionConvertible {
 }
 public struct AnyDatabaseRegionConvertible : GRDB.DatabaseRegionConvertible {
   public init(_ region: @escaping (GRDB.Database) throws -> GRDB.DatabaseRegion)
-  public init(_ region: GRDB.DatabaseRegionConvertible)
+  public init(_ region: any GRDB.DatabaseRegionConvertible)
   public func databaseRegion(_ db: GRDB.Database) throws -> GRDB.DatabaseRegion
 }
 public struct DatabaseRegionObservation {
   public var extent: GRDB.Database.TransactionObservationExtent
 }
 extension GRDB.DatabaseRegionObservation {
-  public init(tracking regions: GRDB.DatabaseRegionConvertible...)
-  public init(tracking regions: [GRDB.DatabaseRegionConvertible])
+  public init(tracking regions: any GRDB.DatabaseRegionConvertible...)
+  public init(tracking regions: [any GRDB.DatabaseRegionConvertible])
 }
 extension GRDB.DatabaseRegionObservation {
-  public func start(in dbWriter: GRDB.DatabaseWriter, onChange: @escaping (GRDB.Database) -> Swift.Void) throws -> GRDB.TransactionObserver
+  public func start(in dbWriter: any GRDB.DatabaseWriter, onChange: @escaping (GRDB.Database) -> Swift.Void) throws -> any GRDB.TransactionObserver
 }
 @_hasMissingDesignatedInitializers public class DatabaseSnapshot : GRDB.DatabaseReader {
   public var configuration: GRDB.Configuration {
@@ -955,15 +955,15 @@ extension GRDB.DatabaseRegionObservation {
 extension GRDB.DatabaseSnapshot {
   public func interrupt()
   public func read<T>(_ block: (GRDB.Database) throws -> T) rethrows -> T
-  public func asyncRead(_ block: @escaping (Swift.Result<GRDB.Database, Swift.Error>) -> Swift.Void)
+  public func asyncRead(_ block: @escaping (Swift.Result<GRDB.Database, any Swift.Error>) -> Swift.Void)
   public func unsafeRead<T>(_ block: (GRDB.Database) throws -> T) rethrows -> T
   public func unsafeReentrantRead<T>(_ block: (GRDB.Database) throws -> T) throws -> T
   public func add(function: GRDB.DatabaseFunction)
   public func remove(function: GRDB.DatabaseFunction)
   public func add(collation: GRDB.DatabaseCollation)
   public func remove(collation: GRDB.DatabaseCollation)
-  public func add<Reducer>(observation: GRDB.ValueObservation<Reducer>, onError: @escaping (Swift.Error) -> Swift.Void, onChange: @escaping (Reducer.Value) -> Swift.Void) -> GRDB.TransactionObserver where Reducer : GRDB.ValueReducer
-  public func remove(transactionObserver: GRDB.TransactionObserver)
+  public func add<Reducer>(observation: GRDB.ValueObservation<Reducer>, onError: @escaping (any Swift.Error) -> Swift.Void, onChange: @escaping (Reducer.Value) -> Swift.Void) -> any GRDB.TransactionObserver where Reducer : GRDB.ValueReducer
+  public func remove(transactionObserver: any GRDB.TransactionObserver)
 }
 public struct DatabaseValue : Swift.Hashable, Swift.CustomStringConvertible, GRDB.DatabaseValueConvertible, GRDB.SQLExpression {
   public let storage: GRDB.DatabaseValue.Storage
@@ -974,7 +974,7 @@ public struct DatabaseValue : Swift.Hashable, Swift.CustomStringConvertible, GRD
     case double(Swift.Double)
     case string(Swift.String)
     case blob(Foundation.Data)
-    public var value: GRDB.DatabaseValueConvertible? {
+    public var value: (any GRDB.DatabaseValueConvertible)? {
       get
     }
     public static func == (lhs: GRDB.DatabaseValue.Storage, rhs: GRDB.DatabaseValue.Storage) -> Swift.Bool
@@ -998,16 +998,16 @@ extension GRDB.DatabaseValue {
   public static func fromDatabaseValue(_ dbValue: GRDB.DatabaseValue) -> GRDB.DatabaseValue?
 }
 extension GRDB.DatabaseValue {
-  public var sqlExpression: GRDB.SQLExpression {
+  public var sqlExpression: any GRDB.SQLExpression {
     get
   }
 }
 extension GRDB.DatabaseValue {
   public func expressionSQL(_ context: inout GRDB.SQLGenerationContext, wrappedInParenthesis: Swift.Bool) -> Swift.String
-  public var negated: GRDB.SQLExpression {
+  public var negated: any GRDB.SQLExpression {
     get
   }
-  public func qualifiedExpression(with alias: GRDB.TableAlias) -> GRDB.SQLExpression
+  public func qualifiedExpression(with alias: GRDB.TableAlias) -> any GRDB.SQLExpression
 }
 extension GRDB.DatabaseValue {
   public var description: Swift.String {
@@ -1067,7 +1067,7 @@ public protocol DatabaseValueConvertible : GRDB.SQLExpressible {
   static func fromDatabaseValue(_ dbValue: GRDB.DatabaseValue) -> Self?
 }
 extension GRDB.DatabaseValueConvertible {
-  public var sqlExpression: GRDB.SQLExpression {
+  public var sqlExpression: any GRDB.SQLExpression {
     get
   }
 }
@@ -1128,14 +1128,14 @@ extension GRDB.DatabaseValueConvertible {
   public typealias Element = Value?
 }
 extension GRDB.DatabaseValueConvertible {
-  public static func fetchCursor(_ statement: GRDB.SelectStatement, arguments: GRDB.StatementArguments? = nil, adapter: GRDB.RowAdapter? = nil) throws -> GRDB.DatabaseValueCursor<Self>
-  public static func fetchAll(_ statement: GRDB.SelectStatement, arguments: GRDB.StatementArguments? = nil, adapter: GRDB.RowAdapter? = nil) throws -> [Self]
-  public static func fetchOne(_ statement: GRDB.SelectStatement, arguments: GRDB.StatementArguments? = nil, adapter: GRDB.RowAdapter? = nil) throws -> Self?
+  public static func fetchCursor(_ statement: GRDB.SelectStatement, arguments: GRDB.StatementArguments? = nil, adapter: (any GRDB.RowAdapter)? = nil) throws -> GRDB.DatabaseValueCursor<Self>
+  public static func fetchAll(_ statement: GRDB.SelectStatement, arguments: GRDB.StatementArguments? = nil, adapter: (any GRDB.RowAdapter)? = nil) throws -> [Self]
+  public static func fetchOne(_ statement: GRDB.SelectStatement, arguments: GRDB.StatementArguments? = nil, adapter: (any GRDB.RowAdapter)? = nil) throws -> Self?
 }
 extension GRDB.DatabaseValueConvertible {
-  public static func fetchCursor(_ db: GRDB.Database, sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments(), adapter: GRDB.RowAdapter? = nil) throws -> GRDB.DatabaseValueCursor<Self>
-  public static func fetchAll(_ db: GRDB.Database, sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments(), adapter: GRDB.RowAdapter? = nil) throws -> [Self]
-  public static func fetchOne(_ db: GRDB.Database, sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments(), adapter: GRDB.RowAdapter? = nil) throws -> Self?
+  public static func fetchCursor(_ db: GRDB.Database, sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments(), adapter: (any GRDB.RowAdapter)? = nil) throws -> GRDB.DatabaseValueCursor<Self>
+  public static func fetchAll(_ db: GRDB.Database, sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments(), adapter: (any GRDB.RowAdapter)? = nil) throws -> [Self]
+  public static func fetchOne(_ db: GRDB.Database, sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments(), adapter: (any GRDB.RowAdapter)? = nil) throws -> Self?
 }
 extension GRDB.DatabaseValueConvertible {
   public static func fetchCursor<R>(_ db: GRDB.Database, _ request: R) throws -> GRDB.DatabaseValueCursor<Self> where R : GRDB.FetchRequest
@@ -1148,12 +1148,12 @@ extension GRDB.FetchRequest where Self.RowDecoder : GRDB.DatabaseValueConvertibl
   public func fetchOne(_ db: GRDB.Database) throws -> Self.RowDecoder?
 }
 extension Swift.Optional where Wrapped : GRDB.DatabaseValueConvertible {
-  public static func fetchCursor(_ statement: GRDB.SelectStatement, arguments: GRDB.StatementArguments? = nil, adapter: GRDB.RowAdapter? = nil) throws -> GRDB.NullableDatabaseValueCursor<Wrapped>
-  public static func fetchAll(_ statement: GRDB.SelectStatement, arguments: GRDB.StatementArguments? = nil, adapter: GRDB.RowAdapter? = nil) throws -> [Wrapped?]
+  public static func fetchCursor(_ statement: GRDB.SelectStatement, arguments: GRDB.StatementArguments? = nil, adapter: (any GRDB.RowAdapter)? = nil) throws -> GRDB.NullableDatabaseValueCursor<Wrapped>
+  public static func fetchAll(_ statement: GRDB.SelectStatement, arguments: GRDB.StatementArguments? = nil, adapter: (any GRDB.RowAdapter)? = nil) throws -> [Wrapped?]
 }
 extension Swift.Optional where Wrapped : GRDB.DatabaseValueConvertible {
-  public static func fetchCursor(_ db: GRDB.Database, sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments(), adapter: GRDB.RowAdapter? = nil) throws -> GRDB.NullableDatabaseValueCursor<Wrapped>
-  public static func fetchAll(_ db: GRDB.Database, sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments(), adapter: GRDB.RowAdapter? = nil) throws -> [Wrapped?]
+  public static func fetchCursor(_ db: GRDB.Database, sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments(), adapter: (any GRDB.RowAdapter)? = nil) throws -> GRDB.NullableDatabaseValueCursor<Wrapped>
+  public static func fetchAll(_ db: GRDB.Database, sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments(), adapter: (any GRDB.RowAdapter)? = nil) throws -> [Wrapped?]
 }
 extension Swift.Optional where Wrapped : GRDB.DatabaseValueConvertible {
   public static func fetchCursor<R>(_ db: GRDB.Database, _ request: R) throws -> GRDB.NullableDatabaseValueCursor<Wrapped> where R : GRDB.FetchRequest
@@ -1203,41 +1203,41 @@ public protocol DatabaseWriter : GRDB.DatabaseReader {
   func write<T>(_ updates: (GRDB.Database) throws -> T) throws -> T
   func writeWithoutTransaction<T>(_ updates: (GRDB.Database) throws -> T) rethrows -> T
   func barrierWriteWithoutTransaction<T>(_ updates: (GRDB.Database) throws -> T) rethrows -> T
-  func asyncWrite<T>(_ updates: @escaping (GRDB.Database) throws -> T, completion: @escaping (GRDB.Database, Swift.Result<T, Swift.Error>) -> Swift.Void)
+  func asyncWrite<T>(_ updates: @escaping (GRDB.Database) throws -> T, completion: @escaping (GRDB.Database, Swift.Result<T, any Swift.Error>) -> Swift.Void)
   func asyncWriteWithoutTransaction(_ updates: @escaping (GRDB.Database) -> Swift.Void)
   func unsafeReentrantWrite<T>(_ updates: (GRDB.Database) throws -> T) rethrows -> T
   func concurrentRead<T>(_ block: @escaping (GRDB.Database) throws -> T) -> GRDB.DatabaseFuture<T>
-  func spawnConcurrentRead(_ block: @escaping (Swift.Result<GRDB.Database, Swift.Error>) -> Swift.Void)
+  func spawnConcurrentRead(_ block: @escaping (Swift.Result<GRDB.Database, any Swift.Error>) -> Swift.Void)
 }
 extension GRDB.DatabaseWriter {
   public func write<T>(_ updates: (GRDB.Database) throws -> T) throws -> T
-  public func asyncWrite<T>(_ updates: @escaping (GRDB.Database) throws -> T, completion: @escaping (GRDB.Database, Swift.Result<T, Swift.Error>) -> Swift.Void)
-  public func add(transactionObserver: GRDB.TransactionObserver, extent: GRDB.Database.TransactionObservationExtent = .observerLifetime)
-  public func remove(transactionObserver: GRDB.TransactionObserver)
+  public func asyncWrite<T>(_ updates: @escaping (GRDB.Database) throws -> T, completion: @escaping (GRDB.Database, Swift.Result<T, any Swift.Error>) -> Swift.Void)
+  public func add(transactionObserver: any GRDB.TransactionObserver, extent: GRDB.Database.TransactionObservationExtent = .observerLifetime)
+  public func remove(transactionObserver: any GRDB.TransactionObserver)
   public func erase() throws
   public func vacuum() throws
-  public func add<Reducer>(observation: GRDB.ValueObservation<Reducer>, onError: @escaping (Swift.Error) -> Swift.Void, onChange: @escaping (Reducer.Value) -> Swift.Void) -> GRDB.TransactionObserver where Reducer : GRDB.ValueReducer
+  public func add<Reducer>(observation: GRDB.ValueObservation<Reducer>, onError: @escaping (any Swift.Error) -> Swift.Void, onChange: @escaping (Reducer.Value) -> Swift.Void) -> any GRDB.TransactionObserver where Reducer : GRDB.ValueReducer
 }
 @_hasMissingDesignatedInitializers public class DatabaseFuture<Value> {
   public func wait() throws -> Value
   @objc deinit
 }
 final public class AnyDatabaseWriter : GRDB.DatabaseWriter {
-  public init(_ base: GRDB.DatabaseWriter)
+  public init(_ base: any GRDB.DatabaseWriter)
   final public var configuration: GRDB.Configuration {
     get
   }
   final public func interrupt()
   final public func read<T>(_ block: (GRDB.Database) throws -> T) throws -> T
-  final public func asyncRead(_ block: @escaping (Swift.Result<GRDB.Database, Swift.Error>) -> Swift.Void)
+  final public func asyncRead(_ block: @escaping (Swift.Result<GRDB.Database, any Swift.Error>) -> Swift.Void)
   final public func unsafeRead<T>(_ block: (GRDB.Database) throws -> T) throws -> T
   final public func unsafeReentrantRead<T>(_ block: (GRDB.Database) throws -> T) throws -> T
   final public func concurrentRead<T>(_ block: @escaping (GRDB.Database) throws -> T) -> GRDB.DatabaseFuture<T>
-  final public func spawnConcurrentRead(_ block: @escaping (Swift.Result<GRDB.Database, Swift.Error>) -> Swift.Void)
+  final public func spawnConcurrentRead(_ block: @escaping (Swift.Result<GRDB.Database, any Swift.Error>) -> Swift.Void)
   final public func write<T>(_ updates: (GRDB.Database) throws -> T) throws -> T
   final public func writeWithoutTransaction<T>(_ updates: (GRDB.Database) throws -> T) rethrows -> T
   final public func barrierWriteWithoutTransaction<T>(_ updates: (GRDB.Database) throws -> T) rethrows -> T
-  final public func asyncWrite<T>(_ updates: @escaping (GRDB.Database) throws -> T, completion: @escaping (GRDB.Database, Swift.Result<T, Swift.Error>) -> Swift.Void)
+  final public func asyncWrite<T>(_ updates: @escaping (GRDB.Database) throws -> T, completion: @escaping (GRDB.Database, Swift.Result<T, any Swift.Error>) -> Swift.Void)
   final public func asyncWriteWithoutTransaction(_ updates: @escaping (GRDB.Database) -> Swift.Void)
   final public func unsafeReentrantWrite<T>(_ updates: (GRDB.Database) throws -> T) rethrows -> T
   final public func add(function: GRDB.DatabaseFunction)
@@ -1307,12 +1307,12 @@ extension GRDB.EncodableRecord {
 }
 public struct PersistenceContainer {
   @usableFromInline
-  internal var storage: GRDB.OrderedDictionary<Swift.String, GRDB.DatabaseValueConvertible?>
-  @inlinable public subscript(column: Swift.String) -> GRDB.DatabaseValueConvertible? {
+  internal var storage: GRDB.OrderedDictionary<Swift.String, (any GRDB.DatabaseValueConvertible)?>
+  @inlinable public subscript(column: Swift.String) -> (any GRDB.DatabaseValueConvertible)? {
     get { return storage[column] ?? nil }
     set { storage.updateValue(newValue, forKey: column) }
   }
-  @inlinable public subscript<Column>(column: Column) -> GRDB.DatabaseValueConvertible? where Column : GRDB.ColumnExpression {
+  @inlinable public subscript<Column>(column: Column) -> (any GRDB.DatabaseValueConvertible)? where Column : GRDB.ColumnExpression {
     get { return self[column.name] }
     set { self[column.name] = newValue }
   }
@@ -1326,7 +1326,7 @@ public enum DatabaseDateEncodingStrategy {
   @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
   case iso8601
   case formatted(Foundation.DateFormatter)
-  case custom((Foundation.Date) -> GRDB.DatabaseValueConvertible?)
+  case custom((Foundation.Date) -> (any GRDB.DatabaseValueConvertible)?)
 }
 public enum DatabaseUUIDEncodingStrategy {
   case deferredToUUID
@@ -1366,14 +1366,14 @@ extension GRDB.FetchableRecord {
   }
 }
 extension GRDB.FetchableRecord {
-  public static func fetchCursor(_ statement: GRDB.SelectStatement, arguments: GRDB.StatementArguments? = nil, adapter: GRDB.RowAdapter? = nil) throws -> GRDB.RecordCursor<Self>
-  public static func fetchAll(_ statement: GRDB.SelectStatement, arguments: GRDB.StatementArguments? = nil, adapter: GRDB.RowAdapter? = nil) throws -> [Self]
-  public static func fetchOne(_ statement: GRDB.SelectStatement, arguments: GRDB.StatementArguments? = nil, adapter: GRDB.RowAdapter? = nil) throws -> Self?
+  public static func fetchCursor(_ statement: GRDB.SelectStatement, arguments: GRDB.StatementArguments? = nil, adapter: (any GRDB.RowAdapter)? = nil) throws -> GRDB.RecordCursor<Self>
+  public static func fetchAll(_ statement: GRDB.SelectStatement, arguments: GRDB.StatementArguments? = nil, adapter: (any GRDB.RowAdapter)? = nil) throws -> [Self]
+  public static func fetchOne(_ statement: GRDB.SelectStatement, arguments: GRDB.StatementArguments? = nil, adapter: (any GRDB.RowAdapter)? = nil) throws -> Self?
 }
 extension GRDB.FetchableRecord {
-  public static func fetchCursor(_ db: GRDB.Database, sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments(), adapter: GRDB.RowAdapter? = nil) throws -> GRDB.RecordCursor<Self>
-  public static func fetchAll(_ db: GRDB.Database, sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments(), adapter: GRDB.RowAdapter? = nil) throws -> [Self]
-  public static func fetchOne(_ db: GRDB.Database, sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments(), adapter: GRDB.RowAdapter? = nil) throws -> Self?
+  public static func fetchCursor(_ db: GRDB.Database, sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments(), adapter: (any GRDB.RowAdapter)? = nil) throws -> GRDB.RecordCursor<Self>
+  public static func fetchAll(_ db: GRDB.Database, sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments(), adapter: (any GRDB.RowAdapter)? = nil) throws -> [Self]
+  public static func fetchOne(_ db: GRDB.Database, sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments(), adapter: (any GRDB.RowAdapter)? = nil) throws -> Self?
 }
 extension GRDB.FetchableRecord {
   public static func fetchCursor<R>(_ db: GRDB.Database, _ request: R) throws -> GRDB.RecordCursor<Self> where R : GRDB.FetchRequest
@@ -1437,21 +1437,21 @@ extension GRDB.FetchableRecord where Self : GRDB.TableRecord {
   public static func fetchOne<PrimaryKeyType>(_ db: GRDB.Database, key: PrimaryKeyType?) throws -> Self? where PrimaryKeyType : GRDB.DatabaseValueConvertible
 }
 extension GRDB.FetchableRecord where Self : GRDB.TableRecord {
-  public static func fetchCursor(_ db: GRDB.Database, keys: [[Swift.String : GRDB.DatabaseValueConvertible?]]) throws -> GRDB.RecordCursor<Self>
-  public static func fetchAll(_ db: GRDB.Database, keys: [[Swift.String : GRDB.DatabaseValueConvertible?]]) throws -> [Self]
-  public static func fetchOne(_ db: GRDB.Database, key: [Swift.String : GRDB.DatabaseValueConvertible?]?) throws -> Self?
+  public static func fetchCursor(_ db: GRDB.Database, keys: [[Swift.String : (any GRDB.DatabaseValueConvertible)?]]) throws -> GRDB.RecordCursor<Self>
+  public static func fetchAll(_ db: GRDB.Database, keys: [[Swift.String : (any GRDB.DatabaseValueConvertible)?]]) throws -> [Self]
+  public static func fetchOne(_ db: GRDB.Database, key: [Swift.String : (any GRDB.DatabaseValueConvertible)?]?) throws -> Self?
 }
 @_hasMissingDesignatedInitializers final public class FetchedRecordsController<Record> where Record : GRDB.FetchableRecord {
-  convenience public init(_ databaseWriter: GRDB.DatabaseWriter, sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments(), adapter: GRDB.RowAdapter? = nil, queue: Dispatch.DispatchQueue = .main, isSameRecord: ((Record, Record) -> Swift.Bool)? = nil) throws
-  convenience public init<Request>(_ databaseWriter: GRDB.DatabaseWriter, request: Request, queue: Dispatch.DispatchQueue = .main, isSameRecord: ((Record, Record) -> Swift.Bool)? = nil) throws where Record == Request.RowDecoder, Request : GRDB.FetchRequest
+  convenience public init(_ databaseWriter: any GRDB.DatabaseWriter, sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments(), adapter: (any GRDB.RowAdapter)? = nil, queue: Dispatch.DispatchQueue = .main, isSameRecord: ((Record, Record) -> Swift.Bool)? = nil) throws
+  convenience public init<Request>(_ databaseWriter: any GRDB.DatabaseWriter, request: Request, queue: Dispatch.DispatchQueue = .main, isSameRecord: ((Record, Record) -> Swift.Bool)? = nil) throws where Record == Request.RowDecoder, Request : GRDB.FetchRequest
   final public func performFetch() throws
-  final public let databaseWriter: GRDB.DatabaseWriter
+  final public let databaseWriter: any GRDB.DatabaseWriter
   final public let queue: Dispatch.DispatchQueue
   final public func setRequest<Request>(_ request: Request) throws where Record == Request.RowDecoder, Request : GRDB.FetchRequest
-  final public func setRequest(sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments(), adapter: GRDB.RowAdapter? = nil) throws
+  final public func setRequest(sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments(), adapter: (any GRDB.RowAdapter)? = nil) throws
   final public func trackChanges(willChange: ((GRDB.FetchedRecordsController<Record>) -> Swift.Void)? = nil, onChange: ((GRDB.FetchedRecordsController<Record>, Record, GRDB.FetchedRecordChange) -> Swift.Void)? = nil, didChange: ((GRDB.FetchedRecordsController<Record>) -> Swift.Void)? = nil)
   final public func trackChanges<T>(fetchAlongside: @escaping (GRDB.Database) throws -> T, willChange: ((GRDB.FetchedRecordsController<Record>, _ fetchedAlongside: T) -> Swift.Void)? = nil, onChange: ((GRDB.FetchedRecordsController<Record>, Record, GRDB.FetchedRecordChange) -> Swift.Void)? = nil, didChange: ((GRDB.FetchedRecordsController<Record>, _ fetchedAlongside: T) -> Swift.Void)? = nil)
-  final public func trackErrors(_ errorHandler: @escaping (GRDB.FetchedRecordsController<Record>, Swift.Error) -> Swift.Void)
+  final public func trackErrors(_ errorHandler: @escaping (GRDB.FetchedRecordsController<Record>, any Swift.Error) -> Swift.Void)
   final public func allowBackgroundChangesTracking(in application: UIKit.UIApplication)
   final public var fetchedRecords: [Record] {
     get
@@ -1459,8 +1459,8 @@ extension GRDB.FetchableRecord where Self : GRDB.TableRecord {
   @objc deinit
 }
 extension GRDB.FetchedRecordsController where Record : GRDB.TableRecord {
-  convenience public init(_ databaseWriter: GRDB.DatabaseWriter, sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments(), adapter: GRDB.RowAdapter? = nil, queue: Dispatch.DispatchQueue = .main) throws
-  convenience public init<Request>(_ databaseWriter: GRDB.DatabaseWriter, request: Request, queue: Dispatch.DispatchQueue = .main) throws where Record == Request.RowDecoder, Request : GRDB.FetchRequest
+  convenience public init(_ databaseWriter: any GRDB.DatabaseWriter, sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments(), adapter: (any GRDB.RowAdapter)? = nil, queue: Dispatch.DispatchQueue = .main) throws
+  convenience public init<Request>(_ databaseWriter: any GRDB.DatabaseWriter, request: Request, queue: Dispatch.DispatchQueue = .main) throws where Record == Request.RowDecoder, Request : GRDB.FetchRequest
 }
 extension GRDB.FetchedRecordsController {
   final public func record(at indexPath: Foundation.IndexPath) -> Record
@@ -1492,21 +1492,21 @@ public struct FetchedRecordsSectionInfo<Record> where Record : GRDB.FetchableRec
 }
 public struct PreparedRequest {
   public var statement: GRDB.SelectStatement
-  public var adapter: GRDB.RowAdapter?
-  public init(statement: GRDB.SelectStatement, adapter: GRDB.RowAdapter? = nil)
+  public var adapter: (any GRDB.RowAdapter)?
+  public init(statement: GRDB.SelectStatement, adapter: (any GRDB.RowAdapter)? = nil)
 }
 public protocol FetchRequest : GRDB.DatabaseRegionConvertible {
   associatedtype RowDecoder
-  func prepare(_ db: GRDB.Database, forSingleResult singleResult: Swift.Bool) throws -> (GRDB.SelectStatement, GRDB.RowAdapter?)
+  func prepare(_ db: GRDB.Database, forSingleResult singleResult: Swift.Bool) throws -> (GRDB.SelectStatement, (any GRDB.RowAdapter)?)
   func makePreparedRequest(_ db: GRDB.Database, forSingleResult singleResult: Swift.Bool) throws -> GRDB.PreparedRequest
   func fetchCount(_ db: GRDB.Database) throws -> Swift.Int
 }
 extension GRDB.FetchRequest {
-  public func adapted(_ adapter: @escaping (GRDB.Database) throws -> GRDB.RowAdapter) -> GRDB.AdaptedFetchRequest<Self>
+  public func adapted(_ adapter: @escaping (GRDB.Database) throws -> any GRDB.RowAdapter) -> GRDB.AdaptedFetchRequest<Self>
   public func fetchCount(_ db: GRDB.Database) throws -> Swift.Int
   public func databaseRegion(_ db: GRDB.Database) throws -> GRDB.DatabaseRegion
   public func makePreparedRequest(_ db: GRDB.Database, forSingleResult singleResult: Swift.Bool) throws -> GRDB.PreparedRequest
-  public func prepare(_ db: GRDB.Database, forSingleResult singleResult: Swift.Bool) throws -> (GRDB.SelectStatement, GRDB.RowAdapter?)
+  public func prepare(_ db: GRDB.Database, forSingleResult singleResult: Swift.Bool) throws -> (GRDB.SelectStatement, (any GRDB.RowAdapter)?)
 }
 public struct AdaptedFetchRequest<Base> : GRDB.FetchRequest where Base : GRDB.FetchRequest {
   public typealias RowDecoder = Base.RowDecoder
@@ -1518,7 +1518,7 @@ public struct AnyFetchRequest<T> : GRDB.FetchRequest {
   public typealias RowDecoder = T
   public init<Request>(_ request: Request) where Request : GRDB.FetchRequest
   @available(*, deprecated, message: "Define your own FetchRequest type instead.")
-  public init(_ prepare: @escaping (GRDB.Database, _ singleResult: Swift.Bool) throws -> (GRDB.SelectStatement, GRDB.RowAdapter?))
+  public init(_ prepare: @escaping (GRDB.Database, _ singleResult: Swift.Bool) throws -> (GRDB.SelectStatement, (any GRDB.RowAdapter)?))
   public func makePreparedRequest(_ db: GRDB.Database, forSingleResult singleResult: Swift.Bool) throws -> GRDB.PreparedRequest
   public func fetchCount(_ db: GRDB.Database) throws -> Swift.Int
   public func databaseRegion(_ db: GRDB.Database) throws -> GRDB.DatabaseRegion
@@ -1552,7 +1552,7 @@ extension GRDB.TableRecord {
   public static func matching(_ pattern: GRDB.FTS3Pattern?) -> GRDB.QueryInterfaceRequest<Self>
 }
 extension GRDB.ColumnExpression {
-  public func match(_ pattern: GRDB.FTS3Pattern?) -> GRDB.SQLExpression
+  public func match(_ pattern: GRDB.FTS3Pattern?) -> any GRDB.SQLExpression
 }
 public struct FTS3Pattern {
   public let rawPattern: Swift.String
@@ -1620,9 +1620,9 @@ extension GRDB.DatabaseWriter {
 }
 extension GRDB.ValueObservation {
   @available(*, unavailable, message: "Provide the reducer in a (Database) -> Reducer closure")
-  public static func tracking(_ regions: GRDB.DatabaseRegionConvertible..., reducer: Reducer) -> GRDB.ValueObservation<Reducer>
+  public static func tracking(_ regions: any GRDB.DatabaseRegionConvertible..., reducer: Reducer) -> GRDB.ValueObservation<Reducer>
   @available(*, unavailable, message: "Use removeDuplicates() instead")
-  public static func tracking<Value>(_ regions: GRDB.DatabaseRegionConvertible..., fetchDistinct fetch: @escaping (GRDB.Database) throws -> Value) -> GRDB.ValueObservation<GRDB.ValueReducers.RemoveDuplicates<GRDB.ValueReducers.Fetch<Value>>> where Value : Swift.Equatable
+  public static func tracking<Value>(_ regions: any GRDB.DatabaseRegionConvertible..., fetchDistinct fetch: @escaping (GRDB.Database) throws -> Value) -> GRDB.ValueObservation<GRDB.ValueReducers.RemoveDuplicates<GRDB.ValueReducers.Fetch<Value>>> where Value : Swift.Equatable
 }
 @available(*, unavailable, renamed: "FastDatabaseValueCursor")
 public typealias ColumnCursor<Value> = GRDB.FastDatabaseValueCursor<Value> where Value : GRDB.DatabaseValueConvertible, Value : GRDB.StatementColumnConvertible
@@ -1642,45 +1642,45 @@ extension GRDB.Database {
 }
 extension GRDB.DatabaseValueConvertible {
   @available(*, unavailable, renamed: "fetchCursor(_:sql:arguments:adapter:)")
-  public static func fetchCursor(_ db: GRDB.Database, _ sql: Swift.String, arguments: GRDB.StatementArguments? = nil, adapter: GRDB.RowAdapter? = nil) throws -> GRDB.DatabaseValueCursor<Self>
+  public static func fetchCursor(_ db: GRDB.Database, _ sql: Swift.String, arguments: GRDB.StatementArguments? = nil, adapter: (any GRDB.RowAdapter)? = nil) throws -> GRDB.DatabaseValueCursor<Self>
   @available(*, unavailable, renamed: "fetchAll(_:sql:arguments:adapter:)")
-  public static func fetchAll(_ db: GRDB.Database, _ sql: Swift.String, arguments: GRDB.StatementArguments? = nil, adapter: GRDB.RowAdapter? = nil) throws -> [Self]
+  public static func fetchAll(_ db: GRDB.Database, _ sql: Swift.String, arguments: GRDB.StatementArguments? = nil, adapter: (any GRDB.RowAdapter)? = nil) throws -> [Self]
   @available(*, unavailable, renamed: "fetchOne(_:sql:arguments:adapter:)")
-  public static func fetchOne(_ db: GRDB.Database, _ sql: Swift.String, arguments: GRDB.StatementArguments? = nil, adapter: GRDB.RowAdapter? = nil) throws -> Self?
+  public static func fetchOne(_ db: GRDB.Database, _ sql: Swift.String, arguments: GRDB.StatementArguments? = nil, adapter: (any GRDB.RowAdapter)? = nil) throws -> Self?
 }
 extension Swift.Optional where Wrapped : GRDB.DatabaseValueConvertible {
   @available(*, unavailable, renamed: "fetchCursor(_:sql:arguments:adapter:)")
-  public static func fetchCursor(_ db: GRDB.Database, _ sql: Swift.String, arguments: GRDB.StatementArguments? = nil, adapter: GRDB.RowAdapter? = nil) throws -> GRDB.NullableDatabaseValueCursor<Wrapped>
+  public static func fetchCursor(_ db: GRDB.Database, _ sql: Swift.String, arguments: GRDB.StatementArguments? = nil, adapter: (any GRDB.RowAdapter)? = nil) throws -> GRDB.NullableDatabaseValueCursor<Wrapped>
   @available(*, unavailable, renamed: "fetchAll(_:sql:arguments:adapter:)")
-  public static func fetchAll(_ db: GRDB.Database, _ sql: Swift.String, arguments: GRDB.StatementArguments? = nil, adapter: GRDB.RowAdapter? = nil) throws -> [Wrapped?]
+  public static func fetchAll(_ db: GRDB.Database, _ sql: Swift.String, arguments: GRDB.StatementArguments? = nil, adapter: (any GRDB.RowAdapter)? = nil) throws -> [Wrapped?]
 }
 extension GRDB.Row {
   @available(*, unavailable, renamed: "fetchCursor(_:sql:arguments:adapter:)")
-  public static func fetchCursor(_ db: GRDB.Database, _ sql: Swift.String, arguments: GRDB.StatementArguments? = nil, adapter: GRDB.RowAdapter? = nil) throws -> GRDB.RowCursor
+  public static func fetchCursor(_ db: GRDB.Database, _ sql: Swift.String, arguments: GRDB.StatementArguments? = nil, adapter: (any GRDB.RowAdapter)? = nil) throws -> GRDB.RowCursor
   @available(*, unavailable, renamed: "fetchAll(_:sql:arguments:adapter:)")
-  public static func fetchAll(_ db: GRDB.Database, _ sql: Swift.String, arguments: GRDB.StatementArguments? = nil, adapter: GRDB.RowAdapter? = nil) throws -> [GRDB.Row]
+  public static func fetchAll(_ db: GRDB.Database, _ sql: Swift.String, arguments: GRDB.StatementArguments? = nil, adapter: (any GRDB.RowAdapter)? = nil) throws -> [GRDB.Row]
   @available(*, unavailable, renamed: "fetchOne(_:sql:arguments:adapter:)")
-  public static func fetchOne(_ db: GRDB.Database, _ sql: Swift.String, arguments: GRDB.StatementArguments? = nil, adapter: GRDB.RowAdapter? = nil) throws -> GRDB.Row?
+  public static func fetchOne(_ db: GRDB.Database, _ sql: Swift.String, arguments: GRDB.StatementArguments? = nil, adapter: (any GRDB.RowAdapter)? = nil) throws -> GRDB.Row?
 }
 extension GRDB.DatabaseValueConvertible where Self : GRDB.StatementColumnConvertible {
   @available(*, unavailable, renamed: "fetchCursor(_:sql:arguments:adapter:)")
-  public static func fetchCursor(_ db: GRDB.Database, _ sql: Swift.String, arguments: GRDB.StatementArguments? = nil, adapter: GRDB.RowAdapter? = nil) throws -> GRDB.FastDatabaseValueCursor<Self>
+  public static func fetchCursor(_ db: GRDB.Database, _ sql: Swift.String, arguments: GRDB.StatementArguments? = nil, adapter: (any GRDB.RowAdapter)? = nil) throws -> GRDB.FastDatabaseValueCursor<Self>
 }
 extension Swift.Optional where Wrapped : GRDB.DatabaseValueConvertible, Wrapped : GRDB.StatementColumnConvertible {
   @available(*, unavailable, renamed: "fetchCursor(_:sql:arguments:adapter:)")
-  public static func fetchCursor(_ db: GRDB.Database, _ sql: Swift.String, arguments: GRDB.StatementArguments? = nil, adapter: GRDB.RowAdapter? = nil) throws -> GRDB.FastNullableDatabaseValueCursor<Wrapped>
+  public static func fetchCursor(_ db: GRDB.Database, _ sql: Swift.String, arguments: GRDB.StatementArguments? = nil, adapter: (any GRDB.RowAdapter)? = nil) throws -> GRDB.FastNullableDatabaseValueCursor<Wrapped>
 }
 extension GRDB.FetchableRecord {
   @available(*, unavailable, renamed: "fetchCursor(_:sql:arguments:adapter:)")
-  public static func fetchCursor(_ db: GRDB.Database, _ sql: Swift.String, arguments: GRDB.StatementArguments? = nil, adapter: GRDB.RowAdapter? = nil) throws -> GRDB.RecordCursor<Self>
+  public static func fetchCursor(_ db: GRDB.Database, _ sql: Swift.String, arguments: GRDB.StatementArguments? = nil, adapter: (any GRDB.RowAdapter)? = nil) throws -> GRDB.RecordCursor<Self>
   @available(*, unavailable, renamed: "fetchAll(_:sql:arguments:adapter:)")
-  public static func fetchAll(_ db: GRDB.Database, _ sql: Swift.String, arguments: GRDB.StatementArguments? = nil, adapter: GRDB.RowAdapter? = nil) throws -> [Self]
+  public static func fetchAll(_ db: GRDB.Database, _ sql: Swift.String, arguments: GRDB.StatementArguments? = nil, adapter: (any GRDB.RowAdapter)? = nil) throws -> [Self]
   @available(*, unavailable, renamed: "fetchOne(_:sql:arguments:adapter:)")
-  public static func fetchOne(_ db: GRDB.Database, _ sql: Swift.String, arguments: GRDB.StatementArguments? = nil, adapter: GRDB.RowAdapter? = nil) throws -> Self?
+  public static func fetchOne(_ db: GRDB.Database, _ sql: Swift.String, arguments: GRDB.StatementArguments? = nil, adapter: (any GRDB.RowAdapter)? = nil) throws -> Self?
 }
 extension GRDB.SQLRequest {
   @available(*, unavailable, renamed: "init(sql:arguments:adapter:cached:)")
-  public init(_ sql: Swift.String, arguments: GRDB.StatementArguments? = nil, adapter: GRDB.RowAdapter? = nil, cached: Swift.Bool = false)
+  public init(_ sql: Swift.String, arguments: GRDB.StatementArguments? = nil, adapter: (any GRDB.RowAdapter)? = nil, cached: Swift.Bool = false)
 }
 extension GRDB.SQLExpressionLiteral {
   @available(*, unavailable, renamed: "init(sql:arguments:)")
@@ -1984,9 +1984,9 @@ extension GRDB.MutablePersistableRecord {
 }
 extension GRDB.MutablePersistableRecord {
   @discardableResult
-  public static func deleteAll(_ db: GRDB.Database, keys: [[Swift.String : GRDB.DatabaseValueConvertible?]]) throws -> Swift.Int
+  public static func deleteAll(_ db: GRDB.Database, keys: [[Swift.String : (any GRDB.DatabaseValueConvertible)?]]) throws -> Swift.Int
   @discardableResult
-  public static func deleteOne(_ db: GRDB.Database, key: [Swift.String : GRDB.DatabaseValueConvertible?]) throws -> Swift.Bool
+  public static func deleteOne(_ db: GRDB.Database, key: [Swift.String : (any GRDB.DatabaseValueConvertible)?]) throws -> Swift.Bool
 }
 public protocol PersistableRecord : GRDB.MutablePersistableRecord {
   func didInsert(with rowID: Swift.Int64, for column: Swift.String?)
@@ -2035,7 +2035,7 @@ final internal class DAO<Record> where Record : GRDB.MutablePersistableRecord {
   @usableFromInline
   final internal func existsStatement() throws -> GRDB.SelectStatement?
   @usableFromInline
-  final internal func makeRecordNotFoundError() -> Swift.Error
+  final internal func makeRecordNotFoundError() -> any Swift.Error
   @objc @usableFromInline
   deinit
 }
@@ -2048,24 +2048,24 @@ extension GRDB.QueryInterfaceRequest : GRDB.FetchRequest {
   public func databaseRegion(_ db: GRDB.Database) throws -> GRDB.DatabaseRegion
 }
 extension GRDB.QueryInterfaceRequest : GRDB.SelectionRequest {
-  public func select(_ selection: [GRDB.SQLSelectable]) -> GRDB.QueryInterfaceRequest<T>
-  public func select<RowDecoder>(_ selection: [GRDB.SQLSelectable], as type: RowDecoder.Type = RowDecoder.self) -> GRDB.QueryInterfaceRequest<RowDecoder>
-  public func select<RowDecoder>(_ selection: GRDB.SQLSelectable..., as type: RowDecoder.Type = RowDecoder.self) -> GRDB.QueryInterfaceRequest<RowDecoder>
+  public func select(_ selection: [any GRDB.SQLSelectable]) -> GRDB.QueryInterfaceRequest<T>
+  public func select<RowDecoder>(_ selection: [any GRDB.SQLSelectable], as type: RowDecoder.Type = RowDecoder.self) -> GRDB.QueryInterfaceRequest<RowDecoder>
+  public func select<RowDecoder>(_ selection: any GRDB.SQLSelectable..., as type: RowDecoder.Type = RowDecoder.self) -> GRDB.QueryInterfaceRequest<RowDecoder>
   public func select<RowDecoder>(sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments(), as type: RowDecoder.Type = RowDecoder.self) -> GRDB.QueryInterfaceRequest<RowDecoder>
   public func select<RowDecoder>(literal sqlLiteral: GRDB.SQLLiteral, as type: RowDecoder.Type = RowDecoder.self) -> GRDB.QueryInterfaceRequest<RowDecoder>
-  public func annotated(with selection: [GRDB.SQLSelectable]) -> GRDB.QueryInterfaceRequest<T>
+  public func annotated(with selection: [any GRDB.SQLSelectable]) -> GRDB.QueryInterfaceRequest<T>
 }
 extension GRDB.QueryInterfaceRequest : GRDB.FilteredRequest {
-  public func filter(_ predicate: @escaping (GRDB.Database) throws -> GRDB.SQLExpressible) -> GRDB.QueryInterfaceRequest<T>
+  public func filter(_ predicate: @escaping (GRDB.Database) throws -> any GRDB.SQLExpressible) -> GRDB.QueryInterfaceRequest<T>
 }
 extension GRDB.QueryInterfaceRequest : GRDB.OrderedRequest {
-  public func order(_ orderings: @escaping (GRDB.Database) throws -> [GRDB.SQLOrderingTerm]) -> GRDB.QueryInterfaceRequest<T>
+  public func order(_ orderings: @escaping (GRDB.Database) throws -> [any GRDB.SQLOrderingTerm]) -> GRDB.QueryInterfaceRequest<T>
   public func reversed() -> GRDB.QueryInterfaceRequest<T>
   public func unordered() -> GRDB.QueryInterfaceRequest<T>
 }
 extension GRDB.QueryInterfaceRequest : GRDB.AggregatingRequest {
-  public func group(_ expressions: @escaping (GRDB.Database) throws -> [GRDB.SQLExpressible]) -> GRDB.QueryInterfaceRequest<T>
-  public func having(_ predicate: GRDB.SQLExpressible) -> GRDB.QueryInterfaceRequest<T>
+  public func group(_ expressions: @escaping (GRDB.Database) throws -> [any GRDB.SQLExpressible]) -> GRDB.QueryInterfaceRequest<T>
+  public func having(_ predicate: any GRDB.SQLExpressible) -> GRDB.QueryInterfaceRequest<T>
 }
 extension GRDB.QueryInterfaceRequest : GRDB._JoinableRequest {
   public func _including(all association: GRDB.SQLAssociation) -> GRDB.QueryInterfaceRequest<T>
@@ -2107,14 +2107,14 @@ precedencegroup ColumnAssignment {
 }
 infix operator <- : ColumnAssignment
 @available(*, deprecated, message: "Use column.set(to: value) instead")
-public func <- (column: GRDB.ColumnExpression, value: GRDB.SQLExpressible?) -> GRDB.ColumnAssignment
+public func <- (column: any GRDB.ColumnExpression, value: (any GRDB.SQLExpressible)?) -> GRDB.ColumnAssignment
 extension GRDB.ColumnExpression {
-  public func set(to value: GRDB.SQLExpressible?) -> GRDB.ColumnAssignment
+  public func set(to value: (any GRDB.SQLExpressible)?) -> GRDB.ColumnAssignment
 }
-public func += (column: GRDB.ColumnExpression, value: GRDB.SQLExpressible) -> GRDB.ColumnAssignment
-public func -= (column: GRDB.ColumnExpression, value: GRDB.SQLExpressible) -> GRDB.ColumnAssignment
-public func *= (column: GRDB.ColumnExpression, value: GRDB.SQLExpressible) -> GRDB.ColumnAssignment
-public func /= (column: GRDB.ColumnExpression, value: GRDB.SQLExpressible) -> GRDB.ColumnAssignment
+public func += (column: any GRDB.ColumnExpression, value: any GRDB.SQLExpressible) -> GRDB.ColumnAssignment
+public func -= (column: any GRDB.ColumnExpression, value: any GRDB.SQLExpressible) -> GRDB.ColumnAssignment
+public func *= (column: any GRDB.ColumnExpression, value: any GRDB.SQLExpressible) -> GRDB.ColumnAssignment
+public func /= (column: any GRDB.ColumnExpression, value: any GRDB.SQLExpressible) -> GRDB.ColumnAssignment
 extension GRDB.QueryInterfaceRequest where T : GRDB.TableRecord {
   public func annotated(with aggregates: GRDB.AssociationAggregate<GRDB.QueryInterfaceRequest<T>.RowDecoder>...) -> GRDB.QueryInterfaceRequest<T>
   public func annotated(with aggregates: [GRDB.AssociationAggregate<GRDB.QueryInterfaceRequest<T>.RowDecoder>]) -> GRDB.QueryInterfaceRequest<T>
@@ -2129,7 +2129,7 @@ open class Record : GRDB.FetchableRecord, GRDB.TableRecord, GRDB.PersistableReco
   open class var persistenceConflictPolicy: GRDB.PersistenceConflictPolicy {
     get
   }
-  open class var databaseSelection: [GRDB.SQLSelectable] {
+  open class var databaseSelection: [any GRDB.SQLSelectable] {
     get
   }
   open func encode(to container: inout GRDB.PersistenceContainer)
@@ -2172,22 +2172,22 @@ extension GRDB.ValueReducers {
 @available(*, deprecated, renamed: "ValueReducers.RemoveDuplicates")
 public typealias DistinctUntilChangedValueReducer<Base> = GRDB.ValueReducers.RemoveDuplicates<Base> where Base : GRDB.ValueReducer, Base.Value : Swift.Equatable
 public protocol SelectionRequest {
-  func select(_ selection: [GRDB.SQLSelectable]) -> Self
-  func annotated(with selection: [GRDB.SQLSelectable]) -> Self
+  func select(_ selection: [any GRDB.SQLSelectable]) -> Self
+  func annotated(with selection: [any GRDB.SQLSelectable]) -> Self
 }
 extension GRDB.SelectionRequest {
-  public func select(_ selection: GRDB.SQLSelectable...) -> Self
+  public func select(_ selection: any GRDB.SQLSelectable...) -> Self
   public func select(sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments()) -> Self
   public func select(literal sqlLiteral: GRDB.SQLLiteral) -> Self
-  public func annotated(with selection: GRDB.SQLSelectable...) -> Self
+  public func annotated(with selection: any GRDB.SQLSelectable...) -> Self
 }
 public protocol FilteredRequest {
-  func filter(_ predicate: @escaping (GRDB.Database) throws -> GRDB.SQLExpressible) -> Self
+  func filter(_ predicate: @escaping (GRDB.Database) throws -> any GRDB.SQLExpressible) -> Self
   func expectingSingleResult() -> Self
 }
 extension GRDB.FilteredRequest {
   public func expectingSingleResult() -> Self
-  public func filter(_ predicate: GRDB.SQLExpressible) -> Self
+  public func filter(_ predicate: any GRDB.SQLExpressible) -> Self
   public func filter(sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments()) -> Self
   public func filter(literal sqlLiteral: GRDB.SQLLiteral) -> Self
   public func none() -> Self
@@ -2199,8 +2199,8 @@ public protocol TableRequest {
 extension GRDB.TableRequest where Self : GRDB.FilteredRequest {
   public func filter<PrimaryKeyType>(key: PrimaryKeyType?) -> Self where PrimaryKeyType : GRDB.DatabaseValueConvertible
   public func filter<Sequence>(keys: Sequence) -> Self where Sequence : Swift.Sequence, Sequence.Element : GRDB.DatabaseValueConvertible
-  public func filter(key: [Swift.String : GRDB.DatabaseValueConvertible?]?) -> Self
-  public func filter(keys: [[Swift.String : GRDB.DatabaseValueConvertible?]]) -> Self
+  public func filter(key: [Swift.String : (any GRDB.DatabaseValueConvertible)?]?) -> Self
+  public func filter(keys: [[Swift.String : (any GRDB.DatabaseValueConvertible)?]]) -> Self
 }
 extension GRDB.TableRequest where Self : GRDB.OrderedRequest {
   public func orderByPrimaryKey() -> Self
@@ -2209,25 +2209,25 @@ extension GRDB.TableRequest where Self : GRDB.AggregatingRequest {
   public func groupByPrimaryKey() -> Self
 }
 public protocol AggregatingRequest {
-  func group(_ expressions: @escaping (GRDB.Database) throws -> [GRDB.SQLExpressible]) -> Self
-  func having(_ predicate: GRDB.SQLExpressible) -> Self
+  func group(_ expressions: @escaping (GRDB.Database) throws -> [any GRDB.SQLExpressible]) -> Self
+  func having(_ predicate: any GRDB.SQLExpressible) -> Self
 }
 extension GRDB.AggregatingRequest {
-  public func group(_ expressions: [GRDB.SQLExpressible]) -> Self
-  public func group(_ expressions: GRDB.SQLExpressible...) -> Self
+  public func group(_ expressions: [any GRDB.SQLExpressible]) -> Self
+  public func group(_ expressions: any GRDB.SQLExpressible...) -> Self
   public func group(sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments()) -> Self
   public func group(literal sqlLiteral: GRDB.SQLLiteral) -> Self
   public func having(sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments()) -> Self
   public func having(literal sqlLiteral: GRDB.SQLLiteral) -> Self
 }
 public protocol OrderedRequest {
-  func order(_ orderings: @escaping (GRDB.Database) throws -> [GRDB.SQLOrderingTerm]) -> Self
+  func order(_ orderings: @escaping (GRDB.Database) throws -> [any GRDB.SQLOrderingTerm]) -> Self
   func reversed() -> Self
   func unordered() -> Self
 }
 extension GRDB.OrderedRequest {
-  public func order(_ orderings: GRDB.SQLOrderingTerm...) -> Self
-  public func order(_ orderings: [GRDB.SQLOrderingTerm]) -> Self
+  public func order(_ orderings: any GRDB.SQLOrderingTerm...) -> Self
+  public func order(_ orderings: [any GRDB.SQLOrderingTerm]) -> Self
   public func order(sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments()) -> Self
   public func order(literal sqlLiteral: GRDB.SQLLiteral) -> Self
 }
@@ -2260,7 +2260,7 @@ public protocol DerivableRequest : GRDB.FilteredRequest, GRDB.JoinableRequest, G
     get
   }
   convenience public init()
-  convenience public init(_ dictionary: [Swift.String : GRDB.DatabaseValueConvertible?])
+  convenience public init(_ dictionary: [Swift.String : (any GRDB.DatabaseValueConvertible)?])
   convenience public init?(_ dictionary: [Swift.AnyHashable : Any])
   final public func copy() -> GRDB.Row
   public typealias Element = (Swift.String, GRDB.DatabaseValue)
@@ -2269,7 +2269,7 @@ public protocol DerivableRequest : GRDB.FilteredRequest, GRDB.JoinableRequest, G
   public typealias Iterator = Swift.IndexingIterator<GRDB.Row>
   public typealias Key = Swift.String
   public typealias SubSequence = Swift.Slice<GRDB.Row>
-  public typealias Value = GRDB.DatabaseValueConvertible?
+  public typealias Value = (any GRDB.DatabaseValueConvertible)?
   @objc deinit
   final public var hashValue: Swift.Int {
     get
@@ -2291,7 +2291,7 @@ extension GRDB.Row {
     get
   }
   final public func hasNull(atIndex index: Swift.Int) -> Swift.Bool
-  final public subscript(index: Swift.Int) -> GRDB.DatabaseValueConvertible? {
+  final public subscript(index: Swift.Int) -> (any GRDB.DatabaseValueConvertible)? {
     get
   }
   @inlinable final public subscript<Value>(index: Swift.Int) -> Value? where Value : GRDB.DatabaseValueConvertible {
@@ -2318,7 +2318,7 @@ extension GRDB.Row {
         return Value.fastDecode(from: self, atUncheckedIndex: index)
     }
   }
-  final public subscript(columnName: Swift.String) -> GRDB.DatabaseValueConvertible? {
+  final public subscript(columnName: Swift.String) -> (any GRDB.DatabaseValueConvertible)? {
     get
   }
   @inlinable final public subscript<Value>(columnName: Swift.String) -> Value? where Value : GRDB.DatabaseValueConvertible {
@@ -2355,7 +2355,7 @@ extension GRDB.Row {
         return Value.fastDecode(from: self, atUncheckedIndex: index)
     }
   }
-  @inlinable final public subscript<Column>(column: Column) -> GRDB.DatabaseValueConvertible? where Column : GRDB.ColumnExpression {
+  @inlinable final public subscript<Column>(column: Column) -> (any GRDB.DatabaseValueConvertible)? where Column : GRDB.ColumnExpression {
     get {
         return self[column.name]
     }
@@ -2445,14 +2445,14 @@ extension GRDB.Row {
   public typealias Element = GRDB.Row
 }
 extension GRDB.Row {
-  public static func fetchCursor(_ statement: GRDB.SelectStatement, arguments: GRDB.StatementArguments? = nil, adapter: GRDB.RowAdapter? = nil) throws -> GRDB.RowCursor
-  public static func fetchAll(_ statement: GRDB.SelectStatement, arguments: GRDB.StatementArguments? = nil, adapter: GRDB.RowAdapter? = nil) throws -> [GRDB.Row]
-  public static func fetchOne(_ statement: GRDB.SelectStatement, arguments: GRDB.StatementArguments? = nil, adapter: GRDB.RowAdapter? = nil) throws -> GRDB.Row?
+  public static func fetchCursor(_ statement: GRDB.SelectStatement, arguments: GRDB.StatementArguments? = nil, adapter: (any GRDB.RowAdapter)? = nil) throws -> GRDB.RowCursor
+  public static func fetchAll(_ statement: GRDB.SelectStatement, arguments: GRDB.StatementArguments? = nil, adapter: (any GRDB.RowAdapter)? = nil) throws -> [GRDB.Row]
+  public static func fetchOne(_ statement: GRDB.SelectStatement, arguments: GRDB.StatementArguments? = nil, adapter: (any GRDB.RowAdapter)? = nil) throws -> GRDB.Row?
 }
 extension GRDB.Row {
-  public static func fetchCursor(_ db: GRDB.Database, sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments(), adapter: GRDB.RowAdapter? = nil) throws -> GRDB.RowCursor
-  public static func fetchAll(_ db: GRDB.Database, sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments(), adapter: GRDB.RowAdapter? = nil) throws -> [GRDB.Row]
-  public static func fetchOne(_ db: GRDB.Database, sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments(), adapter: GRDB.RowAdapter? = nil) throws -> GRDB.Row?
+  public static func fetchCursor(_ db: GRDB.Database, sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments(), adapter: (any GRDB.RowAdapter)? = nil) throws -> GRDB.RowCursor
+  public static func fetchAll(_ db: GRDB.Database, sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments(), adapter: (any GRDB.RowAdapter)? = nil) throws -> [GRDB.Row]
+  public static func fetchOne(_ db: GRDB.Database, sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments(), adapter: (any GRDB.RowAdapter)? = nil) throws -> GRDB.Row?
 }
 extension GRDB.Row {
   public static func fetchCursor<R>(_ db: GRDB.Database, _ request: R) throws -> GRDB.RowCursor where R : GRDB.FetchRequest
@@ -2465,7 +2465,7 @@ extension GRDB.FetchRequest where Self.RowDecoder == GRDB.Row {
   public func fetchOne(_ db: GRDB.Database) throws -> GRDB.Row?
 }
 extension GRDB.Row {
-  convenience public init(dictionaryLiteral elements: (Swift.String, GRDB.DatabaseValueConvertible?)...)
+  convenience public init(dictionaryLiteral elements: (Swift.String, (any GRDB.DatabaseValueConvertible)?)...)
 }
 extension GRDB.Row {
   final public var startIndex: GRDB.RowIndex {
@@ -2505,8 +2505,8 @@ extension GRDB.RowIndex {
 }
 extension GRDB.Row {
   public struct ScopesView : Swift.Collection {
-    public typealias Index = Swift.Dictionary<Swift.String, GRDB.LayoutedRowAdapter>.Index
-    public var names: Swift.Dictionary<Swift.String, GRDB.LayoutedRowAdapter>.Keys {
+    public typealias Index = Swift.Dictionary<Swift.String, any GRDB.LayoutedRowAdapter>.Index
+    public var names: Swift.Dictionary<Swift.String, any GRDB.LayoutedRowAdapter>.Keys {
       get
     }
     public var startIndex: GRDB.Row.ScopesView.Index {
@@ -2552,7 +2552,7 @@ extension GRDB.Row {
     public static func == (a: GRDB.Row.PrefetchedRowsView, b: GRDB.Row.PrefetchedRowsView) -> Swift.Bool
   }
 }
-public func splittingRowAdapters(columnCounts: [Swift.Int]) -> [GRDB.RowAdapter]
+public func splittingRowAdapters(columnCounts: [Swift.Int]) -> [any GRDB.RowAdapter]
 public struct LayoutedColumnMapping {
   public let layoutColumns: [(Swift.Int, Swift.String)]
   public init<S>(layoutColumns: S) where S : Swift.Sequence, S.Element == (Swift.Int, Swift.String)
@@ -2561,7 +2561,7 @@ extension GRDB.LayoutedColumnMapping : GRDB.LayoutedRowAdapter {
   public var mapping: GRDB.LayoutedColumnMapping {
     get
   }
-  public var scopes: [Swift.String : GRDB.LayoutedRowAdapter] {
+  public var scopes: [Swift.String : any GRDB.LayoutedRowAdapter] {
     get
   }
 }
@@ -2570,7 +2570,7 @@ extension GRDB.LayoutedColumnMapping : GRDB.RowLayout {
 }
 public protocol LayoutedRowAdapter {
   var mapping: GRDB.LayoutedColumnMapping { get }
-  var scopes: [Swift.String : GRDB.LayoutedRowAdapter] { get }
+  var scopes: [Swift.String : any GRDB.LayoutedRowAdapter] { get }
 }
 public protocol RowLayout {
   var layoutColumns: [(Swift.Int, Swift.String)] { get }
@@ -2583,66 +2583,66 @@ extension GRDB.SelectStatement : GRDB.RowLayout {
   final public func layoutIndex(ofColumn name: Swift.String) -> Swift.Int?
 }
 public protocol RowAdapter {
-  func layoutedAdapter(from layout: GRDB.RowLayout) throws -> GRDB.LayoutedRowAdapter
+  func layoutedAdapter(from layout: any GRDB.RowLayout) throws -> any GRDB.LayoutedRowAdapter
 }
 extension GRDB.RowAdapter {
-  public func addingScopes(_ scopes: [Swift.String : GRDB.RowAdapter]) -> GRDB.RowAdapter
+  public func addingScopes(_ scopes: [Swift.String : any GRDB.RowAdapter]) -> any GRDB.RowAdapter
 }
 public struct EmptyRowAdapter : GRDB.RowAdapter {
   public init()
-  public func layoutedAdapter(from layout: GRDB.RowLayout) throws -> GRDB.LayoutedRowAdapter
+  public func layoutedAdapter(from layout: any GRDB.RowLayout) throws -> any GRDB.LayoutedRowAdapter
 }
 public struct ColumnMapping : GRDB.RowAdapter {
   public init(_ mapping: [Swift.String : Swift.String])
-  public func layoutedAdapter(from layout: GRDB.RowLayout) throws -> GRDB.LayoutedRowAdapter
+  public func layoutedAdapter(from layout: any GRDB.RowLayout) throws -> any GRDB.LayoutedRowAdapter
 }
 public struct SuffixRowAdapter : GRDB.RowAdapter {
   public init(fromIndex index: Swift.Int)
-  public func layoutedAdapter(from layout: GRDB.RowLayout) throws -> GRDB.LayoutedRowAdapter
+  public func layoutedAdapter(from layout: any GRDB.RowLayout) throws -> any GRDB.LayoutedRowAdapter
 }
 public struct RangeRowAdapter : GRDB.RowAdapter {
   public init(_ range: Swift.CountableRange<Swift.Int>)
   public init(_ range: Swift.CountableClosedRange<Swift.Int>)
-  public func layoutedAdapter(from layout: GRDB.RowLayout) throws -> GRDB.LayoutedRowAdapter
+  public func layoutedAdapter(from layout: any GRDB.RowLayout) throws -> any GRDB.LayoutedRowAdapter
 }
 public struct ScopeAdapter : GRDB.RowAdapter {
-  public init(_ scopes: [Swift.String : GRDB.RowAdapter])
-  public init(base: GRDB.RowAdapter, scopes: [Swift.String : GRDB.RowAdapter])
-  public func layoutedAdapter(from layout: GRDB.RowLayout) throws -> GRDB.LayoutedRowAdapter
+  public init(_ scopes: [Swift.String : any GRDB.RowAdapter])
+  public init(base: any GRDB.RowAdapter, scopes: [Swift.String : any GRDB.RowAdapter])
+  public func layoutedAdapter(from layout: any GRDB.RowLayout) throws -> any GRDB.LayoutedRowAdapter
 }
 public struct SQLAssociation {
 }
 public struct SQLCollatedExpression {
-  public let expression: GRDB.SQLExpression
+  public let expression: any GRDB.SQLExpression
   public let collationName: GRDB.Database.CollationName
-  public var asc: GRDB.SQLOrderingTerm {
+  public var asc: any GRDB.SQLOrderingTerm {
     get
   }
-  public var desc: GRDB.SQLOrderingTerm {
+  public var desc: any GRDB.SQLOrderingTerm {
     get
   }
 }
 extension GRDB.SQLCollatedExpression : GRDB.SQLOrderingTerm {
-  public var reversed: GRDB.SQLOrderingTerm {
+  public var reversed: any GRDB.SQLOrderingTerm {
     get
   }
   public func orderingTermSQL(_ context: inout GRDB.SQLGenerationContext) -> Swift.String
-  public func qualifiedOrdering(with alias: GRDB.TableAlias) -> GRDB.SQLOrderingTerm
+  public func qualifiedOrdering(with alias: GRDB.TableAlias) -> any GRDB.SQLOrderingTerm
 }
 public protocol SQLCollection {
   func collectionSQL(_ context: inout GRDB.SQLGenerationContext) -> Swift.String
-  func contains(_ value: GRDB.SQLExpressible) -> GRDB.SQLExpression
+  func contains(_ value: any GRDB.SQLExpressible) -> any GRDB.SQLExpression
 }
 extension GRDB.SQLCollection {
-  public func contains(_ value: GRDB.SQLExpressible) -> GRDB.SQLExpression
+  public func contains(_ value: any GRDB.SQLExpressible) -> any GRDB.SQLExpression
 }
 public protocol SQLExpressible {
-  var sqlExpression: GRDB.SQLExpression { get }
+  var sqlExpression: any GRDB.SQLExpression { get }
 }
 public protocol SQLSpecificExpressible : GRDB.SQLExpressible {
 }
 extension GRDB.SQLExpressible where Self : GRDB.SQLOrderingTerm {
-  public var reversed: GRDB.SQLOrderingTerm {
+  public var reversed: any GRDB.SQLOrderingTerm {
     get
   }
   public func orderingTermSQL(_ context: inout GRDB.SQLGenerationContext) -> Swift.String
@@ -2655,20 +2655,20 @@ extension GRDB.SQLExpressible where Self : GRDB.SQLSelectable {
 }
 public protocol SQLExpression : GRDB.SQLOrderingTerm, GRDB.SQLSelectable, GRDB.SQLSpecificExpressible {
   func expressionSQL(_ context: inout GRDB.SQLGenerationContext, wrappedInParenthesis: Swift.Bool) -> Swift.String
-  var negated: GRDB.SQLExpression { get }
+  var negated: any GRDB.SQLExpression { get }
   func matchedRowIds(rowIdName: Swift.String?) -> Swift.Set<Swift.Int64>?
-  func qualifiedExpression(with alias: GRDB.TableAlias) -> GRDB.SQLExpression
+  func qualifiedExpression(with alias: GRDB.TableAlias) -> any GRDB.SQLExpression
 }
 extension GRDB.SQLExpression {
-  public var negated: GRDB.SQLExpression {
+  public var negated: any GRDB.SQLExpression {
     get
   }
   public func matchedRowIds(rowIdName: Swift.String?) -> Swift.Set<Swift.Int64>?
-  public func qualifiedSelectable(with alias: GRDB.TableAlias) -> GRDB.SQLSelectable
-  public func qualifiedOrdering(with alias: GRDB.TableAlias) -> GRDB.SQLOrderingTerm
+  public func qualifiedSelectable(with alias: GRDB.TableAlias) -> any GRDB.SQLSelectable
+  public func qualifiedOrdering(with alias: GRDB.TableAlias) -> any GRDB.SQLOrderingTerm
 }
 extension GRDB.SQLExpression {
-  public var sqlExpression: GRDB.SQLExpression {
+  public var sqlExpression: any GRDB.SQLExpression {
     get
   }
 }
@@ -2693,10 +2693,10 @@ public struct SQLUnaryOperator : Swift.Hashable {
 }
 public struct SQLExpressionUnary : GRDB.SQLExpression {
   public let op: GRDB.SQLUnaryOperator
-  public let expression: GRDB.SQLExpression
-  public init(_ op: GRDB.SQLUnaryOperator, _ value: GRDB.SQLExpressible)
+  public let expression: any GRDB.SQLExpression
+  public init(_ op: GRDB.SQLUnaryOperator, _ value: any GRDB.SQLExpressible)
   public func expressionSQL(_ context: inout GRDB.SQLGenerationContext, wrappedInParenthesis: Swift.Bool) -> Swift.String
-  public func qualifiedExpression(with alias: GRDB.TableAlias) -> GRDB.SQLExpression
+  public func qualifiedExpression(with alias: GRDB.TableAlias) -> any GRDB.SQLExpression
 }
 public struct SQLBinaryOperator : Swift.Hashable {
   public let sql: Swift.String
@@ -2712,15 +2712,15 @@ public struct SQLBinaryOperator : Swift.Hashable {
   }
 }
 public struct SQLExpressionBinary : GRDB.SQLExpression {
-  public let lhs: GRDB.SQLExpression
+  public let lhs: any GRDB.SQLExpression
   public let op: GRDB.SQLBinaryOperator
-  public let rhs: GRDB.SQLExpression
-  public init(_ op: GRDB.SQLBinaryOperator, _ lhs: GRDB.SQLExpressible, _ rhs: GRDB.SQLExpressible)
+  public let rhs: any GRDB.SQLExpression
+  public init(_ op: GRDB.SQLBinaryOperator, _ lhs: any GRDB.SQLExpressible, _ rhs: any GRDB.SQLExpressible)
   public func expressionSQL(_ context: inout GRDB.SQLGenerationContext, wrappedInParenthesis: Swift.Bool) -> Swift.String
-  public var negated: GRDB.SQLExpression {
+  public var negated: any GRDB.SQLExpression {
     get
   }
-  public func qualifiedExpression(with alias: GRDB.TableAlias) -> GRDB.SQLExpression
+  public func qualifiedExpression(with alias: GRDB.TableAlias) -> any GRDB.SQLExpression
 }
 public struct SQLAssociativeBinaryOperator : Swift.Hashable {
   public let sql: Swift.String
@@ -2733,8 +2733,8 @@ public struct SQLAssociativeBinaryOperator : Swift.Hashable {
     get
   }
 }
-extension Swift.Sequence where Self.Element == GRDB.SQLExpression {
-  public func joined(operator: GRDB.SQLAssociativeBinaryOperator) -> GRDB.SQLExpression
+extension Swift.Sequence where Self.Element == any GRDB.SQLExpression {
+  public func joined(operator: GRDB.SQLAssociativeBinaryOperator) -> any GRDB.SQLExpression
 }
 public struct SQLFunctionName : Swift.Hashable {
   public var sql: Swift.String
@@ -2747,67 +2747,67 @@ public struct SQLFunctionName : Swift.Hashable {
 }
 public struct SQLExpressionFunction : GRDB.SQLExpression {
   public let functionName: GRDB.SQLFunctionName
-  public let arguments: [GRDB.SQLExpression]
-  public init(_ functionName: GRDB.SQLFunctionName, arguments: [GRDB.SQLExpression])
-  public init(_ functionName: GRDB.SQLFunctionName, arguments: GRDB.SQLExpressible...)
+  public let arguments: [any GRDB.SQLExpression]
+  public init(_ functionName: GRDB.SQLFunctionName, arguments: [any GRDB.SQLExpression])
+  public init(_ functionName: GRDB.SQLFunctionName, arguments: any GRDB.SQLExpressible...)
   public func expressionSQL(_ context: inout GRDB.SQLGenerationContext, wrappedInParenthesis: Swift.Bool) -> Swift.String
-  public func qualifiedExpression(with alias: GRDB.TableAlias) -> GRDB.SQLExpression
+  public func qualifiedExpression(with alias: GRDB.TableAlias) -> any GRDB.SQLExpression
 }
 extension GRDB.DatabaseFunction {
-  final public func apply(_ arguments: GRDB.SQLExpressible...) -> GRDB.SQLExpression
+  final public func apply(_ arguments: any GRDB.SQLExpressible...) -> any GRDB.SQLExpression
 }
 extension GRDB.SQLFunctionName {
   public static let abs: GRDB.SQLFunctionName
 }
-public func abs(_ value: GRDB.SQLSpecificExpressible) -> GRDB.SQLExpression
+public func abs(_ value: any GRDB.SQLSpecificExpressible) -> any GRDB.SQLExpression
 extension GRDB.SQLFunctionName {
   public static let avg: GRDB.SQLFunctionName
 }
-public func average(_ value: GRDB.SQLSpecificExpressible) -> GRDB.SQLExpression
-public func count(_ counted: GRDB.SQLSelectable) -> GRDB.SQLExpression
-public func count(distinct value: GRDB.SQLSpecificExpressible) -> GRDB.SQLExpression
+public func average(_ value: any GRDB.SQLSpecificExpressible) -> any GRDB.SQLExpression
+public func count(_ counted: any GRDB.SQLSelectable) -> any GRDB.SQLExpression
+public func count(distinct value: any GRDB.SQLSpecificExpressible) -> any GRDB.SQLExpression
 extension GRDB.SQLFunctionName {
   public static let ifNull: GRDB.SQLFunctionName
 }
-public func ?? (lhs: GRDB.SQLSpecificExpressible, rhs: GRDB.SQLExpressible) -> GRDB.SQLExpression
+public func ?? (lhs: any GRDB.SQLSpecificExpressible, rhs: any GRDB.SQLExpressible) -> any GRDB.SQLExpression
 extension GRDB.SQLFunctionName {
   public static let length: GRDB.SQLFunctionName
 }
-public func length(_ value: GRDB.SQLSpecificExpressible) -> GRDB.SQLExpression
+public func length(_ value: any GRDB.SQLSpecificExpressible) -> any GRDB.SQLExpression
 extension GRDB.SQLFunctionName {
   public static let max: GRDB.SQLFunctionName
 }
-public func max(_ value: GRDB.SQLSpecificExpressible) -> GRDB.SQLExpression
+public func max(_ value: any GRDB.SQLSpecificExpressible) -> any GRDB.SQLExpression
 extension GRDB.SQLFunctionName {
   public static let min: GRDB.SQLFunctionName
 }
-public func min(_ value: GRDB.SQLSpecificExpressible) -> GRDB.SQLExpression
+public func min(_ value: any GRDB.SQLSpecificExpressible) -> any GRDB.SQLExpression
 extension GRDB.SQLFunctionName {
   public static let sum: GRDB.SQLFunctionName
 }
-public func sum(_ value: GRDB.SQLSpecificExpressible) -> GRDB.SQLExpression
+public func sum(_ value: any GRDB.SQLSpecificExpressible) -> any GRDB.SQLExpression
 extension GRDB.SQLSpecificExpressible {
-  public var capitalized: GRDB.SQLExpression {
+  public var capitalized: any GRDB.SQLExpression {
     get
   }
-  public var lowercased: GRDB.SQLExpression {
+  public var lowercased: any GRDB.SQLExpression {
     get
   }
-  public var uppercased: GRDB.SQLExpression {
+  public var uppercased: any GRDB.SQLExpression {
     get
   }
 }
 extension GRDB.SQLSpecificExpressible {
   @available(iOS 9.0, macOS 10.11, watchOS 3.0, *)
-  public var localizedCapitalized: GRDB.SQLExpression {
+  public var localizedCapitalized: any GRDB.SQLExpression {
     get
   }
   @available(iOS 9.0, macOS 10.11, watchOS 3.0, *)
-  public var localizedLowercased: GRDB.SQLExpression {
+  public var localizedLowercased: any GRDB.SQLExpression {
     get
   }
   @available(iOS 9.0, macOS 10.11, watchOS 3.0, *)
-  public var localizedUppercased: GRDB.SQLExpression {
+  public var localizedUppercased: any GRDB.SQLExpression {
     get
   }
 }
@@ -2815,10 +2815,10 @@ public struct SQLGenerationContext {
 }
 @_hasMissingDesignatedInitializers public class TableAlias : Swift.Hashable {
   public init(name: Swift.String? = nil)
-  public subscript(selectable: GRDB.SQLSelectable) -> GRDB.SQLSelectable {
+  public subscript(selectable: any GRDB.SQLSelectable) -> any GRDB.SQLSelectable {
     get
   }
-  public subscript(expression: GRDB.SQLExpression) -> GRDB.SQLExpression {
+  public subscript(expression: any GRDB.SQLExpression) -> any GRDB.SQLExpression {
     get
   }
   public func hash(into hasher: inout Swift.Hasher)
@@ -2838,15 +2838,15 @@ public struct SQLInterpolation : Swift.StringInterpolationProtocol {
 extension GRDB.SQLInterpolation {
   public mutating func appendInterpolation<T>(_ table: T.Type) where T : GRDB.TableRecord
   public mutating func appendInterpolation<T>(tableOf record: T) where T : GRDB.TableRecord
-  public mutating func appendInterpolation(_ selection: GRDB.SQLSelectable)
-  public mutating func appendInterpolation(_ expressible: GRDB.SQLExpressible & GRDB.SQLOrderingTerm & GRDB.SQLSelectable)
-  public mutating func appendInterpolation(_ codingKey: GRDB.SQLExpressible & GRDB.SQLOrderingTerm & GRDB.SQLSelectable & Swift.CodingKey)
-  public mutating func appendInterpolation(_ expressible: GRDB.SQLExpressible?)
-  public mutating func appendInterpolation(_ codingKey: Swift.CodingKey)
+  public mutating func appendInterpolation(_ selection: any GRDB.SQLSelectable)
+  public mutating func appendInterpolation(_ expressible: any GRDB.SQLExpressible & GRDB.SQLOrderingTerm & GRDB.SQLSelectable)
+  public mutating func appendInterpolation(_ codingKey: any GRDB.SQLExpressible & GRDB.SQLOrderingTerm & GRDB.SQLSelectable & Swift.CodingKey)
+  public mutating func appendInterpolation(_ expressible: (any GRDB.SQLExpressible)?)
+  public mutating func appendInterpolation(_ codingKey: any Swift.CodingKey)
   public mutating func appendInterpolation<T>(_ expressible: T) where T : GRDB.SQLExpressible, T : Swift.Sequence, T.Element : GRDB.SQLExpressible
   public mutating func appendInterpolation<S>(_ sequence: S) where S : Swift.Sequence, S.Element : GRDB.SQLExpressible
-  public mutating func appendInterpolation<S>(_ sequence: S) where S : Swift.Sequence, S.Element == GRDB.SQLExpression
-  public mutating func appendInterpolation(_ ordering: GRDB.SQLOrderingTerm)
+  public mutating func appendInterpolation<S>(_ sequence: S) where S : Swift.Sequence, S.Element == any GRDB.SQLExpression
+  public mutating func appendInterpolation(_ ordering: any GRDB.SQLOrderingTerm)
   public mutating func appendInterpolation<T>(_ request: GRDB.SQLRequest<T>)
 }
 public struct SQLLiteral {
@@ -2857,7 +2857,7 @@ public struct SQLLiteral {
     get
   }
   public init(sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments())
-  public init(_ expression: GRDB.SQLExpression)
+  public init(_ expression: any GRDB.SQLExpression)
   public func mapSQL(_ transform: @escaping (Swift.String) -> Swift.String) -> GRDB.SQLLiteral
 }
 extension GRDB.SQLLiteral {
@@ -2867,7 +2867,7 @@ extension GRDB.SQLLiteral {
   public mutating func append(sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments())
 }
 extension GRDB.SQLLiteral {
-  public var sqlExpression: GRDB.SQLExpression {
+  public var sqlExpression: any GRDB.SQLExpression {
     get
   }
 }
@@ -2899,108 +2899,108 @@ public struct SQLExpressionLiteral : GRDB.SQLExpression {
   @available(*, deprecated, message: "Use SQLiteral.sqlExpression instead")
   public init(literal sqlLiteral: GRDB.SQLLiteral)
   public func expressionSQL(_ context: inout GRDB.SQLGenerationContext, wrappedInParenthesis: Swift.Bool) -> Swift.String
-  public func qualifiedExpression(with alias: GRDB.TableAlias) -> GRDB.SQLExpression
+  public func qualifiedExpression(with alias: GRDB.TableAlias) -> any GRDB.SQLExpression
 }
-public func == (lhs: GRDB.SQLSpecificExpressible, rhs: GRDB.SQLExpressible?) -> GRDB.SQLExpression
-public func == (lhs: GRDB.SQLCollatedExpression, rhs: GRDB.SQLExpressible?) -> GRDB.SQLExpression
-public func == (lhs: GRDB.SQLSpecificExpressible, rhs: Swift.Bool) -> GRDB.SQLExpression
-public func == (lhs: GRDB.SQLExpressible?, rhs: GRDB.SQLSpecificExpressible) -> GRDB.SQLExpression
-public func == (lhs: GRDB.SQLExpressible?, rhs: GRDB.SQLCollatedExpression) -> GRDB.SQLExpression
-public func == (lhs: Swift.Bool, rhs: GRDB.SQLSpecificExpressible) -> GRDB.SQLExpression
-public func == (lhs: GRDB.SQLSpecificExpressible, rhs: GRDB.SQLSpecificExpressible) -> GRDB.SQLExpression
-public func != (lhs: GRDB.SQLSpecificExpressible, rhs: GRDB.SQLExpressible?) -> GRDB.SQLExpression
-public func != (lhs: GRDB.SQLCollatedExpression, rhs: GRDB.SQLExpressible?) -> GRDB.SQLExpression
-public func != (lhs: GRDB.SQLSpecificExpressible, rhs: Swift.Bool) -> GRDB.SQLExpression
-public func != (lhs: GRDB.SQLExpressible?, rhs: GRDB.SQLSpecificExpressible) -> GRDB.SQLExpression
-public func != (lhs: GRDB.SQLExpressible?, rhs: GRDB.SQLCollatedExpression) -> GRDB.SQLExpression
-public func != (lhs: Swift.Bool, rhs: GRDB.SQLSpecificExpressible) -> GRDB.SQLExpression
-public func != (lhs: GRDB.SQLSpecificExpressible, rhs: GRDB.SQLSpecificExpressible) -> GRDB.SQLExpression
-public func === (lhs: GRDB.SQLSpecificExpressible, rhs: GRDB.SQLExpressible?) -> GRDB.SQLExpression
-public func === (lhs: GRDB.SQLCollatedExpression, rhs: GRDB.SQLExpressible?) -> GRDB.SQLExpression
-public func === (lhs: GRDB.SQLExpressible?, rhs: GRDB.SQLSpecificExpressible) -> GRDB.SQLExpression
-public func === (lhs: GRDB.SQLExpressible?, rhs: GRDB.SQLCollatedExpression) -> GRDB.SQLExpression
-public func === (lhs: GRDB.SQLSpecificExpressible, rhs: GRDB.SQLSpecificExpressible) -> GRDB.SQLExpression
-public func !== (lhs: GRDB.SQLSpecificExpressible, rhs: GRDB.SQLExpressible?) -> GRDB.SQLExpression
-public func !== (lhs: GRDB.SQLCollatedExpression, rhs: GRDB.SQLExpressible?) -> GRDB.SQLExpression
-public func !== (lhs: GRDB.SQLExpressible?, rhs: GRDB.SQLSpecificExpressible) -> GRDB.SQLExpression
-public func !== (lhs: GRDB.SQLExpressible?, rhs: GRDB.SQLCollatedExpression) -> GRDB.SQLExpression
-public func !== (lhs: GRDB.SQLSpecificExpressible, rhs: GRDB.SQLSpecificExpressible) -> GRDB.SQLExpression
-public func < (lhs: GRDB.SQLSpecificExpressible, rhs: GRDB.SQLExpressible) -> GRDB.SQLExpression
-public func < (lhs: GRDB.SQLCollatedExpression, rhs: GRDB.SQLExpressible) -> GRDB.SQLExpression
-public func < (lhs: GRDB.SQLExpressible, rhs: GRDB.SQLSpecificExpressible) -> GRDB.SQLExpression
-public func < (lhs: GRDB.SQLExpressible, rhs: GRDB.SQLCollatedExpression) -> GRDB.SQLExpression
-public func < (lhs: GRDB.SQLSpecificExpressible, rhs: GRDB.SQLSpecificExpressible) -> GRDB.SQLExpression
-public func <= (lhs: GRDB.SQLSpecificExpressible, rhs: GRDB.SQLExpressible) -> GRDB.SQLExpression
-public func <= (lhs: GRDB.SQLCollatedExpression, rhs: GRDB.SQLExpressible) -> GRDB.SQLExpression
-public func <= (lhs: GRDB.SQLExpressible, rhs: GRDB.SQLSpecificExpressible) -> GRDB.SQLExpression
-public func <= (lhs: GRDB.SQLExpressible, rhs: GRDB.SQLCollatedExpression) -> GRDB.SQLExpression
-public func <= (lhs: GRDB.SQLSpecificExpressible, rhs: GRDB.SQLSpecificExpressible) -> GRDB.SQLExpression
-public func > (lhs: GRDB.SQLSpecificExpressible, rhs: GRDB.SQLExpressible) -> GRDB.SQLExpression
-public func > (lhs: GRDB.SQLCollatedExpression, rhs: GRDB.SQLExpressible) -> GRDB.SQLExpression
-public func > (lhs: GRDB.SQLExpressible, rhs: GRDB.SQLSpecificExpressible) -> GRDB.SQLExpression
-public func > (lhs: GRDB.SQLExpressible, rhs: GRDB.SQLCollatedExpression) -> GRDB.SQLExpression
-public func > (lhs: GRDB.SQLSpecificExpressible, rhs: GRDB.SQLSpecificExpressible) -> GRDB.SQLExpression
-public func >= (lhs: GRDB.SQLSpecificExpressible, rhs: GRDB.SQLExpressible) -> GRDB.SQLExpression
-public func >= (lhs: GRDB.SQLCollatedExpression, rhs: GRDB.SQLExpressible) -> GRDB.SQLExpression
-public func >= (lhs: GRDB.SQLExpressible, rhs: GRDB.SQLSpecificExpressible) -> GRDB.SQLExpression
-public func >= (lhs: GRDB.SQLExpressible, rhs: GRDB.SQLCollatedExpression) -> GRDB.SQLExpression
-public func >= (lhs: GRDB.SQLSpecificExpressible, rhs: GRDB.SQLSpecificExpressible) -> GRDB.SQLExpression
+public func == (lhs: any GRDB.SQLSpecificExpressible, rhs: (any GRDB.SQLExpressible)?) -> any GRDB.SQLExpression
+public func == (lhs: GRDB.SQLCollatedExpression, rhs: (any GRDB.SQLExpressible)?) -> any GRDB.SQLExpression
+public func == (lhs: any GRDB.SQLSpecificExpressible, rhs: Swift.Bool) -> any GRDB.SQLExpression
+public func == (lhs: (any GRDB.SQLExpressible)?, rhs: any GRDB.SQLSpecificExpressible) -> any GRDB.SQLExpression
+public func == (lhs: (any GRDB.SQLExpressible)?, rhs: GRDB.SQLCollatedExpression) -> any GRDB.SQLExpression
+public func == (lhs: Swift.Bool, rhs: any GRDB.SQLSpecificExpressible) -> any GRDB.SQLExpression
+public func == (lhs: any GRDB.SQLSpecificExpressible, rhs: any GRDB.SQLSpecificExpressible) -> any GRDB.SQLExpression
+public func != (lhs: any GRDB.SQLSpecificExpressible, rhs: (any GRDB.SQLExpressible)?) -> any GRDB.SQLExpression
+public func != (lhs: GRDB.SQLCollatedExpression, rhs: (any GRDB.SQLExpressible)?) -> any GRDB.SQLExpression
+public func != (lhs: any GRDB.SQLSpecificExpressible, rhs: Swift.Bool) -> any GRDB.SQLExpression
+public func != (lhs: (any GRDB.SQLExpressible)?, rhs: any GRDB.SQLSpecificExpressible) -> any GRDB.SQLExpression
+public func != (lhs: (any GRDB.SQLExpressible)?, rhs: GRDB.SQLCollatedExpression) -> any GRDB.SQLExpression
+public func != (lhs: Swift.Bool, rhs: any GRDB.SQLSpecificExpressible) -> any GRDB.SQLExpression
+public func != (lhs: any GRDB.SQLSpecificExpressible, rhs: any GRDB.SQLSpecificExpressible) -> any GRDB.SQLExpression
+public func === (lhs: any GRDB.SQLSpecificExpressible, rhs: (any GRDB.SQLExpressible)?) -> any GRDB.SQLExpression
+public func === (lhs: GRDB.SQLCollatedExpression, rhs: (any GRDB.SQLExpressible)?) -> any GRDB.SQLExpression
+public func === (lhs: (any GRDB.SQLExpressible)?, rhs: any GRDB.SQLSpecificExpressible) -> any GRDB.SQLExpression
+public func === (lhs: (any GRDB.SQLExpressible)?, rhs: GRDB.SQLCollatedExpression) -> any GRDB.SQLExpression
+public func === (lhs: any GRDB.SQLSpecificExpressible, rhs: any GRDB.SQLSpecificExpressible) -> any GRDB.SQLExpression
+public func !== (lhs: any GRDB.SQLSpecificExpressible, rhs: (any GRDB.SQLExpressible)?) -> any GRDB.SQLExpression
+public func !== (lhs: GRDB.SQLCollatedExpression, rhs: (any GRDB.SQLExpressible)?) -> any GRDB.SQLExpression
+public func !== (lhs: (any GRDB.SQLExpressible)?, rhs: any GRDB.SQLSpecificExpressible) -> any GRDB.SQLExpression
+public func !== (lhs: (any GRDB.SQLExpressible)?, rhs: GRDB.SQLCollatedExpression) -> any GRDB.SQLExpression
+public func !== (lhs: any GRDB.SQLSpecificExpressible, rhs: any GRDB.SQLSpecificExpressible) -> any GRDB.SQLExpression
+public func < (lhs: any GRDB.SQLSpecificExpressible, rhs: any GRDB.SQLExpressible) -> any GRDB.SQLExpression
+public func < (lhs: GRDB.SQLCollatedExpression, rhs: any GRDB.SQLExpressible) -> any GRDB.SQLExpression
+public func < (lhs: any GRDB.SQLExpressible, rhs: any GRDB.SQLSpecificExpressible) -> any GRDB.SQLExpression
+public func < (lhs: any GRDB.SQLExpressible, rhs: GRDB.SQLCollatedExpression) -> any GRDB.SQLExpression
+public func < (lhs: any GRDB.SQLSpecificExpressible, rhs: any GRDB.SQLSpecificExpressible) -> any GRDB.SQLExpression
+public func <= (lhs: any GRDB.SQLSpecificExpressible, rhs: any GRDB.SQLExpressible) -> any GRDB.SQLExpression
+public func <= (lhs: GRDB.SQLCollatedExpression, rhs: any GRDB.SQLExpressible) -> any GRDB.SQLExpression
+public func <= (lhs: any GRDB.SQLExpressible, rhs: any GRDB.SQLSpecificExpressible) -> any GRDB.SQLExpression
+public func <= (lhs: any GRDB.SQLExpressible, rhs: GRDB.SQLCollatedExpression) -> any GRDB.SQLExpression
+public func <= (lhs: any GRDB.SQLSpecificExpressible, rhs: any GRDB.SQLSpecificExpressible) -> any GRDB.SQLExpression
+public func > (lhs: any GRDB.SQLSpecificExpressible, rhs: any GRDB.SQLExpressible) -> any GRDB.SQLExpression
+public func > (lhs: GRDB.SQLCollatedExpression, rhs: any GRDB.SQLExpressible) -> any GRDB.SQLExpression
+public func > (lhs: any GRDB.SQLExpressible, rhs: any GRDB.SQLSpecificExpressible) -> any GRDB.SQLExpression
+public func > (lhs: any GRDB.SQLExpressible, rhs: GRDB.SQLCollatedExpression) -> any GRDB.SQLExpression
+public func > (lhs: any GRDB.SQLSpecificExpressible, rhs: any GRDB.SQLSpecificExpressible) -> any GRDB.SQLExpression
+public func >= (lhs: any GRDB.SQLSpecificExpressible, rhs: any GRDB.SQLExpressible) -> any GRDB.SQLExpression
+public func >= (lhs: GRDB.SQLCollatedExpression, rhs: any GRDB.SQLExpressible) -> any GRDB.SQLExpression
+public func >= (lhs: any GRDB.SQLExpressible, rhs: any GRDB.SQLSpecificExpressible) -> any GRDB.SQLExpression
+public func >= (lhs: any GRDB.SQLExpressible, rhs: GRDB.SQLCollatedExpression) -> any GRDB.SQLExpression
+public func >= (lhs: any GRDB.SQLSpecificExpressible, rhs: any GRDB.SQLSpecificExpressible) -> any GRDB.SQLExpression
 extension Swift.Range where Bound : GRDB.SQLExpressible {
-  public func contains(_ element: GRDB.SQLSpecificExpressible) -> GRDB.SQLExpression
-  public func contains(_ element: GRDB.SQLCollatedExpression) -> GRDB.SQLExpression
+  public func contains(_ element: any GRDB.SQLSpecificExpressible) -> any GRDB.SQLExpression
+  public func contains(_ element: GRDB.SQLCollatedExpression) -> any GRDB.SQLExpression
 }
 extension Swift.ClosedRange where Bound : GRDB.SQLExpressible {
-  public func contains(_ element: GRDB.SQLSpecificExpressible) -> GRDB.SQLExpression
-  public func contains(_ element: GRDB.SQLCollatedExpression) -> GRDB.SQLExpression
+  public func contains(_ element: any GRDB.SQLSpecificExpressible) -> any GRDB.SQLExpression
+  public func contains(_ element: GRDB.SQLCollatedExpression) -> any GRDB.SQLExpression
 }
 extension Swift.CountableRange where Bound : GRDB.SQLExpressible, Bound : Swift.Strideable, Bound.Stride : Swift.SignedInteger {
-  public func contains(_ element: GRDB.SQLSpecificExpressible) -> GRDB.SQLExpression
+  public func contains(_ element: any GRDB.SQLSpecificExpressible) -> any GRDB.SQLExpression
 }
 extension Swift.CountableClosedRange where Bound : GRDB.SQLExpressible, Bound : Swift.Strideable, Bound.Stride : Swift.SignedInteger {
-  public func contains(_ element: GRDB.SQLSpecificExpressible) -> GRDB.SQLExpression
+  public func contains(_ element: any GRDB.SQLSpecificExpressible) -> any GRDB.SQLExpression
 }
 extension Swift.Sequence where Self.Element : GRDB.SQLExpressible {
-  public func contains(_ element: GRDB.SQLSpecificExpressible) -> GRDB.SQLExpression
-  public func contains(_ element: GRDB.SQLCollatedExpression) -> GRDB.SQLExpression
+  public func contains(_ element: any GRDB.SQLSpecificExpressible) -> any GRDB.SQLExpression
+  public func contains(_ element: GRDB.SQLCollatedExpression) -> any GRDB.SQLExpression
 }
 extension GRDB.SQLAssociativeBinaryOperator {
   public static let add: GRDB.SQLAssociativeBinaryOperator
   public static let multiply: GRDB.SQLAssociativeBinaryOperator
 }
-public func * (lhs: GRDB.SQLSpecificExpressible, rhs: GRDB.SQLExpressible) -> GRDB.SQLExpression
-public func * (lhs: GRDB.SQLExpressible, rhs: GRDB.SQLSpecificExpressible) -> GRDB.SQLExpression
-public func * (lhs: GRDB.SQLSpecificExpressible, rhs: GRDB.SQLSpecificExpressible) -> GRDB.SQLExpression
-public func / (lhs: GRDB.SQLSpecificExpressible, rhs: GRDB.SQLExpressible) -> GRDB.SQLExpression
-public func / (lhs: GRDB.SQLExpressible, rhs: GRDB.SQLSpecificExpressible) -> GRDB.SQLExpression
-public func / (lhs: GRDB.SQLSpecificExpressible, rhs: GRDB.SQLSpecificExpressible) -> GRDB.SQLExpression
-public func + (lhs: GRDB.SQLSpecificExpressible, rhs: GRDB.SQLExpressible) -> GRDB.SQLExpression
-public func + (lhs: GRDB.SQLExpressible, rhs: GRDB.SQLSpecificExpressible) -> GRDB.SQLExpression
-public func + (lhs: GRDB.SQLSpecificExpressible, rhs: GRDB.SQLSpecificExpressible) -> GRDB.SQLExpression
-prefix public func - (value: GRDB.SQLSpecificExpressible) -> GRDB.SQLExpression
-public func - (lhs: GRDB.SQLSpecificExpressible, rhs: GRDB.SQLExpressible) -> GRDB.SQLExpression
-public func - (lhs: GRDB.SQLExpressible, rhs: GRDB.SQLSpecificExpressible) -> GRDB.SQLExpression
-public func - (lhs: GRDB.SQLSpecificExpressible, rhs: GRDB.SQLSpecificExpressible) -> GRDB.SQLExpression
+public func * (lhs: any GRDB.SQLSpecificExpressible, rhs: any GRDB.SQLExpressible) -> any GRDB.SQLExpression
+public func * (lhs: any GRDB.SQLExpressible, rhs: any GRDB.SQLSpecificExpressible) -> any GRDB.SQLExpression
+public func * (lhs: any GRDB.SQLSpecificExpressible, rhs: any GRDB.SQLSpecificExpressible) -> any GRDB.SQLExpression
+public func / (lhs: any GRDB.SQLSpecificExpressible, rhs: any GRDB.SQLExpressible) -> any GRDB.SQLExpression
+public func / (lhs: any GRDB.SQLExpressible, rhs: any GRDB.SQLSpecificExpressible) -> any GRDB.SQLExpression
+public func / (lhs: any GRDB.SQLSpecificExpressible, rhs: any GRDB.SQLSpecificExpressible) -> any GRDB.SQLExpression
+public func + (lhs: any GRDB.SQLSpecificExpressible, rhs: any GRDB.SQLExpressible) -> any GRDB.SQLExpression
+public func + (lhs: any GRDB.SQLExpressible, rhs: any GRDB.SQLSpecificExpressible) -> any GRDB.SQLExpression
+public func + (lhs: any GRDB.SQLSpecificExpressible, rhs: any GRDB.SQLSpecificExpressible) -> any GRDB.SQLExpression
+prefix public func - (value: any GRDB.SQLSpecificExpressible) -> any GRDB.SQLExpression
+public func - (lhs: any GRDB.SQLSpecificExpressible, rhs: any GRDB.SQLExpressible) -> any GRDB.SQLExpression
+public func - (lhs: any GRDB.SQLExpressible, rhs: any GRDB.SQLSpecificExpressible) -> any GRDB.SQLExpression
+public func - (lhs: any GRDB.SQLSpecificExpressible, rhs: any GRDB.SQLSpecificExpressible) -> any GRDB.SQLExpression
 extension GRDB.SQLAssociativeBinaryOperator {
   public static let and: GRDB.SQLAssociativeBinaryOperator
   public static let or: GRDB.SQLAssociativeBinaryOperator
 }
-public func && (lhs: GRDB.SQLSpecificExpressible, rhs: GRDB.SQLExpressible) -> GRDB.SQLExpression
-public func && (lhs: GRDB.SQLExpressible, rhs: GRDB.SQLSpecificExpressible) -> GRDB.SQLExpression
-public func && (lhs: GRDB.SQLSpecificExpressible, rhs: GRDB.SQLSpecificExpressible) -> GRDB.SQLExpression
-public func || (lhs: GRDB.SQLSpecificExpressible, rhs: GRDB.SQLExpressible) -> GRDB.SQLExpression
-public func || (lhs: GRDB.SQLExpressible, rhs: GRDB.SQLSpecificExpressible) -> GRDB.SQLExpression
-public func || (lhs: GRDB.SQLSpecificExpressible, rhs: GRDB.SQLSpecificExpressible) -> GRDB.SQLExpression
-prefix public func ! (value: GRDB.SQLSpecificExpressible) -> GRDB.SQLExpression
+public func && (lhs: any GRDB.SQLSpecificExpressible, rhs: any GRDB.SQLExpressible) -> any GRDB.SQLExpression
+public func && (lhs: any GRDB.SQLExpressible, rhs: any GRDB.SQLSpecificExpressible) -> any GRDB.SQLExpression
+public func && (lhs: any GRDB.SQLSpecificExpressible, rhs: any GRDB.SQLSpecificExpressible) -> any GRDB.SQLExpression
+public func || (lhs: any GRDB.SQLSpecificExpressible, rhs: any GRDB.SQLExpressible) -> any GRDB.SQLExpression
+public func || (lhs: any GRDB.SQLExpressible, rhs: any GRDB.SQLSpecificExpressible) -> any GRDB.SQLExpression
+public func || (lhs: any GRDB.SQLSpecificExpressible, rhs: any GRDB.SQLSpecificExpressible) -> any GRDB.SQLExpression
+prefix public func ! (value: any GRDB.SQLSpecificExpressible) -> any GRDB.SQLExpression
 extension GRDB.SQLSpecificExpressible {
-  public func like(_ pattern: GRDB.SQLExpressible) -> GRDB.SQLExpression
+  public func like(_ pattern: any GRDB.SQLExpressible) -> any GRDB.SQLExpression
 }
 extension GRDB.SQLAssociativeBinaryOperator {
   public static let concat: GRDB.SQLAssociativeBinaryOperator
 }
 public protocol SQLOrderingTerm {
-  var reversed: GRDB.SQLOrderingTerm { get }
+  var reversed: any GRDB.SQLOrderingTerm { get }
   func orderingTermSQL(_ context: inout GRDB.SQLGenerationContext) -> Swift.String
-  func qualifiedOrdering(with alias: GRDB.TableAlias) -> GRDB.SQLOrderingTerm
+  func qualifiedOrdering(with alias: GRDB.TableAlias) -> any GRDB.SQLOrderingTerm
 }
 public struct SQLRequest<T> : GRDB.FetchRequest {
   public typealias RowDecoder = T
@@ -3010,9 +3010,9 @@ public struct SQLRequest<T> : GRDB.FetchRequest {
   public var arguments: GRDB.StatementArguments {
     get
   }
-  public var adapter: GRDB.RowAdapter?
-  public init(sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments(), adapter: GRDB.RowAdapter? = nil, cached: Swift.Bool = false)
-  public init(literal sqlLiteral: GRDB.SQLLiteral, adapter: GRDB.RowAdapter? = nil, cached: Swift.Bool = false)
+  public var adapter: (any GRDB.RowAdapter)?
+  public init(sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments(), adapter: (any GRDB.RowAdapter)? = nil, cached: Swift.Bool = false)
+  public init(literal sqlLiteral: GRDB.SQLLiteral, adapter: (any GRDB.RowAdapter)? = nil, cached: Swift.Bool = false)
   public init<Request>(_ db: GRDB.Database, request: Request, cached: Swift.Bool = false) throws where T == Request.RowDecoder, Request : GRDB.FetchRequest
   public func makePreparedRequest(_ db: GRDB.Database, forSingleResult singleResult: Swift.Bool) throws -> GRDB.PreparedRequest
 }
@@ -3031,11 +3031,11 @@ public protocol SQLSelectable {
   func countedSQL(_ context: inout GRDB.SQLGenerationContext) -> Swift.String
   func count(distinct: Swift.Bool) -> GRDB.SQLCount?
   func columnCount(_ db: GRDB.Database) throws -> Swift.Int
-  func qualifiedSelectable(with alias: GRDB.TableAlias) -> GRDB.SQLSelectable
+  func qualifiedSelectable(with alias: GRDB.TableAlias) -> any GRDB.SQLSelectable
 }
 public enum SQLCount {
   case all
-  case distinct(GRDB.SQLExpression)
+  case distinct(any GRDB.SQLExpression)
 }
 public struct AllColumns {
   public init()
@@ -3044,24 +3044,24 @@ extension GRDB.AllColumns : GRDB.SQLSelectable {
   public func resultColumnSQL(_ context: inout GRDB.SQLGenerationContext) -> Swift.String
   public func countedSQL(_ context: inout GRDB.SQLGenerationContext) -> Swift.String
   public func count(distinct: Swift.Bool) -> GRDB.SQLCount?
-  public func qualifiedSelectable(with alias: GRDB.TableAlias) -> GRDB.SQLSelectable
+  public func qualifiedSelectable(with alias: GRDB.TableAlias) -> any GRDB.SQLSelectable
   public func columnCount(_ db: GRDB.Database) throws -> Swift.Int
 }
 extension GRDB.SQLSpecificExpressible {
-  public var asc: GRDB.SQLOrderingTerm {
+  public var asc: any GRDB.SQLOrderingTerm {
     get
   }
-  public var desc: GRDB.SQLOrderingTerm {
+  public var desc: any GRDB.SQLOrderingTerm {
     get
   }
 }
 extension GRDB.SQLSpecificExpressible {
   @available(*, deprecated, renamed: "forKey(_:)")
-  public func aliased(_ name: Swift.String) -> GRDB.SQLSelectable
-  public func forKey(_ key: Swift.String) -> GRDB.SQLSelectable
+  public func aliased(_ name: Swift.String) -> any GRDB.SQLSelectable
+  public func forKey(_ key: Swift.String) -> any GRDB.SQLSelectable
   @available(*, deprecated, renamed: "forKey(_:)")
-  public func aliased(_ key: Swift.CodingKey) -> GRDB.SQLSelectable
-  public func forKey(_ key: Swift.CodingKey) -> GRDB.SQLSelectable
+  public func aliased(_ key: any Swift.CodingKey) -> any GRDB.SQLSelectable
+  public func forKey(_ key: any Swift.CodingKey) -> any GRDB.SQLSelectable
 }
 extension GRDB.SQLSpecificExpressible {
   public func collating(_ collation: GRDB.Database.CollationName) -> GRDB.SQLCollatedExpression
@@ -3302,26 +3302,26 @@ public struct StatementArguments : Swift.CustomStringConvertible, Swift.Equatabl
     get
   }
   public init()
-  public init<Sequence>(_ sequence: Sequence) where Sequence : Swift.Sequence, Sequence.Element == GRDB.DatabaseValueConvertible?
+  public init<Sequence>(_ sequence: Sequence) where Sequence : Swift.Sequence, Sequence.Element == (any GRDB.DatabaseValueConvertible)?
   public init<Sequence>(_ sequence: Sequence) where Sequence : Swift.Sequence, Sequence.Element : GRDB.DatabaseValueConvertible
   public init?(_ array: [Any])
-  public init(_ dictionary: [Swift.String : GRDB.DatabaseValueConvertible?])
-  public init<Sequence>(_ sequence: Sequence) where Sequence : Swift.Sequence, Sequence.Element == (Swift.String, GRDB.DatabaseValueConvertible?)
+  public init(_ dictionary: [Swift.String : (any GRDB.DatabaseValueConvertible)?])
+  public init<Sequence>(_ sequence: Sequence) where Sequence : Swift.Sequence, Sequence.Element == (Swift.String, (any GRDB.DatabaseValueConvertible)?)
   public init?(_ dictionary: [Swift.AnyHashable : Any])
   public mutating func append(contentsOf arguments: GRDB.StatementArguments) -> [Swift.String : GRDB.DatabaseValue]
   public static func + (lhs: GRDB.StatementArguments, rhs: GRDB.StatementArguments) -> GRDB.StatementArguments
   public static func &+ (lhs: GRDB.StatementArguments, rhs: GRDB.StatementArguments) -> GRDB.StatementArguments
   public static func += (lhs: inout GRDB.StatementArguments, rhs: GRDB.StatementArguments)
   public static func == (a: GRDB.StatementArguments, b: GRDB.StatementArguments) -> Swift.Bool
-  public typealias ArrayLiteralElement = GRDB.DatabaseValueConvertible?
+  public typealias ArrayLiteralElement = (any GRDB.DatabaseValueConvertible)?
   public typealias Key = Swift.String
-  public typealias Value = GRDB.DatabaseValueConvertible?
+  public typealias Value = (any GRDB.DatabaseValueConvertible)?
 }
 extension GRDB.StatementArguments {
-  public init(arrayLiteral elements: GRDB.DatabaseValueConvertible?...)
+  public init(arrayLiteral elements: (any GRDB.DatabaseValueConvertible)?...)
 }
 extension GRDB.StatementArguments {
-  public init(dictionaryLiteral elements: (Swift.String, GRDB.DatabaseValueConvertible?)...)
+  public init(dictionaryLiteral elements: (Swift.String, (any GRDB.DatabaseValueConvertible)?)...)
 }
 extension GRDB.StatementArguments {
   public var description: Swift.String {
@@ -3388,14 +3388,14 @@ public protocol StatementColumnConvertible {
   public typealias Element = Value?
 }
 extension GRDB.DatabaseValueConvertible where Self : GRDB.StatementColumnConvertible {
-  public static func fetchCursor(_ statement: GRDB.SelectStatement, arguments: GRDB.StatementArguments? = nil, adapter: GRDB.RowAdapter? = nil) throws -> GRDB.FastDatabaseValueCursor<Self>
-  public static func fetchAll(_ statement: GRDB.SelectStatement, arguments: GRDB.StatementArguments? = nil, adapter: GRDB.RowAdapter? = nil) throws -> [Self]
-  public static func fetchOne(_ statement: GRDB.SelectStatement, arguments: GRDB.StatementArguments? = nil, adapter: GRDB.RowAdapter? = nil) throws -> Self?
+  public static func fetchCursor(_ statement: GRDB.SelectStatement, arguments: GRDB.StatementArguments? = nil, adapter: (any GRDB.RowAdapter)? = nil) throws -> GRDB.FastDatabaseValueCursor<Self>
+  public static func fetchAll(_ statement: GRDB.SelectStatement, arguments: GRDB.StatementArguments? = nil, adapter: (any GRDB.RowAdapter)? = nil) throws -> [Self]
+  public static func fetchOne(_ statement: GRDB.SelectStatement, arguments: GRDB.StatementArguments? = nil, adapter: (any GRDB.RowAdapter)? = nil) throws -> Self?
 }
 extension GRDB.DatabaseValueConvertible where Self : GRDB.StatementColumnConvertible {
-  public static func fetchCursor(_ db: GRDB.Database, sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments(), adapter: GRDB.RowAdapter? = nil) throws -> GRDB.FastDatabaseValueCursor<Self>
-  public static func fetchAll(_ db: GRDB.Database, sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments(), adapter: GRDB.RowAdapter? = nil) throws -> [Self]
-  public static func fetchOne(_ db: GRDB.Database, sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments(), adapter: GRDB.RowAdapter? = nil) throws -> Self?
+  public static func fetchCursor(_ db: GRDB.Database, sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments(), adapter: (any GRDB.RowAdapter)? = nil) throws -> GRDB.FastDatabaseValueCursor<Self>
+  public static func fetchAll(_ db: GRDB.Database, sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments(), adapter: (any GRDB.RowAdapter)? = nil) throws -> [Self]
+  public static func fetchOne(_ db: GRDB.Database, sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments(), adapter: (any GRDB.RowAdapter)? = nil) throws -> Self?
 }
 extension GRDB.DatabaseValueConvertible where Self : GRDB.StatementColumnConvertible {
   public static func fetchCursor<R>(_ db: GRDB.Database, _ request: R) throws -> GRDB.FastDatabaseValueCursor<Self> where R : GRDB.FetchRequest
@@ -3408,12 +3408,12 @@ extension GRDB.FetchRequest where Self.RowDecoder : GRDB.DatabaseValueConvertibl
   public func fetchOne(_ db: GRDB.Database) throws -> Self.RowDecoder?
 }
 extension Swift.Optional where Wrapped : GRDB.DatabaseValueConvertible, Wrapped : GRDB.StatementColumnConvertible {
-  public static func fetchCursor(_ statement: GRDB.SelectStatement, arguments: GRDB.StatementArguments? = nil, adapter: GRDB.RowAdapter? = nil) throws -> GRDB.FastNullableDatabaseValueCursor<Wrapped>
-  public static func fetchAll(_ statement: GRDB.SelectStatement, arguments: GRDB.StatementArguments? = nil, adapter: GRDB.RowAdapter? = nil) throws -> [Wrapped?]
+  public static func fetchCursor(_ statement: GRDB.SelectStatement, arguments: GRDB.StatementArguments? = nil, adapter: (any GRDB.RowAdapter)? = nil) throws -> GRDB.FastNullableDatabaseValueCursor<Wrapped>
+  public static func fetchAll(_ statement: GRDB.SelectStatement, arguments: GRDB.StatementArguments? = nil, adapter: (any GRDB.RowAdapter)? = nil) throws -> [Wrapped?]
 }
 extension Swift.Optional where Wrapped : GRDB.DatabaseValueConvertible, Wrapped : GRDB.StatementColumnConvertible {
-  public static func fetchCursor(_ db: GRDB.Database, sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments(), adapter: GRDB.RowAdapter? = nil) throws -> GRDB.FastNullableDatabaseValueCursor<Wrapped>
-  public static func fetchAll(_ db: GRDB.Database, sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments(), adapter: GRDB.RowAdapter? = nil) throws -> [Wrapped?]
+  public static func fetchCursor(_ db: GRDB.Database, sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments(), adapter: (any GRDB.RowAdapter)? = nil) throws -> GRDB.FastNullableDatabaseValueCursor<Wrapped>
+  public static func fetchAll(_ db: GRDB.Database, sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments(), adapter: (any GRDB.RowAdapter)? = nil) throws -> [Wrapped?]
 }
 extension Swift.Optional where Wrapped : GRDB.DatabaseValueConvertible, Wrapped : GRDB.StatementColumnConvertible {
   public static func fetchCursor<R>(_ db: GRDB.Database, _ request: R) throws -> GRDB.FastNullableDatabaseValueCursor<Wrapped> where R : GRDB.FetchRequest
@@ -3432,7 +3432,7 @@ extension GRDB.Database {
   final public func drop(table name: Swift.String) throws
   final public func create(index name: Swift.String, on table: Swift.String, columns: [Swift.String], unique: Swift.Bool = false, ifNotExists: Swift.Bool = false) throws
   @available(macOS 10.10, *)
-  final public func create(index name: Swift.String, on table: Swift.String, columns: [Swift.String], unique: Swift.Bool = false, ifNotExists: Swift.Bool = false, condition: GRDB.SQLExpressible) throws
+  final public func create(index name: Swift.String, on table: Swift.String, columns: [Swift.String], unique: Swift.Bool = false, ifNotExists: Swift.Bool = false, condition: any GRDB.SQLExpressible) throws
   final public func drop(index name: Swift.String) throws
   final public func reindex(collation: GRDB.Database.CollationName) throws
   final public func reindex(collation: GRDB.DatabaseCollation) throws
@@ -3445,7 +3445,7 @@ extension GRDB.Database {
   final public func primaryKey(_ columns: [Swift.String], onConflict conflictResolution: GRDB.Database.ConflictResolution? = nil)
   final public func uniqueKey(_ columns: [Swift.String], onConflict conflictResolution: GRDB.Database.ConflictResolution? = nil)
   final public func foreignKey(_ columns: [Swift.String], references table: Swift.String, columns destinationColumns: [Swift.String]? = nil, onDelete deleteAction: GRDB.Database.ForeignKeyAction? = nil, onUpdate updateAction: GRDB.Database.ForeignKeyAction? = nil, deferred: Swift.Bool = false)
-  final public func check(_ condition: GRDB.SQLExpressible)
+  final public func check(_ condition: any GRDB.SQLExpressible)
   final public func check(sql: Swift.String)
   @objc deinit
 }
@@ -3466,11 +3466,11 @@ extension GRDB.Database {
   @discardableResult
   final public func indexed() -> Self
   @discardableResult
-  final public func check(_ condition: (GRDB.Column) -> GRDB.SQLExpressible) -> Self
+  final public func check(_ condition: (GRDB.Column) -> any GRDB.SQLExpressible) -> Self
   @discardableResult
   final public func check(sql: Swift.String) -> Self
   @discardableResult
-  final public func defaults(to value: GRDB.DatabaseValueConvertible) -> Self
+  final public func defaults(to value: any GRDB.DatabaseValueConvertible) -> Self
   @discardableResult
   final public func defaults(sql: Swift.String) -> Self
   @discardableResult
@@ -3483,13 +3483,13 @@ extension GRDB.Database {
 }
 public protocol TableRecord {
   static var databaseTableName: Swift.String { get }
-  static var databaseSelection: [GRDB.SQLSelectable] { get }
+  static var databaseSelection: [any GRDB.SQLSelectable] { get }
 }
 extension GRDB.TableRecord {
   public static var databaseTableName: Swift.String {
     get
   }
-  public static var databaseSelection: [GRDB.SQLSelectable] {
+  public static var databaseSelection: [any GRDB.SQLSelectable] {
     get
   }
 }
@@ -3509,7 +3509,7 @@ extension GRDB.TableRecord {
 }
 public struct ForeignKey {
   public init(_ originColumns: [Swift.String], to destinationColumns: [Swift.String]? = nil)
-  public init(_ originColumns: [GRDB.ColumnExpression], to destinationColumns: [GRDB.ColumnExpression]? = nil)
+  public init(_ originColumns: [any GRDB.ColumnExpression], to destinationColumns: [any GRDB.ColumnExpression]? = nil)
 }
 extension GRDB.TableRecord where Self : GRDB.EncodableRecord {
   public func request<A>(for association: A) -> GRDB.QueryInterfaceRequest<A.RowDecoder> where Self == A.OriginRowDecoder, A : GRDB.Association
@@ -3527,25 +3527,25 @@ extension GRDB.TableRecord {
 extension GRDB.TableRecord {
   public static func all() -> GRDB.QueryInterfaceRequest<Self>
   public static func none() -> GRDB.QueryInterfaceRequest<Self>
-  public static func select(_ selection: GRDB.SQLSelectable...) -> GRDB.QueryInterfaceRequest<Self>
-  public static func select(_ selection: [GRDB.SQLSelectable]) -> GRDB.QueryInterfaceRequest<Self>
+  public static func select(_ selection: any GRDB.SQLSelectable...) -> GRDB.QueryInterfaceRequest<Self>
+  public static func select(_ selection: [any GRDB.SQLSelectable]) -> GRDB.QueryInterfaceRequest<Self>
   public static func select(sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments()) -> GRDB.QueryInterfaceRequest<Self>
   public static func select(literal sqlLiteral: GRDB.SQLLiteral) -> GRDB.QueryInterfaceRequest<Self>
-  public static func select<RowDecoder>(_ selection: [GRDB.SQLSelectable], as type: RowDecoder.Type = RowDecoder.self) -> GRDB.QueryInterfaceRequest<RowDecoder>
-  public static func select<RowDecoder>(_ selection: GRDB.SQLSelectable..., as type: RowDecoder.Type = RowDecoder.self) -> GRDB.QueryInterfaceRequest<RowDecoder>
+  public static func select<RowDecoder>(_ selection: [any GRDB.SQLSelectable], as type: RowDecoder.Type = RowDecoder.self) -> GRDB.QueryInterfaceRequest<RowDecoder>
+  public static func select<RowDecoder>(_ selection: any GRDB.SQLSelectable..., as type: RowDecoder.Type = RowDecoder.self) -> GRDB.QueryInterfaceRequest<RowDecoder>
   public static func select<RowDecoder>(sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments(), as type: RowDecoder.Type = RowDecoder.self) -> GRDB.QueryInterfaceRequest<RowDecoder>
   public static func select<RowDecoder>(literal sqlLiteral: GRDB.SQLLiteral, as type: RowDecoder.Type = RowDecoder.self) -> GRDB.QueryInterfaceRequest<RowDecoder>
-  public static func annotated(with selection: [GRDB.SQLSelectable]) -> GRDB.QueryInterfaceRequest<Self>
-  public static func annotated(with selection: GRDB.SQLSelectable...) -> GRDB.QueryInterfaceRequest<Self>
-  public static func filter(_ predicate: GRDB.SQLExpressible) -> GRDB.QueryInterfaceRequest<Self>
+  public static func annotated(with selection: [any GRDB.SQLSelectable]) -> GRDB.QueryInterfaceRequest<Self>
+  public static func annotated(with selection: any GRDB.SQLSelectable...) -> GRDB.QueryInterfaceRequest<Self>
+  public static func filter(_ predicate: any GRDB.SQLExpressible) -> GRDB.QueryInterfaceRequest<Self>
   public static func filter<PrimaryKeyType>(key: PrimaryKeyType?) -> GRDB.QueryInterfaceRequest<Self> where PrimaryKeyType : GRDB.DatabaseValueConvertible
   public static func filter<Sequence>(keys: Sequence) -> GRDB.QueryInterfaceRequest<Self> where Sequence : Swift.Sequence, Sequence.Element : GRDB.DatabaseValueConvertible
-  public static func filter(key: [Swift.String : GRDB.DatabaseValueConvertible?]?) -> GRDB.QueryInterfaceRequest<Self>
-  public static func filter(keys: [[Swift.String : GRDB.DatabaseValueConvertible?]]) -> GRDB.QueryInterfaceRequest<Self>
+  public static func filter(key: [Swift.String : (any GRDB.DatabaseValueConvertible)?]?) -> GRDB.QueryInterfaceRequest<Self>
+  public static func filter(keys: [[Swift.String : (any GRDB.DatabaseValueConvertible)?]]) -> GRDB.QueryInterfaceRequest<Self>
   public static func filter(sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments()) -> GRDB.QueryInterfaceRequest<Self>
   public static func filter(literal sqlLiteral: GRDB.SQLLiteral) -> GRDB.QueryInterfaceRequest<Self>
-  public static func order(_ orderings: GRDB.SQLOrderingTerm...) -> GRDB.QueryInterfaceRequest<Self>
-  public static func order(_ orderings: [GRDB.SQLOrderingTerm]) -> GRDB.QueryInterfaceRequest<Self>
+  public static func order(_ orderings: any GRDB.SQLOrderingTerm...) -> GRDB.QueryInterfaceRequest<Self>
+  public static func order(_ orderings: [any GRDB.SQLOrderingTerm]) -> GRDB.QueryInterfaceRequest<Self>
   public static func orderByPrimaryKey() -> GRDB.QueryInterfaceRequest<Self>
   public static func order(sql: Swift.String, arguments: GRDB.StatementArguments = StatementArguments()) -> GRDB.QueryInterfaceRequest<Self>
   public static func order(literal sqlLiteral: GRDB.SQLLiteral) -> GRDB.QueryInterfaceRequest<Self>
@@ -3553,8 +3553,8 @@ extension GRDB.TableRecord {
   public static func aliased(_ alias: GRDB.TableAlias) -> GRDB.QueryInterfaceRequest<Self>
 }
 extension GRDB.Database {
-  final public func add(transactionObserver: GRDB.TransactionObserver, extent: GRDB.Database.TransactionObservationExtent = .observerLifetime)
-  final public func remove(transactionObserver: GRDB.TransactionObserver)
+  final public func add(transactionObserver: any GRDB.TransactionObserver, extent: GRDB.Database.TransactionObservationExtent = .observerLifetime)
+  final public func remove(transactionObserver: any GRDB.TransactionObserver)
   final public func afterNextTransactionCommit(_ closure: @escaping (GRDB.Database) -> Swift.Void)
   public enum TransactionObservationExtent {
     case observerLifetime
@@ -3694,17 +3694,17 @@ public struct ValueObservation<Reducer> {
   public var scheduling: GRDB.ValueScheduling
 }
 extension GRDB.ValueObservation where Reducer : GRDB.ValueReducer {
-  public func start(in reader: GRDB.DatabaseReader, onChange: @escaping (Reducer.Value) -> Swift.Void) throws -> GRDB.TransactionObserver
-  public func start(in reader: GRDB.DatabaseReader, onError: @escaping (Swift.Error) -> Swift.Void, onChange: @escaping (Reducer.Value) -> Swift.Void) -> GRDB.TransactionObserver
+  public func start(in reader: any GRDB.DatabaseReader, onChange: @escaping (Reducer.Value) -> Swift.Void) throws -> any GRDB.TransactionObserver
+  public func start(in reader: any GRDB.DatabaseReader, onError: @escaping (any Swift.Error) -> Swift.Void, onChange: @escaping (Reducer.Value) -> Swift.Void) -> any GRDB.TransactionObserver
 }
 extension GRDB.ValueObservation where Reducer : GRDB.ValueReducer {
-  public static func tracking(_ regions: GRDB.DatabaseRegionConvertible..., reducer: @escaping (GRDB.Database) throws -> Reducer) -> GRDB.ValueObservation<Reducer>
-  public static func tracking(_ regions: [GRDB.DatabaseRegionConvertible], reducer: @escaping (GRDB.Database) throws -> Reducer) -> GRDB.ValueObservation<Reducer>
+  public static func tracking(_ regions: any GRDB.DatabaseRegionConvertible..., reducer: @escaping (GRDB.Database) throws -> Reducer) -> GRDB.ValueObservation<Reducer>
+  public static func tracking(_ regions: [any GRDB.DatabaseRegionConvertible], reducer: @escaping (GRDB.Database) throws -> Reducer) -> GRDB.ValueObservation<Reducer>
 }
 extension GRDB.ValueObservation where Reducer == () {
   public static func tracking<Value>(value: @escaping (GRDB.Database) throws -> Value) -> GRDB.ValueObservation<GRDB.ValueReducers.Fetch<Value>>
-  public static func tracking<Value>(_ regions: GRDB.DatabaseRegionConvertible..., fetch: @escaping (GRDB.Database) throws -> Value) -> GRDB.ValueObservation<GRDB.ValueReducers.Fetch<Value>>
-  public static func tracking<Value>(_ regions: [GRDB.DatabaseRegionConvertible], fetch: @escaping (GRDB.Database) throws -> Value) -> GRDB.ValueObservation<GRDB.ValueReducers.Fetch<Value>>
+  public static func tracking<Value>(_ regions: any GRDB.DatabaseRegionConvertible..., fetch: @escaping (GRDB.Database) throws -> Value) -> GRDB.ValueObservation<GRDB.ValueReducers.Fetch<Value>>
+  public static func tracking<Value>(_ regions: [any GRDB.DatabaseRegionConvertible], fetch: @escaping (GRDB.Database) throws -> Value) -> GRDB.ValueObservation<GRDB.ValueReducers.Fetch<Value>>
 }
 extension GRDB.FetchRequest {
   public func observationForCount() -> GRDB.ValueObservation<GRDB.ValueReducers.RemoveDuplicates<GRDB.ValueReducers.Fetch<Swift.Int>>>
