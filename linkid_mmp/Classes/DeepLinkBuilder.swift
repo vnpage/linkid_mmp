@@ -63,4 +63,34 @@ public class DeepLinkBuilder {
             }
         }
     }
+    
+    public func createShortLink(longLink: String, name: String = "", shortLinkId: String = "", completion: @escaping (DeepLinkBuilderResult?, DeepLinkBuilderError?) -> Void) {
+        let params = [
+            "name" : name,
+            "short_link_id" : shortLinkId,
+            "redirect_url" : longLink
+        ]
+        HttpClient.shared.post(with: "/partner/deeplink/shorten-link", params: params) { _data, _error in
+            if let data = _data {
+                do {
+                    let result = try JSONDecoder().decode(ResultData.self, from: data)
+                    if result.responseCode >= 200 && result.responseCode < 299 {
+                        let deeplinkResult = try JSONDecoder().decode(DeepLinkResultData.self, from: data)
+                        if let deeplink = deeplinkResult.data {
+                            completion(DeepLinkBuilderResult(shortLink: deeplink.short_link, longLink: deeplink.long_link), nil)
+                        } else {
+                            completion(nil, DeepLinkBuilderError(code: "0", message: "data is null"))
+                        }
+                    } else {
+                        completion(nil, DeepLinkBuilderError(code: "\(result.responseCode)", message: "\(result.responseText)"))
+                        
+                    }
+                } catch {
+                    completion(nil, DeepLinkBuilderError(code: "0", message: "\(error.localizedDescription)"))
+                }
+            } else {
+                completion(nil, DeepLinkBuilderError(code: "0", message: "\(String(describing: _error?.localizedDescription))"))
+            }
+        }
+    }
 }

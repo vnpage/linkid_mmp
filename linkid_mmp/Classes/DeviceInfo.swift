@@ -190,6 +190,7 @@ class DeviceInfo {
     }
     
     public static func getAppId() -> String {
+//        return "com.vnp.VpBankOnline.UAT"
         return Bundle.main.bundleIdentifier ?? ""
     }
     

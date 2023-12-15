@@ -22,7 +22,7 @@ class DatabaseHelper {
             let path = NSSearchPathForDirectoriesInDomains(
                 .documentDirectory, .userDomainMask, true
             ).first!
-            dbQueue = try DatabaseQueue(path: "\(path)/linkid_mmp.sqlite3")
+            dbQueue = try DatabaseQueue(path: "\(path)/linkid_mmp_1.sqlite3")
         } catch {
         }
     }
@@ -38,6 +38,7 @@ class DatabaseHelper {
                     t.column("sessionId", .text).notNull()
                     t.column("realtime", .boolean).notNull()
                     t.column("data", .text).notNull()
+                    t.column("preEvent", .text).notNull()
                 }
             }
         } catch {

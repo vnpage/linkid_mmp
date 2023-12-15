@@ -15,14 +15,17 @@ class EventData: Codable, FetchableRecord, PersistableRecord {
     var sessionId: String
     var realtime: Bool
     var data: String = "{}"
+    var preEvent: String = ""
+    private static var savedPreEvent: String = ""
     
-    init(id: String, key: String, time: Int, sessionId: String, realtime: Bool, data: String?) {
+    init(id: String, key: String, time: Int, sessionId: String, realtime: Bool, data: String?, preEvent: String?) {
         self.id = id
         self.key = key
         self.time = time
         self.sessionId = sessionId
         self.realtime = realtime
         self.data = data ?? "{}"
+        self.preEvent = preEvent ?? ""
     }
     
     static func makeEvent(key: String, sessionId: String, realtime: Bool, data: [String: Any]?) -> EventData {
@@ -32,8 +35,12 @@ class EventData: Codable, FetchableRecord, PersistableRecord {
         let hexRandomNumber = String(randomNumber, radix: 16)
         let uniqueID = hexTimestamp + hexRandomNumber
         let filteredID = uniqueID.filter { "0123456789abcdefABCDEF".contains($0) }
-        
-        let event = EventData(id: filteredID, key: key, time: Int(timestamp/1000), sessionId: sessionId, realtime: realtime, data: EventData.toJsonString(dictionary: data))
+        var preEvent = ""
+        if(key != "lid_mmp_screen_view" && key != "lid_mmp_products") {
+            preEvent = savedPreEvent
+            savedPreEvent = filteredID
+        }
+        let event = EventData(id: filteredID, key: key, time: Int(timestamp/1000), sessionId: sessionId, realtime: realtime, data: EventData.toJsonString(dictionary: data), preEvent: preEvent)
         return event
     }
     
@@ -60,7 +67,15 @@ class EventData: Codable, FetchableRecord, PersistableRecord {
         eventData?.forEach({ (key: String, value: Any) in
             data.append(["key": key, "value": value])
         })
-        return ["id": event.id, "key": event.key, "time": event.time, "sessionId": event.getSessionId(), "realtime": event.realtime, "data": data]
+        return [
+            "id": event.id,
+            "key": event.key,
+            "time": event.time,
+            "sessionId": event.getSessionId(),
+            "realtime": event.realtime,
+            "data": data,
+            "preEvent": event.preEvent
+        ]
     }
     
     public static func toJsonString(dictionary: [String: Any]?) -> String {
@@ -93,14 +108,15 @@ class EventData: Codable, FetchableRecord, PersistableRecord {
     }
     
     public static func convertToDictionary2(_ event: EventData) -> [String: Any] {
-        return ["id": event.id, "key": event.key, "time": event.time, "sessionId": event.getSessionId(), "realtime": event.realtime, "data": event.data]
+        return ["id": event.id, "key": event.key, "time": event.time, "sessionId": event.getSessionId(), "realtime": event.realtime, "data": event.data, "preEvent": event.preEvent]
     }
     
     public static func fromDictionary2(_ data: [String: Any]) -> EventData? {
         if let key = data["key"] as? String, let id = data["id"] as? String, let time = data["time"] as? Int, let realtime = data["realtime"] as? Bool  {
             let sessionId = (data["sessionId"] as? String) ?? ""
+            let preEvent = (data["preEvent"] as? String) ?? ""
             let jsonString = (data["data"] as? String) ?? "{}"
-            let event = EventData.init(id: id, key: key, time: time, sessionId: sessionId, realtime: realtime, data: jsonString)
+            let event = EventData.init(id: id, key: key, time: time, sessionId: sessionId, realtime: realtime, data: jsonString, preEvent: preEvent)
             return event
         }
         return nil

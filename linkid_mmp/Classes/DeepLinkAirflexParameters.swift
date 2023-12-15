@@ -15,12 +15,14 @@ public class DeepLinkAirflexParameters {
     public var campaign: String?
     public var term: String?
     public var content: String?
+    public var redirectUrl: String?
     
-    public init(source: String? = nil, code: String? = nil, medium: String? = nil, campaign: String? = nil) {
+    public init(source: String? = nil, code: String? = nil, medium: String? = nil, campaign: String? = nil, redirectUrl: String? = nil) {
         self.source = source
         self.code = code
         self.medium = medium
         self.campaign = campaign
+        self.redirectUrl = redirectUrl
     }
     
     public func buildParams()-> [String: Any] {
@@ -45,6 +47,9 @@ public class DeepLinkAirflexParameters {
         }
         if code != nil {
             params["code"] = code
+        }
+        if redirectUrl != nil {
+            params["redirect_url"] = redirectUrl
         }
         return params
     }

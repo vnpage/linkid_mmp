@@ -12,6 +12,9 @@ public class Logger {
     static func setDevMode(_ devMode: Bool) {
         Logger.devMode = devMode
     }
+    static func isDevMode() -> Bool {
+        return Logger.devMode
+    }
     static func log(_ msg: Any) {
         if devMode {
             print("MMP: \(msg)")

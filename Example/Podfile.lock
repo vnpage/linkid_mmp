@@ -1,5 +1,5 @@
 PODS:
-  - CryptoSwift (1.3.8)
+  - CryptoSwift (1.3.3)
   - FBSnapshotTestCase (2.1.4):
     - FBSnapshotTestCase/SwiftSupport (= 2.1.4)
   - FBSnapshotTestCase/Core (2.1.4)
@@ -14,8 +14,8 @@ PODS:
   - iOSSnapshotTestCase/SwiftSupport (8.0.0):
     - iOSSnapshotTestCase/Core
   - linkid_mmp (1.0.5):
-    - CryptoSwift (~> 1.3.3)
-    - GRDB.swift (~> 4.14.0)
+    - CryptoSwift (= 1.3.3)
+    - GRDB.swift (= 4.14.0)
   - Nimble (10.0.0)
   - Nimble-Snapshots (9.4.0):
     - Nimble-Snapshots/Core (= 9.4.0)
@@ -49,16 +49,16 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  CryptoSwift: 01b0f0cba1d5c212e5a335ff6c054fb75a204f00
+  CryptoSwift: fedfc9f8362163ca381a78897ad810982e18d464
   FBSnapshotTestCase: 094f9f314decbabe373b87cc339bea235a63e07a
   GRDB.swift: 8cc3ab7c8b8b4ac1761deb8dca4b51c1c9d429f8
   iOSSnapshotTestCase: a670511f9ee3829c2b9c23e6e68f315fd7b6790f
-  linkid_mmp: 42b2d95a63ae745134d0734329a6a403cc78599d
+  linkid_mmp: 2e0272424dbf7adfcaf8526d11dbdcae5e7a0d4d
   Nimble: 5316ef81a170ce87baf72dd961f22f89a602ff84
   Nimble-Snapshots: ef281b908c604f78c8313587e25ea92c8ab513d7
   Quick: f5754d69b7013f5864c29aab9ae6f0c79c5bc200
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
 
-PODFILE CHECKSUM: 4ad114746f181a33c2a2bffb4c9fe2e3d03d694a
+PODFILE CHECKSUM: fcb4299555cc8d0dfb72f0b264bcdeace5980447
 
 COCOAPODS: 1.12.1

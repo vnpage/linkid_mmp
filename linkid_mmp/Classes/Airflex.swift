@@ -7,9 +7,9 @@ public class Airflex {
         TrackingEvent.trackEvent(name: name, data: data)
     }
     
-//    static public func setDevMode(_ devMode: Bool) {
-//        Logger.setDevMode(devMode)
-//    }
+    static public func setDevMode(_ devMode: Bool) {
+        Logger.setDevMode(devMode)
+    }
 
     static public func intSDK(partnerCode: String, appSecret: String, options: AirflexOptions?) {
         if partnerCode != "" {
@@ -27,8 +27,14 @@ public class Airflex {
     }
     
     static public func intSDK(partnerCode: String, appSecret: String) {
-        intSDK(partnerCode: partnerCode, appSecret: appSecret, options: AirflexOptions())
+        let options = AirflexOptions()
+        options.showLog = Logger.isDevMode()
+        intSDK(partnerCode: partnerCode, appSecret: appSecret, options: options)
     }
+    
+//    static public func addAppDelegate(_ delegate : UIApplicationDelegate) {
+//        UIApplication.shared.delegate = delegate
+//    }
     
 //    static public func intSDKWithBaseUrl(partnerCode: String, appSecret: String, baseUrl: String) {
 //        if partnerCode != "" {
@@ -46,14 +52,6 @@ public class Airflex {
     
     static public func recordError(name: String, stackTrace: String) {
         Crashlytics.recordError(name: name, stackTrace: stackTrace)
-    }
-    
-    static public func logBeginCheckout(value: Double, currency: String, items: [PurchaseItem]?) {
-        TrackingEvent.trackEvent(name: "lid_mmp_begin_checkout", data: [
-            "value": value,
-            "currency": currency,
-            "items": items != nil ? PurchaseItem.convertToArray(items!) : [:]
-        ])
     }
 
     static public func setUserInfo(userInfo: UserInfo) {
@@ -81,5 +79,13 @@ public class Airflex {
     
     public static func handleDeeplink(_ handleDeeplink: @escaping (String) -> Void) {
         DeepLinkHandler.handleDeeplink = handleDeeplink
+    }
+    
+    public static func setProductList(listName: String, products: [ProductItem]) {
+        let jsonString: String = ProductItem.convertToJsonString(listName: listName, products: products)
+        let data = [
+            "products": jsonString
+        ]
+        TrackingEvent.trackEvent(name: "lid_mmp_products", data: data)
     }
 }

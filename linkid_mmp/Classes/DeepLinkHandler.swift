@@ -9,6 +9,7 @@ import Foundation
 
 public typealias HandleDeeplink = (String) -> Void
 
+@objcMembers
 public class DeepLinkHandler {
     private static var lastDeepLink: String = ""
     private static var currentDeepLink: String = ""
@@ -66,8 +67,8 @@ public class DeepLinkHandler {
         currentDeepLink = url
         if(lastDeepLink != "") {
             StorageHelper.shared.saveDeeplink(lastDeepLink)
-            Airflex.logEvent(name: "lid_mmp_deeplink", data: ["deeplink": lastDeepLink])
-            SessionManager.retry()
+//            Airflex.logEvent(name: "lid_mmp_deeplink", data: ["deeplink": lastDeepLink])
+//            SessionManager.retry()
         }
     }
     
@@ -79,36 +80,36 @@ public class DeepLinkHandler {
         return currentDeepLink
     }
     
-    private func application(_ application: UIApplication,
-                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        if let url = launchOptions?[UIApplication.LaunchOptionsKey.url] as? URL {
-            DeepLinkHandler.lastDeepLink = url.absoluteString
-            DeepLinkHandler.currentDeepLink = url.absoluteString
-        }
-        return true
-    }
-
-    public func application(_ application: UIApplication,
-                     open url: URL,
-                     options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
-        DeepLinkHandler.lastDeepLink = url.absoluteString
-        DeepLinkHandler.currentDeepLink = url.absoluteString
-        return true
-    }
-
-    private func application(_ application: UIApplication,
-                     continue userActivity: NSUserActivity,
-                     restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
-        if userActivity.activityType == NSUserActivityTypeBrowsingWeb {
-            if let url = userActivity.webpageURL, let deepLinkString = url.absoluteString.removingPercentEncoding {
-                // Navigate to the appropriate content within your app based on the deep link
-                DeepLinkHandler.lastDeepLink = deepLinkString
-                DeepLinkHandler.currentDeepLink = url.absoluteString
-                return true
-            }
-        }
-        return false
-    }
+//    private func application(_ application: UIApplication,
+//                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+//        if let url = launchOptions?[UIApplication.LaunchOptionsKey.url] as? URL {
+//            DeepLinkHandler.lastDeepLink = url.absoluteString
+//            DeepLinkHandler.currentDeepLink = url.absoluteString
+//        }
+//        return true
+//    }
+//
+//    public func application(_ application: UIApplication,
+//                     open url: URL,
+//                     options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
+//        DeepLinkHandler.lastDeepLink = url.absoluteString
+//        DeepLinkHandler.currentDeepLink = url.absoluteString
+//        return true
+//    }
+//
+//    private func application(_ application: UIApplication,
+//                     continue userActivity: NSUserActivity,
+//                     restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+//        if userActivity.activityType == NSUserActivityTypeBrowsingWeb {
+//            if let url = userActivity.webpageURL, let deepLinkString = url.absoluteString.removingPercentEncoding {
+//                // Navigate to the appropriate content within your app based on the deep link
+//                DeepLinkHandler.lastDeepLink = deepLinkString
+//                DeepLinkHandler.currentDeepLink = url.absoluteString
+//                return true
+//            }
+//        }
+//        return false
+//    }
     
     
     public static func getUDL() {

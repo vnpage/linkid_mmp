@@ -20,7 +20,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window = DetectWindowTouch(frame: UIScreen.main.bounds)
         let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let controller = mainStoryboard.instantiateViewController(withIdentifier: "controller")
-
+        
+        let options = AirflexOptions()
+        options.showLog = true
+        Airflex.intSDK(partnerCode: "myvpbank_uat", appSecret: "7fe95468c204397de9bcda2d702d4501a174976b1d003d92d1e5550b03f9fcb5", options: options)
+//        Airflex.addAppDelegate(AirflexDeepLinkDelegate.shared)
+//        UIApplication.shared.delegate = AirflexDeepLinkDelegate.shared
+        Airflex.handleDeeplink { url in
+            print(url)
+        }
         self.window?.rootViewController = controller
         self.window?.makeKeyAndVisible()
         return true
@@ -50,20 +58,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
       let url = userActivity.webpageURL!
-      print(url)
       // Take decision according to URL
+      AirflexDeepLinkDelegate.shared.handleDeeplink(url: url.absoluteString)
       return true
     }
-    
+
     func application(_ application: UIApplication,
                                   continue userActivity: NSUserActivity,
                                   restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
-        if let incomigURL = userActivity.webpageURL{
-            print(incomigURL)
-            return true
+        if userActivity.activityType == NSUserActivityTypeBrowsingWeb, let url = userActivity.webpageURL {
+            AirflexDeepLinkDelegate.shared.handleDeeplink(url: url.absoluteString)
         }
-        print("userActivity = nil")
-        return false
+        return true
     }
 
 }

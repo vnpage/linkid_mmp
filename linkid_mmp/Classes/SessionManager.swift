@@ -47,7 +47,7 @@ class SessionManager {
         SessionManager.baseUrl = baseUrl
         let deviceId = DeviceInfo.getDeviceId()
         let appId = DeviceInfo.getAppId()
-        let data = ["partnerCode": partnerCode, "appId": appId, "deviceId": deviceId, "deeplink": DeepLinkHandler.getLastDeepLink()]
+        let data = ["partnerCode": partnerCode, "appId": appId, "deviceId": deviceId]
         HttpClient.shared.post(with: "/public/partner/auth", params: data) { data, error in
             if let data = data {
                 do {
