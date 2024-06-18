@@ -130,19 +130,22 @@ class HttpClient {
         if newUrl.endWiths("/partner/auth") {
             let timestamp = Int64(Date().timeIntervalSince1970)
             let str = "\(StorageHelper.shared.getPartnerCode())\(DeviceInfo.getAppId())\(StorageHelper.shared.getDeviceId())\(timestamp)IJODNVU@OJIFOISJF"
-            let auth = str.sha256()
+//            let auth = str.sha256()
+            let auth = Common.sha256(str)
             let tokenDecode = "\(auth.suffix(10))\(auth.prefix(10))";
             request.allHTTPHeaderFields = [
                 "t": "\(timestamp)",
                 "v": tokenDecode,
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Platform": "iOS"
             ]
         } else {
             let authData = StorageHelper.shared.getAuthData()
             if let authData = authData, let sessionData = authData.data {
                 request.allHTTPHeaderFields = [
                     "Authorization": "\(sessionData.token)",
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Platform": "iOS"
                 ]
             }
         }

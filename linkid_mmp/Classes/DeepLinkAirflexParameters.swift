@@ -8,6 +8,7 @@
 import Foundation
 
 public class DeepLinkAirflexParameters {
+    public var shortLinkId: String?
     public var name: String?
     public var source: String?
     public var code: String?
@@ -27,6 +28,9 @@ public class DeepLinkAirflexParameters {
     
     public func buildParams()-> [String: Any] {
         var params: [String: Any] = [:]
+        if shortLinkId != nil {
+            params["short_link_id"] = shortLinkId
+        }
         if name != nil {
             params["name"] = name
         }

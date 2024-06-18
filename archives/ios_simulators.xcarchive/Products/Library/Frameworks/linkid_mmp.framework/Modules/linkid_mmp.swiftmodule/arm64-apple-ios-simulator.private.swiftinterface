@@ -1,7 +1,6 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 5.8.1 effective-4.1.50 (swiftlang-5.8.0.124.5 clang-1403.0.22.11.100)
-// swift-module-flags: -target arm64-apple-ios10.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 4 -enforce-exclusivity=checked -O -module-name linkid_mmp
-// swift-module-flags-ignorable: -enable-bare-slash-regex
+// swift-compiler-version: Apple Swift version 5.10 effective-4.1.50 (swiftlang-5.10.0.13 clang-1500.3.9.4)
+// swift-module-flags: -target arm64-apple-ios10.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 4 -enforce-exclusivity=checked -O -enable-bare-slash-regex -module-name linkid_mmp
 import CoreTelephony
 import DeviceCheck
 import Foundation
@@ -9,6 +8,7 @@ import Swift
 import UIKit
 import _Concurrency
 import _StringProcessing
+import _SwiftConcurrencyShims
 @_exported import linkid_mmp
 @_hasMissingDesignatedInitializers @objcMembers public class Airflex {
   @objc public static func logEvent(name: Swift.String, data: [Swift.String : Any]?)
@@ -21,6 +21,7 @@ import _StringProcessing
   @objc public static func setRevenue(orderId: Swift.String, amount: Swift.Double, currency: Swift.String, data: [Swift.String : Any]?)
   @objc public static func handleDeeplink(_ handleDeeplink: @escaping (Swift.String) -> Swift.Void)
   public static func setProductList(listName: Swift.String, products: [linkid_mmp.ProductItem])
+  @objc public static func removeUserToken()
   @objc deinit
 }
 @objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) public class AirflexDeepLinkDelegate : UIKit.UIResponder, UIKit.UIApplicationDelegate {
@@ -36,14 +37,6 @@ public class AirflexOptions {
   public init()
   @objc deinit
 }
-@objcMembers public class ProductCategory {
-  @objc public init(categoryId: Swift.String, categoryName: Swift.String)
-  @objc public func toDictionary() -> [Swift.String : Any]
-  public static func convertToArray(_ items: [linkid_mmp.ProductCategory]) -> [[Swift.String : Any]]
-  public static func fromDictionary(_ data: [Swift.String : Any]) -> linkid_mmp.ProductCategory
-  public static func fromList(_ data: [[Swift.String : Any]]) -> [linkid_mmp.ProductCategory]
-  @objc deinit
-}
 @_hasMissingDesignatedInitializers public class Common {
   @objc deinit
 }
@@ -54,6 +47,7 @@ public class AirflexOptions {
   @objc deinit
 }
 public class DeepLinkAirflexParameters {
+  public var shortLinkId: Swift.String?
   public var name: Swift.String?
   public var source: Swift.String?
   public var code: Swift.String?
@@ -79,6 +73,7 @@ public class DeepLinkBuilder {
   public var androidParameters: linkid_mmp.DeepLinkAndroidParameters?
   public var airflexParameters: linkid_mmp.DeepLinkAirflexParameters?
   public init()
+  public func createLink(with params: [Swift.String : Any], completion: @escaping (linkid_mmp.DeepLinkBuilderResult?, linkid_mmp.DeepLinkBuilderError?) -> Swift.Void)
   public func createLink(completion: @escaping (linkid_mmp.DeepLinkBuilderResult?, linkid_mmp.DeepLinkBuilderError?) -> Swift.Void)
   public func createShortLink(longLink: Swift.String, name: Swift.String = "", shortLinkId: Swift.String = "", completion: @escaping (linkid_mmp.DeepLinkBuilderResult?, linkid_mmp.DeepLinkBuilderError?) -> Swift.Void)
   @objc deinit
@@ -132,6 +127,14 @@ public enum Network : Swift.String {
   }
 }
 @_hasMissingDesignatedInitializers public class Logger {
+  @objc deinit
+}
+@objcMembers public class ProductCategory {
+  @objc public init(categoryId: Swift.String, categoryName: Swift.String)
+  @objc public func toDictionary() -> [Swift.String : Any]
+  public static func convertToArray(_ items: [linkid_mmp.ProductCategory]) -> [[Swift.String : Any]]
+  public static func fromDictionary(_ data: [Swift.String : Any]) -> linkid_mmp.ProductCategory
+  public static func fromList(_ data: [[Swift.String : Any]]) -> [linkid_mmp.ProductCategory]
   @objc deinit
 }
 @objcMembers public class ProductItem {

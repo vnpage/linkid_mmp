@@ -88,4 +88,8 @@ public class Airflex {
         ]
         TrackingEvent.trackEvent(name: "lid_mmp_products", data: data)
     }
+    
+    public static func removeUserToken() {
+        SessionManager.removeUserToken()
+    }
 }

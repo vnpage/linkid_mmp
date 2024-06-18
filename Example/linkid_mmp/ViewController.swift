@@ -43,11 +43,10 @@ class ViewController: UIViewController {
         }
         
         button2.addTarget(self, action: #selector(btnClick2(_:)), for: .touchUpInside)
-        
     }
     
     @objc func btnClick1(_ sender:UIButton!) {
-        Airflex.logEvent(name: "event1", data: nil)
+        Airflex.logEvent(name: "event1", data: ["afRealtime": true])
 //        let exception = NSException(name: NSExceptionName(rawValue: "arbitrary ffdfdf"), reason: "arbitrary reason", userInfo: nil)
 //        exception.raise()
     }

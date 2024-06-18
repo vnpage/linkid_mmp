@@ -36,3 +36,13 @@ struct DeepLinkData: Decodable {
     let short_link: String
     let long_link: String
 }
+
+struct HeartBeatResultData: Decodable {
+    let responseCode: Int
+    let responseText: String
+    let data: HeartBeatData?
+}
+
+struct HeartBeatData: Decodable {
+    let second: Int
+}

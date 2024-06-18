@@ -7,15 +7,15 @@ target 'linkid_mmp_Example' do
 #  pod 'linkid_mmp_sdk', :podspec => 'https://github.com/vnpage/linkid_mmp_ios/raw/main/linkid_mmp_sdk_20231005.podspec'
 #  pod 'linkid_mmp_sdk', :podspec => 'https://raw.githubusercontent.com/vnpage/linkid_mmp_ios/main/linkid_mmp_sdk_20231114.podspec'
   pod 'SnapKit', '~> 5.6.0'
-
-  target 'linkid_mmp_Tests' do
-    inherit! :search_paths
-
-    pod 'Quick', '~> 2.2.0'
-    pod 'Nimble', '~> 10.0.0'
-    pod 'FBSnapshotTestCase' , '~> 2.1.4'
-    pod 'Nimble-Snapshots' , '~> 9.4.0'
-  end
+#
+#  target 'linkid_mmp_Tests' do
+#    inherit! :search_paths
+#
+#    pod 'Quick', '~> 2.2.0'
+#    pod 'Nimble', '~> 10.0.0'
+#    pod 'FBSnapshotTestCase' , '~> 2.1.4'
+#    pod 'Nimble-Snapshots' , '~> 9.4.0'
+#  end
 end
 
 post_install do |installer|

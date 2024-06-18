@@ -38,8 +38,7 @@ public class DeepLinkBuilder {
         return params
     }
     
-    public func createLink(completion: @escaping (DeepLinkBuilderResult?, DeepLinkBuilderError?) -> Void) {
-        let params = buildParams()
+    public func createLink( with params: [String: Any], completion: @escaping (DeepLinkBuilderResult?, DeepLinkBuilderError?) -> Void) {
         HttpClient.shared.post(with: "/partner/deeplink/create", params: params) { _data, _error in
             if let data = _data {
                 do {
@@ -62,6 +61,11 @@ public class DeepLinkBuilder {
                 completion(nil, DeepLinkBuilderError(code: "0", message: "\(String(describing: _error?.localizedDescription))"))
             }
         }
+    }
+    
+    public func createLink(completion: @escaping (DeepLinkBuilderResult?, DeepLinkBuilderError?) -> Void) {
+        let params = buildParams()
+        createLink(with: params, completion: completion)
     }
     
     public func createShortLink(longLink: String, name: String = "", shortLinkId: String = "", completion: @escaping (DeepLinkBuilderResult?, DeepLinkBuilderError?) -> Void) {

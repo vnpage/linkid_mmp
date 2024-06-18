@@ -93,19 +93,17 @@ class SessionManager {
     public class func updateInfo(data: [String: Any]?) {
         HttpClient.shared.post(with: "/partner/device-info/update", params: data) { _data, _error in
             if let _data = _data {
-//                do {
                     let dataStr = String(data: _data, encoding: .utf8)
-                Logger.log(dataStr ?? "Khong lay duoc du lieu")
-//                    let authData = try JSONDecoder().decode(AuthData.self, from: _data)
-//                    if authData.responseCode == 200 {
-//                        print(authData.data?.token ?? "")
-//                        StorageHelper.shared.saveAuthData(_data)
-//                    } else {
-//                        StorageHelper.shared.removeAuthData()
-//                    }
-//                } catch {
-//                    print(error)
-//                }
+                Logger.log(dataStr ?? "Loi")
+            }
+        }
+    }
+    
+    public class func removeUserToken() {
+        HttpClient.shared.post(with: "/partner/device-info/remove-firebase-token", params: [:]) { _data, _error in
+            if let _data = _data {
+                    let dataStr = String(data: _data, encoding: .utf8)
+                Logger.log(dataStr ?? "Loi")
             }
         }
     }

@@ -15,6 +15,8 @@ class TrackingEvent {
     private static var syncTimer: Timer? // timer to schedule syncs at regular intervals
     private static let semaphore = DispatchSemaphore(value: 1) // semaphore to limit the number of concurrent syncs
     private static var lastSyncTime: Date? // last event time
+    private static var lastCheckHeartBeatTime: Date? // last beat time
+    private static var beatInterval: TimeInterval = 30 // sync every 5 seconds
     private static var eventTotalCounter = 0;
     private static var isSyncing = false;
     
@@ -30,8 +32,21 @@ class TrackingEvent {
     class func trackEvent(name: String, data: [String: Any]?) {
         Logger.log("tracking event: \(name)")
         checkAuth()
-        let event = EventData.makeEvent(key: name, sessionId: authData?.data?.sessionId ?? "", realtime: false, data: data)
+        var realtime = false
+        if let _data = data, let afRealtime = _data["afRealtime"] {
+            if afRealtime is Bool && afRealtime as! Bool == true {
+                realtime = true
+            } else if afRealtime is String && (afRealtime as! String).lowercased() == "true" {
+                realtime = true
+            }
+        }
+        let event = EventData.makeEvent(key: name, sessionId: authData?.data?.sessionId ?? "", realtime: realtime, data: data)
         DatabaseHelper.shared.addEvent(event: event)
+        
+        if(realtime) {
+            syncRealtime(event)
+        }
+        
         eventTotalCounter += 1
         checkTimer()
 
@@ -44,6 +59,36 @@ class TrackingEvent {
     
     class func getTotalCount() -> Int {
         return eventTotalCounter
+    }
+    
+    private class func syncRealtime(_ eventData: EventData) {
+        var _data: [EventData] = []
+        _data.append(eventData)
+        if _data.isEmpty {
+            isSyncing = false
+            return
+        }
+        HttpClient.shared.post(with: "/partner/event/log", params: ["events": EventData.convertToArray(_data)]) { data, _error in
+            isSyncing = false
+            if let data = data {
+                do {
+                    let result = try JSONDecoder().decode(ResultData.self, from: data)
+                    if result.responseCode == 200 {
+                        Logger.log("----- sync successful -----")
+                        DatabaseHelper.shared.removeEvents(events: _data)
+                    } else {
+                        Logger.log("----- sync error -----")
+                        Logger.log(result.responseText)
+                    }
+                } catch {
+                    Logger.log("----- sync error -----")
+                    Logger.log(error)
+                }
+            } else {
+                Logger.log("----- sync error -----")
+                Logger.log(_error ?? "Error from request")
+            }
+        }
     }
 
     private class func sync() {
@@ -88,6 +133,32 @@ class TrackingEvent {
         }
     }
     
+    private class func heartBeat() {
+        if lastCheckHeartBeatTime != nil {
+            if Date().timeIntervalSince(lastCheckHeartBeatTime!) >= beatInterval {
+                lastCheckHeartBeatTime = Date()
+                HttpClient.shared.post(with: "/partner/online-user/log", params: [:]) { data, _error in
+                    if let data = data {
+                        do {
+                            let result = try JSONDecoder().decode(HeartBeatResultData.self, from: data)
+                            let dataStr = String(data: data, encoding: .utf8)
+                            if result.responseCode == 200 {
+                                Logger.log("Airflex ping.......")
+                                beatInterval = TimeInterval(result.data?.second ?? 30)
+                            } else {
+                                Logger.log(result.responseText)
+                            }
+                        } catch {
+                            Logger.log(error)
+                        }
+                    } else {
+                        Logger.log(_error ?? "Error from request")
+                    }
+                }
+            }
+        }
+    }
+    
     private class func checkTimer() {
         if syncTimer == nil {
             startSyncTimer()
@@ -96,6 +167,7 @@ class TrackingEvent {
 
     private class func startSyncTimer() {
         lastSyncTime = Date()
+        lastCheckHeartBeatTime = Date()
         Logger.log("startSyncTimer")
         DispatchQueue.main.async {
             syncTimer = Timer.scheduledTimer(withTimeInterval: syncInterval, repeats: true) { _ in
@@ -105,6 +177,7 @@ class TrackingEvent {
                         sync()
                     }
                 }
+                heartBeat()
             }
         }
     }
