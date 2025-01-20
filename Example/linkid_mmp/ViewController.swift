@@ -14,6 +14,8 @@ class ViewController: UIViewController {
     
     lazy var button = UIButton(type: .system)
     lazy var button2 = UIButton(type: .system)
+    lazy var button3 = UIButton(type: .system)
+    lazy var button4 = UIButton(type: .system)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,12 +45,56 @@ class ViewController: UIViewController {
         }
         
         button2.addTarget(self, action: #selector(btnClick2(_:)), for: .touchUpInside)
+        
+        
+        button3.setTitle( "Game1", for: .normal)
+        button3.setTitleColor(.white, for: .normal)
+        button3.backgroundColor = .blue
+        view.addSubview(button3)
+        button3.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(270.0)
+            make.width.equalTo(200)
+            make.height.equalTo(50)
+        }
+        
+        button3.addTarget(self, action: #selector(btnClick3(_:)), for: .touchUpInside)
+        
+        
+        button4.setTitle( "Game2", for: .normal)
+        button4.setTitleColor(.white, for: .normal)
+        button4.backgroundColor = .blue
+        view.addSubview(button4)
+        button4.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(330.0)
+            make.width.equalTo(200)
+            make.height.equalTo(50)
+        }
+        
+        button4.addTarget(self, action: #selector(btnClick4(_:)), for: .touchUpInside)
     }
     
     @objc func btnClick1(_ sender:UIButton!) {
-        Airflex.logEvent(name: "event1", data: ["afRealtime": true])
+//        Airflex.logEvent(name: "event1", data: ["afRealtime": true])
+        Airflex.setFlag(flagKey: "tuan_test", flagValue: "1") { flagData in
+            print(flagData.toString())
+        }
 //        let exception = NSException(name: NSExceptionName(rawValue: "arbitrary ffdfdf"), reason: "arbitrary reason", userInfo: nil)
 //        exception.raise()
+    }
+    
+    @objc func btnClick3(_ sender:UIButton!) {
+        Airflex.getFlags(flagKey: "tuan_test2", limit: 100, offset: 0) { flagData in
+            print(flagData.toString())
+        }
+//        Airflex.clear()
+//        Airflex.intSDK(partnerCode: "myvpbank_uat", appSecret: "7fe95468c204397de9bcda2d702d4501a174976b1d003d92d1e5550b03f9fcb5", extra: "game1")
+    }
+    
+    @objc func btnClick4(_ sender:UIButton!) {
+        Airflex.clear()
+        Airflex.initSDK(partnerCode: "myvpbank_uat", appSecret: "7fe95468c204397de9bcda2d702d4501a174976b1d003d92d1e5550b03f9fcb5", extra: "game2")
     }
     
     @objc func btnClick2(_ sender:UIButton!) {
@@ -68,7 +114,7 @@ class ViewController: UIViewController {
         let androidParameters = DeepLinkAndroidParameters(packageName: "com.vpbank.myvpbank")
         linkBuilder.androidParameters = androidParameters
         
-        let airflexParameters = DeepLinkAirflexParameters(source: "app", code: "11223344", medium: "medium", campaign: "campaign1")
+        let airflexParameters = DeepLinkAirflexParameters(name: "Test From SDK iOS", source: "app", code: "11223344", medium: "medium", campaign: "campaign1")
         linkBuilder.airflexParameters = airflexParameters
         
         var products : [ProductItem] = []
@@ -86,7 +132,18 @@ class ViewController: UIViewController {
         
         Airflex.setProductList(listName: "tuan_test", products: products)
         
-//        linkBuilder.createLink { result, error in
+        linkBuilder.createLink { result, error in
+            print("-------TUANDV8-------")
+            if let result = result {
+                print(result.longLink)
+                print(result.shortLink)
+            } else if let error = error {
+                print(error.message)
+            }
+            
+        }
+        
+//        linkBuilder.createShortLink(longLink: "https://google.com") { result, error in
 //            print("-------TUANDV8-------")
 //            if let result = result {
 //                print(result.longLink)
@@ -95,16 +152,6 @@ class ViewController: UIViewController {
 //                print(error.message)
 //            }
 //        }
-        
-        linkBuilder.createShortLink(longLink: "https://google.com") { result, error in
-            print("-------TUANDV8-------")
-            if let result = result {
-                print(result.longLink)
-                print(result.shortLink)
-            } else if let error = error {
-                print(error.message)
-            }
-        }
         
     }
 

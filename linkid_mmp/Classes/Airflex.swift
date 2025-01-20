@@ -1,7 +1,10 @@
 import Foundation
+//import airflex_dfp
 
 @objcMembers
 public class Airflex {
+    
+    static var globalOptions :AirflexOptions?
 
     static public func logEvent(name: String, data: [String: Any]?) {
         TrackingEvent.trackEvent(name: name, data: data)
@@ -10,28 +13,36 @@ public class Airflex {
     static public func setDevMode(_ devMode: Bool) {
         Logger.setDevMode(devMode)
     }
-
-    static public func intSDK(partnerCode: String, appSecret: String, options: AirflexOptions?) {
+    
+    static public func initSDK(partnerCode: String, appSecret: String, options: AirflexOptions) {
         if partnerCode != "" {
-            if options != nil {
-                Logger.setDevMode(options!.showLog)
-                if options!.autoTrackingScreen {
-                    ScreenChangeObserver().startObserving()
-                }
+            globalOptions = options
+            Logger.setDevMode(options.showLog)
+            if options.autoTrackingScreen {
+                ScreenChangeObserver().startObserving()
             }
             StorageHelper.shared.savePartnerCode(partnerCode)
             StorageHelper.shared.saveAppSecret(appSecret)
             SessionManager.auth(partnerCode: partnerCode, appSecret: appSecret)
         }
         Crashlytics.setup()
+//        DigitalFootprint.initSevice(tenantId: "2", apiKey: "1233", url: "")
     }
     
-    static public func intSDK(partnerCode: String, appSecret: String) {
+    static public func initSDK(partnerCode: String, appSecret: String) {
         let options = AirflexOptions()
         options.showLog = Logger.isDevMode()
-        intSDK(partnerCode: partnerCode, appSecret: appSecret, options: options)
+        options.extraCode = ""
+        initSDK(partnerCode: partnerCode, appSecret: appSecret, options: options)
     }
     
+    static public func initSDK(partnerCode: String, appSecret: String, extra: String) {
+        let options = AirflexOptions()
+        options.showLog = Logger.isDevMode()
+        options.extraCode = extra
+        initSDK(partnerCode: partnerCode, appSecret: appSecret, options: options)
+    }
+
 //    static public func addAppDelegate(_ delegate : UIApplicationDelegate) {
 //        UIApplication.shared.delegate = delegate
 //    }
@@ -58,22 +69,32 @@ public class Airflex {
         var data: [String: Any] = [:]
         Logger.log("user info")
         Logger.log(userInfo.toDictionary())
-        data += DeviceInfo.getDeviceInfo()
-        data += userInfo.toDictionary()
-        StorageHelper.shared.save(userInfo.userId, forKey: "LinkID_MMP_UserID")
+//        data += DeviceInfo.getDeviceInfo()
+//        data += userInfo.toDictionary()
+        data.merged(with: DeviceInfo.getDeviceInfo())
+        data.merged(with: userInfo.toDictionary())
+        if(userInfo.userId != "") {
+            StorageHelper.shared.save(userInfo.userId, forKey: "LinkID_MMP_UserID")
+        }
         SessionManager.updateInfo(data: data)
     }
     
     static public func setRevenue(orderId: String, amount: Double, currency: String, data: [String: Any]?) {
         var _data: [String: Any] = [:]
         if (data != nil) {
-            _data += data!
+//            _data += data!
+            _data.merged(with: data!)
         }
-        _data += [
+//        _data += [
+//            "orderId": orderId,
+//            "amount": amount,
+//            "currency": currency
+//        ]
+        _data.merged(with: [
             "orderId": orderId,
             "amount": amount,
             "currency": currency
-        ]
+        ])
         TrackingEvent.trackEvent(name: "lid_mmp_revenue", data: _data)
     }
     
@@ -91,5 +112,21 @@ public class Airflex {
     
     public static func removeUserToken() {
         SessionManager.removeUserToken()
+    }
+    
+    public static func clear() {
+        SessionManager.clear()
+    }
+    
+    public static func setFlag(flagKey: String, flagValue: String, description: String = "", completion: @escaping (FlagData) -> Void) {
+        FlagHelper.setFlag(flagKey: flagKey, flagValue: flagValue, description: description, source: "ios_sdk", completion: completion)
+    }
+    
+    public static func getFlags(flagKey: String, limit: Int, offset: Int, completion: @escaping (FlagData) -> Void) {
+        FlagHelper.getFlags(flagKey: flagKey, limit: limit, offset: offset, completion: completion)
+    }
+    
+    public static func getFlags(limit: Int, offset: Int, completion: @escaping (FlagData) -> Void) {
+        FlagHelper.getFlags(limit: limit, offset: offset, completion: completion)
     }
 }

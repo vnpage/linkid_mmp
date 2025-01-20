@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let options = AirflexOptions()
         options.showLog = true
-        Airflex.intSDK(partnerCode: "myvpbank_uat", appSecret: "7fe95468c204397de9bcda2d702d4501a174976b1d003d92d1e5550b03f9fcb5", options: options)
+        Airflex.initSDK(partnerCode: "myvpbank_uat", appSecret: "7fe95468c204397de9bcda2d702d4501a174976b1d003d92d1e5550b03f9fcb5", options: options)
 //        Airflex.addAppDelegate(AirflexDeepLinkDelegate.shared)
 //        UIApplication.shared.delegate = AirflexDeepLinkDelegate.shared
         Airflex.handleDeeplink { url in
@@ -85,7 +85,7 @@ class NotificationService: UNNotificationServiceExtension {
         self.contentHandler = contentHandler
         self.bestAttemptContent = (request.content.mutableCopy() as? UNMutableNotificationContent)
         
-        if let bestAttemptContent = bestAttemptContent {
+        if bestAttemptContent != nil {
             /* DEBUGGING: Uncomment the 2 lines below to check this extension is executing
                           Note, this extension only runs when mutable-content is set
                           Setting an attachment or action buttons automatically adds this */

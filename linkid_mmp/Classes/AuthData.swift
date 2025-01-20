@@ -35,6 +35,7 @@ struct DeepLinkResultData: Decodable {
 struct DeepLinkData: Decodable {
     let short_link: String
     let long_link: String
+    let qr_link: String
 }
 
 struct HeartBeatResultData: Decodable {

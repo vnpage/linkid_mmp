@@ -40,7 +40,15 @@ class TrackingEvent {
                 realtime = true
             }
         }
-        let event = EventData.makeEvent(key: name, sessionId: authData?.data?.sessionId ?? "", realtime: realtime, data: data)
+        var _data: [String: Any] = [:]
+        if data != nil {
+//            _data += data ?? [:]
+            _data.merged(with: data ?? [:])
+        }
+        if let userId = StorageHelper.shared.getValue(forKey: "LinkID_MMP_UserID") as String?, userId != "" {
+            _data["lid_mmp_user_id"] = userId
+        }
+        let event = EventData.makeEvent(key: name, sessionId: authData?.data?.sessionId ?? "", realtime: realtime, data: _data)
         DatabaseHelper.shared.addEvent(event: event)
         
         if(realtime) {
@@ -182,7 +190,7 @@ class TrackingEvent {
         }
     }
     
-    private class func stopSyncTimer() { 
+    public class func stopSyncTimer() { 
         syncTimer?.invalidate()
         syncTimer = nil
     }

@@ -18,7 +18,7 @@ class SessionManager {
             baseUrl = StorageHelper.shared.getBaseUrl()
         }
         if partnerCode != "" && appSecret != "" {
-            if(baseUrl == "" || !baseUrl.startWiths("http")) {
+            if(baseUrl == "" || !baseUrl.startsWith("http")) {
                 auth(partnerCode: partnerCode, appSecret: appSecret)
             } else {
                 authWithBaseUrl(partnerCode: partnerCode, appSecret: appSecret, baseUrl: baseUrl)
@@ -58,6 +58,7 @@ class SessionManager {
                         Logger.log(authData.data?.token ?? "")
                         StorageHelper.shared.saveAuthData(data)
                         updateInfo(data: DeviceInfo.getDeviceInfo())
+                        DeviceInfo.getFingerprint()
                         let is_first = StorageHelper.shared.getValue(forKey: "___first_open") ?? "0"
                         if is_first == "0" {
                             StorageHelper.shared.save("1", forKey: "___first_open")
@@ -87,16 +88,21 @@ class SessionManager {
         baseUrl = Common.decrypt(encrypted: appSecret, key: partnerCode)
         Logger.log("baseUrl \(baseUrl)")
         authWithBaseUrl(partnerCode: partnerCode, appSecret: appSecret, baseUrl: baseUrl)
-        
     }
     
     public class func updateInfo(data: [String: Any]?) {
-        HttpClient.shared.post(with: "/partner/device-info/update", params: data) { _data, _error in
+        HttpClient.shared.post(with: "/partner/device-info/update", params: data ?? [:]) { _data, _error in
             if let _data = _data {
                     let dataStr = String(data: _data, encoding: .utf8)
                 Logger.log(dataStr ?? "Loi")
             }
         }
+    }
+    
+    public class func clear() {
+        baseUrl = ""
+        StorageHelper.shared.removeAuthData()
+        TrackingEvent.stopSyncTimer()
     }
     
     public class func removeUserToken() {

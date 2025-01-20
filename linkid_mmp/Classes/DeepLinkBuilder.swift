@@ -19,13 +19,16 @@ public class DeepLinkBuilder {
         var params: [String: Any] = [:]
         var fields: [String: Any] = [:]
         if(iOSParameters != nil) {
-            fields += iOSParameters!.buildParams()
+//            fields += iOSParameters!.buildParams()
+            fields.merged(with: iOSParameters!.buildParams())
         }
         if(androidParameters != nil) {
-            fields += androidParameters!.buildParams()
+//            fields += androidParameters!.buildParams()
+            fields.merged(with: androidParameters!.buildParams())
         }
         if(airflexParameters != nil) {
-            fields += airflexParameters!.buildParams()
+//            fields += airflexParameters!.buildParams()
+            fields.merged(with: airflexParameters!.buildParams())
         }
         
         var _fields: [[String:Any]] = []
@@ -42,11 +45,12 @@ public class DeepLinkBuilder {
         HttpClient.shared.post(with: "/partner/deeplink/create", params: params) { _data, _error in
             if let data = _data {
                 do {
+                    let dataStr = String(data: data, encoding: .utf8)
                     let result = try JSONDecoder().decode(ResultData.self, from: data)
                     if result.responseCode >= 200 && result.responseCode < 299 {
                         let deeplinkResult = try JSONDecoder().decode(DeepLinkResultData.self, from: data)
                         if let deeplink = deeplinkResult.data {
-                            completion(DeepLinkBuilderResult(shortLink: deeplink.short_link, longLink: deeplink.long_link), nil)
+                            completion(DeepLinkBuilderResult(shortLink: deeplink.short_link, longLink: deeplink.long_link, qrLink: deeplink.qr_link), nil)
                         } else {
                             completion(nil, DeepLinkBuilderError(code: "0", message: "data is null"))
                         }
@@ -81,7 +85,7 @@ public class DeepLinkBuilder {
                     if result.responseCode >= 200 && result.responseCode < 299 {
                         let deeplinkResult = try JSONDecoder().decode(DeepLinkResultData.self, from: data)
                         if let deeplink = deeplinkResult.data {
-                            completion(DeepLinkBuilderResult(shortLink: deeplink.short_link, longLink: deeplink.long_link), nil)
+                            completion(DeepLinkBuilderResult(shortLink: deeplink.short_link, longLink: deeplink.long_link, qrLink: deeplink.qr_link), nil)
                         } else {
                             completion(nil, DeepLinkBuilderError(code: "0", message: "data is null"))
                         }

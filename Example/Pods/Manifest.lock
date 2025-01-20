@@ -1,9 +1,5 @@
 PODS:
-  - GRDB.swift (4.14.0):
-    - GRDB.swift/standard (= 4.14.0)
-  - GRDB.swift/standard (4.14.0)
-  - linkid_mmp (1.0.5):
-    - GRDB.swift (= 4.14.0)
+  - linkid_mmp (1.0.5)
   - SnapKit (5.6.0)
 
 DEPENDENCIES:
@@ -12,7 +8,6 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
-    - GRDB.swift
     - SnapKit
 
 EXTERNAL SOURCES:
@@ -20,10 +15,9 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  GRDB.swift: 8cc3ab7c8b8b4ac1761deb8dca4b51c1c9d429f8
-  linkid_mmp: 4f81d7ad7dacce3c43a817d99c6069fb25922685
+  linkid_mmp: 7d864d27c2ed8d11a2739bcc1b16875c765e41da
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
 
-PODFILE CHECKSUM: 59a7fd0910c48e46aafabb07e722d3f44aa9613e
+PODFILE CHECKSUM: 586318d6d11b18dc61ffef834cf104720734a200
 
-COCOAPODS: 1.14.3
+COCOAPODS: 1.15.2

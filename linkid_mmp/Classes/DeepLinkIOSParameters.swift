@@ -18,6 +18,7 @@ public class DeepLinkIOSParameters {
         self.appStoreID = appStoreID
     }
     
+    
     public func buildParams()-> [String: Any] {
         var params: [String: Any] = [:]
         if bundleID != nil {

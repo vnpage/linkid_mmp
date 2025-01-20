@@ -17,17 +17,17 @@ class StorageHelper {
 
     func save(_ value: String, forKey key: String) {
 //            keychain.set(value, forKey: key)
-        UserDefaults.standard.set(value, forKey: key)
+        UserDefaults.standard.set(value, forKey: "\(Airflex.globalOptions?.extraCode ?? "")\(key)")
     }
     
     func getValue(forKey key: String) -> String? {
 //        return keychain.get(key)
-        return UserDefaults.standard.string(forKey: key)
+        return UserDefaults.standard.string(forKey: "\(Airflex.globalOptions?.extraCode ?? "")\(key)")
     }
     
     func deleteValue(forKey key: String) {
 //        keychain.delete(key)
-        UserDefaults.standard.removeObject(forKey: key)
+        UserDefaults.standard.removeObject(forKey: "\(Airflex.globalOptions?.extraCode ?? "")\(key)")
     }
     
     func saveLastEventTime(_ time: Int64) {

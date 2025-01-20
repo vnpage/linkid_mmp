@@ -30,7 +30,7 @@ TODO: Add long description of the pod here.
 
   s.ios.deployment_target = '10.0'
 
-  s.source_files = 'linkid_mmp/Classes/**/*'
+  s.source_files = 'linkid_mmp/Classes/**/*', 'GRDB.swift/**/*'
   
   # s.resource_bundles = {
   #   'linkid_mmp' => ['linkid_mmp/Assets/*.png']
@@ -42,10 +42,10 @@ TODO: Add long description of the pod here.
 #  s.dependency 'SQLite.swift', '~> 0.14.0'
 #  s.dependency 'KeychainSwift', '~> 20.0'
 #  s.dependency 'CryptoSwift', '1.3.3'
-  s.dependency 'GRDB.swift', '4.14.0'
-#  s.preserve_paths = 'MMPCryptoSwift.xcframework/**/*'
-#  s.xcconfig = { 'OTHER_LDFLAGS' => '-framework MMPCryptoSwift' }
-#  s.vendored_frameworks = 'MMPCryptoSwift.xcframework'
+#  s.dependency 'GRDB.swift', '4.14.0'
+#  s.preserve_paths = 'airflex_dfp.xcframework/**/*'
+#  s.xcconfig = { 'OTHER_LDFLAGS' => '-framework airflex_dfp' }
+#  s.vendored_frameworks = 'airflex_dfp.xcframework'
   
 end
 

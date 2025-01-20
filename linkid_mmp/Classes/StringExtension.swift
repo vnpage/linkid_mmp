@@ -20,12 +20,31 @@ extension String {
         return nil
     }
     
-    func endWiths(_ str: String) -> Bool {
-         return self.suffix(str.count) == str
+//    func endWiths(_ str: String) -> Bool {
+//         return self.suffix(str.count) == str
+//    }
+//    
+//    func startWiths(_ str: String) -> Bool {
+//        return self.prefix(str.count) == str
+//    }
+    
+    func startsWith(_ prefix: String) -> Bool {
+        return self.hasPrefix(prefix)
+    }
+
+    func endsWith(_ suffix: String) -> Bool {
+        return self.hasSuffix(suffix)
     }
     
-    func startWiths(_ str: String) -> Bool {
-        return self.prefix(str.count) == str
+    func replaceAll(of pattern: String, with replacement: String, options: NSRegularExpression.Options = []) -> String {
+        do {
+            let regex = try NSRegularExpression(pattern: pattern, options: [])
+            let range = NSRange(0..<self.utf16.count)
+            return regex.stringByReplacingMatches(in: self, options: [],
+                                                  range: range, withTemplate: replacement)
+        } catch {
+            return self
+        }
     }
     
     init?(hex: String) {

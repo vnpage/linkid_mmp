@@ -1,0 +1,1417 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 6.0.2 effective-4.1.50 (swiftlang-6.0.2.1.2 clang-1600.0.26.4)
+// swift-module-flags: -target x86_64-apple-ios11.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 4 -enforce-exclusivity=checked -O -enable-bare-slash-regex -module-name airflex_dfp
+// swift-module-flags-ignorable: -no-verify-emitted-module-interface
+import AVFoundation
+import SystemConfiguration.CaptiveNetwork
+import CommonCrypto
+import Contacts
+import CoreGraphics
+import CoreLocation
+import CoreTelephony
+import CryptoKit
+import Darwin
+import DeviceCheck
+import Foundation
+import Network
+import NetworkExtension
+import Security
+import Swift
+import SwiftUI
+import SystemConfiguration
+import UIKit
+import WebKit
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+@_exported import airflex_dfp
+open class Attribute {
+  public init(key: Swift.String, value: Swift.String) throws
+  open func getKey() -> Swift.String
+  open func setKey(key: Swift.String) throws
+  open func getValue() -> Swift.String
+  @discardableResult
+  open func setValue(value: Swift.String) -> Swift.String
+  public func html() -> Swift.String
+  public func html(accum: airflex_dfp.StringBuilder, out: airflex_dfp.OutputSettings)
+  open func toString() -> Swift.String
+  public static func createFromEncoded(unencodedKey: Swift.String, encodedValue: Swift.String) throws -> airflex_dfp.Attribute
+  public func isDataAttribute() -> Swift.Bool
+  final public func shouldCollapseAttribute(out: airflex_dfp.OutputSettings) -> Swift.Bool
+  public func isBooleanAttribute() -> Swift.Bool
+  public func hashCode() -> Swift.Int
+  public func clone() -> airflex_dfp.Attribute
+  @objc deinit
+}
+extension airflex_dfp.Attribute : Swift.Equatable {
+  public static func == (lhs: airflex_dfp.Attribute, rhs: airflex_dfp.Attribute) -> Swift.Bool
+}
+open class Attributes : Foundation.NSCopying {
+  public static var dataPrefix: Swift.String
+  public init()
+  open func get(key: Swift.String) -> Swift.String
+  open func getIgnoreCase(key: Swift.String) throws -> Swift.String
+  open func put(_ key: Swift.String, _ value: Swift.String) throws
+  open func put(_ key: Swift.String, _ value: Swift.Bool) throws
+  open func put(attribute: airflex_dfp.Attribute)
+  open func remove(key: Swift.String) throws
+  open func removeIgnoreCase(key: Swift.String) throws
+  open func hasKey(key: Swift.String) -> Swift.Bool
+  open func hasKeyIgnoreCase(key: Swift.String) -> Swift.Bool
+  open func size() -> Swift.Int
+  open func addAll(incoming: airflex_dfp.Attributes?)
+  open func asList() -> [airflex_dfp.Attribute]
+  open func dataset() -> [Swift.String : Swift.String]
+  open func html() throws -> Swift.String
+  public func html(accum: airflex_dfp.StringBuilder, out: airflex_dfp.OutputSettings) throws
+  open func toString() throws -> Swift.String
+  open func equals(o: Swift.AnyObject?) -> Swift.Bool
+  open func lowercaseAllKeys()
+  @objc public func copy(with zone: ObjectiveC.NSZone? = nil) -> Any
+  open func clone() -> airflex_dfp.Attributes
+  @objc deinit
+}
+extension airflex_dfp.Attributes : Swift.Sequence {
+  public func makeIterator() -> Swift.AnyIterator<airflex_dfp.Attribute>
+  public typealias Element = airflex_dfp.Attribute
+  public typealias Iterator = Swift.AnyIterator<airflex_dfp.Attribute>
+}
+@_hasMissingDesignatedInitializers open class BooleanAttribute : airflex_dfp.Attribute {
+  override public func isBooleanAttribute() -> Swift.Bool
+  @objc deinit
+}
+extension CoreFoundation.CGSize : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+extension Swift.Character {
+  public static let space: Swift.Character
+  public static let BackslashT: Swift.Character
+  public static let BackslashN: Swift.Character
+  public static let BackslashF: Swift.Character
+  public static let BackslashR: Swift.Character
+  public static let BackshashRBackslashN: Swift.Character
+  public static let MIN_SUPPLEMENTARY_CODE_POINT: Swift.UInt32
+}
+final public class CharacterReader {
+  public static let EOF: Swift.UnicodeScalar
+  public init(_ input: Swift.String)
+  final public func getPos() -> Swift.Int
+  final public func isEmpty() -> Swift.Bool
+  final public func current() -> Swift.UnicodeScalar
+  @discardableResult
+  final public func consume() -> Swift.UnicodeScalar
+  final public func unconsume()
+  final public func advance()
+  final public func markPos()
+  final public func rewindToMark()
+  final public func consumeAsString() -> Swift.String
+  final public func nextIndexOf(_ c: Swift.UnicodeScalar) -> Swift.String.UnicodeScalarView.Index?
+  final public func nextIndexOf(_ seq: Swift.String) -> Swift.String.UnicodeScalarView.Index?
+  final public func consumeTo(_ c: Swift.UnicodeScalar) -> Swift.String
+  final public func consumeTo(_ seq: Swift.String) -> Swift.String
+  final public func consumeToAny(_ chars: Swift.UnicodeScalar...) -> Swift.String
+  final public func consumeToAny(_ chars: [Swift.UnicodeScalar]) -> Swift.String
+  final public func consumeToAnySorted(_ chars: Swift.UnicodeScalar...) -> Swift.String
+  final public func consumeToAnySorted(_ chars: [Swift.UnicodeScalar]) -> Swift.String
+  final public func consumeData() -> Swift.String
+  final public func consumeTagName() -> Swift.String
+  final public func consumeToEnd() -> Swift.String
+  final public func consumeLetterSequence() -> Swift.String
+  final public func consumeLetterThenDigitSequence() -> Swift.String
+  final public func consumeHexSequence() -> Swift.String
+  final public func consumeDigitSequence() -> Swift.String
+  final public func matches(_ c: Swift.UnicodeScalar) -> Swift.Bool
+  final public func matches(_ seq: Swift.String, ignoreCase: Swift.Bool = false, consume: Swift.Bool = false) -> Swift.Bool
+  final public func matchesIgnoreCase(_ seq: Swift.String) -> Swift.Bool
+  final public func matchesAny(_ seq: Swift.UnicodeScalar...) -> Swift.Bool
+  final public func matchesAny(_ seq: [Swift.UnicodeScalar]) -> Swift.Bool
+  final public func matchesAnySorted(_ seq: [Swift.UnicodeScalar]) -> Swift.Bool
+  final public func matchesLetter() -> Swift.Bool
+  final public func matchesDigit() -> Swift.Bool
+  @discardableResult
+  final public func matchConsume(_ seq: Swift.String) -> Swift.Bool
+  @discardableResult
+  final public func matchConsumeIgnoreCase(_ seq: Swift.String) -> Swift.Bool
+  final public func containsIgnoreCase(_ seq: Swift.String) -> Swift.Bool
+  final public func toString() -> Swift.String
+  @objc deinit
+}
+extension airflex_dfp.CharacterReader : Swift.CustomDebugStringConvertible {
+  final public var debugDescription: Swift.String {
+    get
+  }
+}
+open class Cleaner {
+  public init(headWhitelist: airflex_dfp.Whitelist?, bodyWhitelist: airflex_dfp.Whitelist)
+  public func clean(_ dirtyDocument: airflex_dfp.Document) throws -> airflex_dfp.Document
+  public func isValid(_ dirtyDocument: airflex_dfp.Document) throws -> Swift.Bool
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers open class Collector {
+  public static func collect(_ eval: airflex_dfp.Evaluator, _ root: airflex_dfp.Element) throws -> airflex_dfp.Elements
+  @objc deinit
+}
+@_inheritsConvenienceInitializers public class CombiningEvaluator : airflex_dfp.Evaluator {
+  public var evaluators: Swift.Array<airflex_dfp.Evaluator> {
+    get
+  }
+  override public init()
+  public init(_ evaluators: Swift.Array<airflex_dfp.Evaluator>)
+  public init(_ evaluators: airflex_dfp.Evaluator...)
+  final public class And : airflex_dfp.CombiningEvaluator {
+    override public init(_ evaluators: [airflex_dfp.Evaluator])
+    override public init(_ evaluators: airflex_dfp.Evaluator...)
+    override final public func matches(_ root: airflex_dfp.Element, _ node: airflex_dfp.Element) -> Swift.Bool
+    override final public func toString() -> Swift.String
+    @objc deinit
+  }
+  @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers final public class Or : airflex_dfp.CombiningEvaluator {
+    override public init(_ evaluators: [airflex_dfp.Evaluator])
+    final public func add(_ evaluator: airflex_dfp.Evaluator)
+    override final public func matches(_ root: airflex_dfp.Element, _ node: airflex_dfp.Element) -> Swift.Bool
+    override final public func toString() -> Swift.String
+    @objc deinit
+  }
+  @objc deinit
+}
+public class Comment : airflex_dfp.Node {
+  public init(_ data: Swift.String, _ baseUri: Swift.String)
+  override public func nodeName() -> Swift.String
+  public func getData() -> Swift.String
+  override public func copy(with zone: ObjectiveC.NSZone? = nil) -> Any
+  override public func copy(parent: airflex_dfp.Node?) -> airflex_dfp.Node
+  override public func copy(clone: airflex_dfp.Node, parent: airflex_dfp.Node?) -> airflex_dfp.Node
+  @objc deinit
+}
+public enum FingerprintJSVersion {
+  case v1
+  public static func == (a: airflex_dfp.FingerprintJSVersion, b: airflex_dfp.FingerprintJSVersion) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public enum FingerprintAlgorithm {
+  case sha256
+  case custom(any airflex_dfp.FingerprintFunction)
+}
+public struct Configuration {
+  public init(version: airflex_dfp.FingerprintJSVersion = .v1, algorithm: airflex_dfp.FingerprintAlgorithm = .sha256)
+}
+@_hasMissingDesignatedInitializers open class CssSelector {
+  public static func select(_ query: Swift.String, _ root: airflex_dfp.Element) throws -> airflex_dfp.Elements
+  public static func select(_ evaluator: airflex_dfp.Evaluator, _ root: airflex_dfp.Element) throws -> airflex_dfp.Elements
+  public static func select(_ query: Swift.String, _ roots: Swift.Array<airflex_dfp.Element>) throws -> airflex_dfp.Elements
+  @objc deinit
+}
+open class DataNode : airflex_dfp.Node {
+  public init(_ data: Swift.String, _ baseUri: Swift.String)
+  override open func nodeName() -> Swift.String
+  open func getWholeData() -> Swift.String
+  @discardableResult
+  open func setWholeData(_ data: Swift.String) -> airflex_dfp.DataNode
+  public static func createFromEncoded(_ encodedData: Swift.String, _ baseUri: Swift.String) throws -> airflex_dfp.DataNode
+  override public func copy(with zone: ObjectiveC.NSZone? = nil) -> Any
+  override public func copy(parent: airflex_dfp.Node?) -> airflex_dfp.Node
+  override public func copy(clone: airflex_dfp.Node, parent: airflex_dfp.Node?) -> airflex_dfp.Node
+  @objc deinit
+}
+public enum Network : Swift.String {
+  case wifi
+  case cellular
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum DeviceInfoValueType {
+  case category
+  case info(Swift.String)
+}
+public struct DeviceInfoItem {
+  public let label: Swift.String
+  public let value: airflex_dfp.DeviceInfoValueType
+  public let children: [airflex_dfp.DeviceInfoItem]?
+}
+@_hasMissingDesignatedInitializers @objcMembers public class DigitalFootprint {
+  @objc public static func initSevice(tenantId: Swift.String, apiKey: Swift.String, url: Swift.String)
+  @objc public static func stopService()
+  @objc public static func logEvent(_ eventName: Swift.String, data: [Swift.String : Any]?)
+  @objc public static func saveData(_ data: [Swift.String : Any]?)
+  @objc public static func startScreenFlow(_ screenName: Swift.String)
+  @objc public static func endScreenFlow(_ screenName: Swift.String, data: [Swift.String : Any]?)
+  @objc public static func setCurrentScreen(_ screenName: Swift.String, data: [Swift.String : Any]?)
+  @objc public static func registerTextField(_ textField: UIKit.UITextField, name: Swift.String, delegate: (any UIKit.UITextFieldDelegate)?)
+  @objc public static func registerTextField(_ textField: UIKit.UITextField, name: Swift.String)
+  @objc public class func setShowLog(_ showLog: Swift.Bool)
+  @objc public class func saveInputEvent(_ eventData: [Swift.String : Any])
+  @objc public static func setReferralId(_ id: Swift.String)
+  @objc deinit
+}
+open class Document : airflex_dfp.Element {
+  public enum QuirksMode {
+    case noQuirks, quirks, limitedQuirks
+    public static func == (a: airflex_dfp.Document.QuirksMode, b: airflex_dfp.Document.QuirksMode) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public init(_ baseUri: Swift.String)
+  public static func createShell(_ baseUri: Swift.String) -> airflex_dfp.Document
+  public func location() -> Swift.String
+  public func head() -> airflex_dfp.Element?
+  public func body() -> airflex_dfp.Element?
+  public func title() throws -> Swift.String
+  public func title(_ title: Swift.String) throws
+  public func createElement(_ tagName: Swift.String) throws -> airflex_dfp.Element
+  @discardableResult
+  public func normalise() throws -> airflex_dfp.Document
+  override open func outerHtml() throws -> Swift.String
+  @discardableResult
+  override public func text(_ text: Swift.String) throws -> airflex_dfp.Element
+  override open func nodeName() -> Swift.String
+  public func charset(_ charset: Swift.String.Encoding) throws
+  public func charset() -> Swift.String.Encoding
+  public func updateMetaCharsetElement(_ update: Swift.Bool)
+  public func updateMetaCharsetElement() -> Swift.Bool
+  public func outputSettings() -> airflex_dfp.OutputSettings
+  @discardableResult
+  public func outputSettings(_ outputSettings: airflex_dfp.OutputSettings) -> airflex_dfp.Document
+  public func quirksMode() -> airflex_dfp.Document.QuirksMode
+  @discardableResult
+  public func quirksMode(_ quirksMode: airflex_dfp.Document.QuirksMode) -> airflex_dfp.Document
+  override public func copy(with zone: ObjectiveC.NSZone? = nil) -> Any
+  override public func copy(parent: airflex_dfp.Node?) -> airflex_dfp.Node
+  override public func copy(clone: airflex_dfp.Node, parent: airflex_dfp.Node?) -> airflex_dfp.Node
+  @objc deinit
+}
+public class OutputSettings : Foundation.NSCopying {
+  public enum Syntax {
+    case html, xml
+    public static func == (a: airflex_dfp.OutputSettings.Syntax, b: airflex_dfp.OutputSettings.Syntax) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public init()
+  public func escapeMode() -> airflex_dfp.Entities.EscapeMode
+  @discardableResult
+  public func escapeMode(_ escapeMode: airflex_dfp.Entities.EscapeMode) -> airflex_dfp.OutputSettings
+  public func encoder() -> Swift.String.Encoding
+  public func charset() -> Swift.String.Encoding
+  @discardableResult
+  public func encoder(_ encoder: Swift.String.Encoding) -> airflex_dfp.OutputSettings
+  @discardableResult
+  public func charset(_ e: Swift.String.Encoding) -> airflex_dfp.OutputSettings
+  public func syntax() -> airflex_dfp.OutputSettings.Syntax
+  @discardableResult
+  public func syntax(syntax: airflex_dfp.OutputSettings.Syntax) -> airflex_dfp.OutputSettings
+  public func prettyPrint() -> Swift.Bool
+  @discardableResult
+  public func prettyPrint(pretty: Swift.Bool) -> airflex_dfp.OutputSettings
+  public func outline() -> Swift.Bool
+  @discardableResult
+  public func outline(outlineMode: Swift.Bool) -> airflex_dfp.OutputSettings
+  public func indentAmount() -> Swift.UInt
+  @discardableResult
+  public func indentAmount(indentAmount: Swift.UInt) -> airflex_dfp.OutputSettings
+  @objc public func copy(with zone: ObjectiveC.NSZone? = nil) -> Any
+  @objc deinit
+}
+public class DocumentType : airflex_dfp.Node {
+  public init(_ name: Swift.String, _ publicId: Swift.String, _ systemId: Swift.String, _ baseUri: Swift.String)
+  public init(_ name: Swift.String, _ pubSysKey: Swift.String?, _ publicId: Swift.String, _ systemId: Swift.String, _ baseUri: Swift.String)
+  override public func nodeName() -> Swift.String
+  override public func copy(with zone: ObjectiveC.NSZone? = nil) -> Any
+  override public func copy(parent: airflex_dfp.Node?) -> airflex_dfp.Node
+  override public func copy(clone: airflex_dfp.Node, parent: airflex_dfp.Node?) -> airflex_dfp.Node
+  @objc deinit
+}
+open class Element : airflex_dfp.Node {
+  public init(_ tag: airflex_dfp.Tag, _ baseUri: Swift.String, _ attributes: airflex_dfp.Attributes)
+  public init(_ tag: airflex_dfp.Tag, _ baseUri: Swift.String)
+  override open func nodeName() -> Swift.String
+  open func tagName() -> Swift.String
+  open func tagNameNormal() -> Swift.String
+  @discardableResult
+  public func tagName(_ tagName: Swift.String) throws -> airflex_dfp.Element
+  open func tag() -> airflex_dfp.Tag
+  open func isBlock() -> Swift.Bool
+  open func id() -> Swift.String
+  @discardableResult
+  override open func attr(_ attributeKey: Swift.String, _ attributeValue: Swift.String) throws -> airflex_dfp.Element
+  @discardableResult
+  open func attr(_ attributeKey: Swift.String, _ attributeValue: Swift.Bool) throws -> airflex_dfp.Element
+  open func dataset() -> Swift.Dictionary<Swift.String, Swift.String>
+  override open func parent() -> airflex_dfp.Element?
+  open func parents() -> airflex_dfp.Elements
+  open func child(_ index: Swift.Int) -> airflex_dfp.Element
+  open func children() -> airflex_dfp.Elements
+  open func textNodes() -> Swift.Array<airflex_dfp.TextNode>
+  open func dataNodes() -> Swift.Array<airflex_dfp.DataNode>
+  public func select(_ cssQuery: Swift.String) throws -> airflex_dfp.Elements
+  public func iS(_ cssQuery: Swift.String) throws -> Swift.Bool
+  public func iS(_ evaluator: airflex_dfp.Evaluator) throws -> Swift.Bool
+  @discardableResult
+  public func appendChild(_ child: airflex_dfp.Node) throws -> airflex_dfp.Element
+  @discardableResult
+  public func prependChild(_ child: airflex_dfp.Node) throws -> airflex_dfp.Element
+  @discardableResult
+  public func insertChildren(_ index: Swift.Int, _ children: Swift.Array<airflex_dfp.Node>) throws -> airflex_dfp.Element
+  @discardableResult
+  public func appendElement(_ tagName: Swift.String) throws -> airflex_dfp.Element
+  @discardableResult
+  public func prependElement(_ tagName: Swift.String) throws -> airflex_dfp.Element
+  @discardableResult
+  public func appendText(_ text: Swift.String) throws -> airflex_dfp.Element
+  @discardableResult
+  public func prependText(_ text: Swift.String) throws -> airflex_dfp.Element
+  @discardableResult
+  public func append(_ html: Swift.String) throws -> airflex_dfp.Element
+  @discardableResult
+  public func prepend(_ html: Swift.String) throws -> airflex_dfp.Element
+  @discardableResult
+  override open func before(_ html: Swift.String) throws -> airflex_dfp.Element
+  @discardableResult
+  override open func before(_ node: airflex_dfp.Node) throws -> airflex_dfp.Element
+  @discardableResult
+  override open func after(_ html: Swift.String) throws -> airflex_dfp.Element
+  override open func after(_ node: airflex_dfp.Node) throws -> airflex_dfp.Element
+  @discardableResult
+  public func empty() -> airflex_dfp.Element
+  @discardableResult
+  override open func wrap(_ html: Swift.String) throws -> airflex_dfp.Element
+  public func cssSelector() throws -> Swift.String
+  public func siblingElements() -> airflex_dfp.Elements
+  public func nextElementSibling() throws -> airflex_dfp.Element?
+  public func previousElementSibling() throws -> airflex_dfp.Element?
+  public func firstElementSibling() -> airflex_dfp.Element?
+  public func elementSiblingIndex() throws -> Swift.Int
+  public func lastElementSibling() -> airflex_dfp.Element?
+  public func getElementsByTag(_ tagName: Swift.String) throws -> airflex_dfp.Elements
+  public func getElementById(_ id: Swift.String) throws -> airflex_dfp.Element?
+  public func getElementsByClass(_ className: Swift.String) throws -> airflex_dfp.Elements
+  public func getElementsByAttribute(_ key: Swift.String) throws -> airflex_dfp.Elements
+  public func getElementsByAttributeStarting(_ keyPrefix: Swift.String) throws -> airflex_dfp.Elements
+  public func getElementsByAttributeValue(_ key: Swift.String, _ value: Swift.String) throws -> airflex_dfp.Elements
+  public func getElementsByAttributeValueNot(_ key: Swift.String, _ value: Swift.String) throws -> airflex_dfp.Elements
+  public func getElementsByAttributeValueStarting(_ key: Swift.String, _ valuePrefix: Swift.String) throws -> airflex_dfp.Elements
+  public func getElementsByAttributeValueEnding(_ key: Swift.String, _ valueSuffix: Swift.String) throws -> airflex_dfp.Elements
+  public func getElementsByAttributeValueContaining(_ key: Swift.String, _ match: Swift.String) throws -> airflex_dfp.Elements
+  public func getElementsByAttributeValueMatching(_ key: Swift.String, _ pattern: airflex_dfp.Pattern) throws -> airflex_dfp.Elements
+  public func getElementsByAttributeValueMatching(_ key: Swift.String, _ regex: Swift.String) throws -> airflex_dfp.Elements
+  public func getElementsByIndexLessThan(_ index: Swift.Int) throws -> airflex_dfp.Elements
+  public func getElementsByIndexGreaterThan(_ index: Swift.Int) throws -> airflex_dfp.Elements
+  public func getElementsByIndexEquals(_ index: Swift.Int) throws -> airflex_dfp.Elements
+  public func getElementsContainingText(_ searchText: Swift.String) throws -> airflex_dfp.Elements
+  public func getElementsContainingOwnText(_ searchText: Swift.String) throws -> airflex_dfp.Elements
+  public func getElementsMatchingText(_ pattern: airflex_dfp.Pattern) throws -> airflex_dfp.Elements
+  public func getElementsMatchingText(_ regex: Swift.String) throws -> airflex_dfp.Elements
+  public func getElementsMatchingOwnText(_ pattern: airflex_dfp.Pattern) throws -> airflex_dfp.Elements
+  public func getElementsMatchingOwnText(_ regex: Swift.String) throws -> airflex_dfp.Elements
+  public func getAllElements() throws -> airflex_dfp.Elements
+  public func text(trimAndNormaliseWhitespace: Swift.Bool = true) throws -> Swift.String
+  public func ownText() -> Swift.String
+  @discardableResult
+  public func text(_ text: Swift.String) throws -> airflex_dfp.Element
+  public func hasText() -> Swift.Bool
+  public func data() -> Swift.String
+  public func className() throws -> Swift.String
+  public func classNames() throws -> airflex_dfp.OrderedSet<Swift.String>
+  @discardableResult
+  public func classNames(_ classNames: airflex_dfp.OrderedSet<Swift.String>) throws -> airflex_dfp.Element
+  public func hasClass(_ className: Swift.String) -> Swift.Bool
+  @discardableResult
+  public func addClass(_ className: Swift.String) throws -> airflex_dfp.Element
+  @discardableResult
+  public func removeClass(_ className: Swift.String) throws -> airflex_dfp.Element
+  @discardableResult
+  public func toggleClass(_ className: Swift.String) throws -> airflex_dfp.Element
+  public func val() throws -> Swift.String
+  @discardableResult
+  public func val(_ value: Swift.String) throws -> airflex_dfp.Element
+  public func html() throws -> Swift.String
+  override open func html(_ appendable: airflex_dfp.StringBuilder) throws -> airflex_dfp.StringBuilder
+  @discardableResult
+  public func html(_ html: Swift.String) throws -> airflex_dfp.Element
+  override public func copy(with zone: ObjectiveC.NSZone? = nil) -> Any
+  override public func copy(parent: airflex_dfp.Node?) -> airflex_dfp.Node
+  override public func copy(clone: airflex_dfp.Node, parent: airflex_dfp.Node?) -> airflex_dfp.Node
+  public static func == (lhs: airflex_dfp.Element, rhs: airflex_dfp.Element) -> Swift.Bool
+  override public func hash(into hasher: inout Swift.Hasher)
+  @objc deinit
+}
+open class Elements : Foundation.NSCopying {
+  public init()
+  public init(_ a: Swift.Array<airflex_dfp.Element>)
+  public init(_ a: airflex_dfp.OrderedSet<airflex_dfp.Element>)
+  @objc public func copy(with zone: ObjectiveC.NSZone? = nil) -> Any
+  open func attr(_ attributeKey: Swift.String) throws -> Swift.String
+  open func hasAttr(_ attributeKey: Swift.String) -> Swift.Bool
+  @discardableResult
+  open func attr(_ attributeKey: Swift.String, _ attributeValue: Swift.String) throws -> airflex_dfp.Elements
+  @discardableResult
+  open func removeAttr(_ attributeKey: Swift.String) throws -> airflex_dfp.Elements
+  @discardableResult
+  open func addClass(_ className: Swift.String) throws -> airflex_dfp.Elements
+  @discardableResult
+  open func removeClass(_ className: Swift.String) throws -> airflex_dfp.Elements
+  @discardableResult
+  open func toggleClass(_ className: Swift.String) throws -> airflex_dfp.Elements
+  open func hasClass(_ className: Swift.String) -> Swift.Bool
+  open func val() throws -> Swift.String
+  @discardableResult
+  open func val(_ value: Swift.String) throws -> airflex_dfp.Elements
+  open func text(trimAndNormaliseWhitespace: Swift.Bool = true) throws -> Swift.String
+  open func hasText() -> Swift.Bool
+  public func eachText() throws -> Swift.Array<Swift.String>
+  open func html() throws -> Swift.String
+  open func outerHtml() throws -> Swift.String
+  open func toString() throws -> Swift.String
+  @discardableResult
+  open func tagName(_ tagName: Swift.String) throws -> airflex_dfp.Elements
+  @discardableResult
+  open func html(_ html: Swift.String) throws -> airflex_dfp.Elements
+  @discardableResult
+  open func prepend(_ html: Swift.String) throws -> airflex_dfp.Elements
+  @discardableResult
+  open func append(_ html: Swift.String) throws -> airflex_dfp.Elements
+  @discardableResult
+  open func before(_ html: Swift.String) throws -> airflex_dfp.Elements
+  @discardableResult
+  open func after(_ html: Swift.String) throws -> airflex_dfp.Elements
+  @discardableResult
+  open func wrap(_ html: Swift.String) throws -> airflex_dfp.Elements
+  @discardableResult
+  open func unwrap() throws -> airflex_dfp.Elements
+  @discardableResult
+  open func empty() -> airflex_dfp.Elements
+  @discardableResult
+  open func remove() throws -> airflex_dfp.Elements
+  open func select(_ query: Swift.String) throws -> airflex_dfp.Elements
+  open func not(_ query: Swift.String) throws -> airflex_dfp.Elements
+  open func eq(_ index: Swift.Int) -> airflex_dfp.Elements
+  open func iS(_ query: Swift.String) throws -> Swift.Bool
+  open func parents() -> airflex_dfp.Elements
+  open func first() -> airflex_dfp.Element?
+  open func isEmpty() -> Swift.Bool
+  open func size() -> Swift.Int
+  open func last() -> airflex_dfp.Element?
+  @discardableResult
+  open func traverse(_ nodeVisitor: any airflex_dfp.NodeVisitor) throws -> airflex_dfp.Elements
+  open func forms() -> Swift.Array<airflex_dfp.FormElement>
+  open func add(_ e: airflex_dfp.Element)
+  open func add(_ index: Swift.Int, _ element: airflex_dfp.Element)
+  open func get(_ i: Swift.Int) -> airflex_dfp.Element
+  open func array() -> Swift.Array<airflex_dfp.Element>
+  @objc deinit
+}
+extension airflex_dfp.Elements : Swift.Equatable {
+  public static func == (lhs: airflex_dfp.Elements, rhs: airflex_dfp.Elements) -> Swift.Bool
+}
+extension airflex_dfp.Elements : Swift.RandomAccessCollection {
+  public subscript(position: Swift.Int) -> airflex_dfp.Element {
+    get
+  }
+  public var startIndex: Swift.Int {
+    get
+  }
+  public var endIndex: Swift.Int {
+    get
+  }
+  public var count: Swift.Int {
+    get
+  }
+  public typealias Element = airflex_dfp.Element
+  public typealias Index = Swift.Int
+  public typealias Indices = Swift.Range<Swift.Int>
+  public typealias Iterator = airflex_dfp.ElementsIterator
+  public typealias SubSequence = Swift.Slice<airflex_dfp.Elements>
+}
+public struct ElementsIterator : Swift.IteratorProtocol {
+  public mutating func next() -> airflex_dfp.Element?
+  public typealias Element = airflex_dfp.Element
+}
+extension airflex_dfp.Elements : Swift.Sequence {
+  public func makeIterator() -> airflex_dfp.ElementsIterator
+}
+@_hasMissingDesignatedInitializers public class Entities {
+  @_hasMissingDesignatedInitializers public class EscapeMode : Swift.Equatable {
+    public static let xhtml: airflex_dfp.Entities.EscapeMode
+    public static let base: airflex_dfp.Entities.EscapeMode
+    public static let extended: airflex_dfp.Entities.EscapeMode
+    public static func == (left: airflex_dfp.Entities.EscapeMode, right: airflex_dfp.Entities.EscapeMode) -> Swift.Bool
+    public func codepointForName(_ name: Swift.String) -> Swift.UnicodeScalar?
+    public func nameForCodepoint(_ codepoint: Swift.UnicodeScalar) -> Swift.String?
+    @objc deinit
+  }
+  public static func isNamedEntity(_ name: Swift.String) -> Swift.Bool
+  public static func isBaseNamedEntity(_ name: Swift.String) -> Swift.Bool
+  public static func getByName(name: Swift.String) -> Swift.String?
+  public static func codepointsForName(_ name: Swift.String) -> [Swift.UnicodeScalar]?
+  public static func escape(_ string: Swift.String, _ encode: Swift.String.Encoding = .utf8) -> Swift.String
+  public static func escape(_ string: Swift.String, _ out: airflex_dfp.OutputSettings) -> Swift.String
+  public static func unescape(_ string: Swift.String) throws -> Swift.String
+  public static func unescape(string: Swift.String, strict: Swift.Bool) throws -> Swift.String
+  @objc deinit
+}
+open class Evaluator {
+  public init()
+  open func matches(_ root: airflex_dfp.Element, _ element: airflex_dfp.Element) throws -> Swift.Bool
+  open func toString() -> Swift.String
+  public class Tag : airflex_dfp.Evaluator {
+    public init(_ tagName: Swift.String)
+    override open func matches(_ root: airflex_dfp.Element, _ element: airflex_dfp.Element) throws -> Swift.Bool
+    override open func toString() -> Swift.String
+    @objc deinit
+  }
+  final public class TagEndsWith : airflex_dfp.Evaluator {
+    public init(_ tagName: Swift.String)
+    override final public func matches(_ root: airflex_dfp.Element, _ element: airflex_dfp.Element) throws -> Swift.Bool
+    override final public func toString() -> Swift.String
+    @objc deinit
+  }
+  final public class Id : airflex_dfp.Evaluator {
+    public init(_ id: Swift.String)
+    override final public func matches(_ root: airflex_dfp.Element, _ element: airflex_dfp.Element) throws -> Swift.Bool
+    override final public func toString() -> Swift.String
+    @objc deinit
+  }
+  final public class Class : airflex_dfp.Evaluator {
+    public init(_ className: Swift.String)
+    override final public func matches(_ root: airflex_dfp.Element, _ element: airflex_dfp.Element) -> Swift.Bool
+    override final public func toString() -> Swift.String
+    @objc deinit
+  }
+  final public class Attribute : airflex_dfp.Evaluator {
+    public init(_ key: Swift.String)
+    override final public func matches(_ root: airflex_dfp.Element, _ element: airflex_dfp.Element) throws -> Swift.Bool
+    override final public func toString() -> Swift.String
+    @objc deinit
+  }
+  final public class AttributeStarting : airflex_dfp.Evaluator {
+    public init(_ keyPrefix: Swift.String) throws
+    override final public func matches(_ root: airflex_dfp.Element, _ element: airflex_dfp.Element) throws -> Swift.Bool
+    override final public func toString() -> Swift.String
+    @objc deinit
+  }
+  @_inheritsConvenienceInitializers final public class AttributeWithValue : airflex_dfp.Evaluator.AttributeKeyPair {
+    override public init(_ key: Swift.String, _ value: Swift.String) throws
+    override final public func matches(_ root: airflex_dfp.Element, _ element: airflex_dfp.Element) throws -> Swift.Bool
+    override final public func toString() -> Swift.String
+    @objc deinit
+  }
+  @_inheritsConvenienceInitializers final public class AttributeWithValueNot : airflex_dfp.Evaluator.AttributeKeyPair {
+    override public init(_ key: Swift.String, _ value: Swift.String) throws
+    override final public func matches(_ root: airflex_dfp.Element, _ element: airflex_dfp.Element) throws -> Swift.Bool
+    override final public func toString() -> Swift.String
+    @objc deinit
+  }
+  @_inheritsConvenienceInitializers final public class AttributeWithValueStarting : airflex_dfp.Evaluator.AttributeKeyPair {
+    override public init(_ key: Swift.String, _ value: Swift.String) throws
+    override final public func matches(_ root: airflex_dfp.Element, _ element: airflex_dfp.Element) throws -> Swift.Bool
+    override final public func toString() -> Swift.String
+    @objc deinit
+  }
+  @_inheritsConvenienceInitializers final public class AttributeWithValueEnding : airflex_dfp.Evaluator.AttributeKeyPair {
+    override public init(_ key: Swift.String, _ value: Swift.String) throws
+    override final public func matches(_ root: airflex_dfp.Element, _ element: airflex_dfp.Element) throws -> Swift.Bool
+    override final public func toString() -> Swift.String
+    @objc deinit
+  }
+  @_inheritsConvenienceInitializers final public class AttributeWithValueContaining : airflex_dfp.Evaluator.AttributeKeyPair {
+    override public init(_ key: Swift.String, _ value: Swift.String) throws
+    override final public func matches(_ root: airflex_dfp.Element, _ element: airflex_dfp.Element) throws -> Swift.Bool
+    override final public func toString() -> Swift.String
+    @objc deinit
+  }
+  final public class AttributeWithValueMatching : airflex_dfp.Evaluator {
+    public init(_ key: Swift.String, _ pattern: airflex_dfp.Pattern)
+    override final public func matches(_ root: airflex_dfp.Element, _ element: airflex_dfp.Element) throws -> Swift.Bool
+    override final public func toString() -> Swift.String
+    @objc deinit
+  }
+  public class AttributeKeyPair : airflex_dfp.Evaluator {
+    public init(_ key: Swift.String, _ value2: Swift.String) throws
+    override open func matches(_ root: airflex_dfp.Element, _ element: airflex_dfp.Element) throws -> Swift.Bool
+    @objc deinit
+  }
+  @_inheritsConvenienceInitializers final public class AllElements : airflex_dfp.Evaluator {
+    override final public func matches(_ root: airflex_dfp.Element, _ element: airflex_dfp.Element) throws -> Swift.Bool
+    override final public func toString() -> Swift.String
+    override public init()
+    @objc deinit
+  }
+  @_inheritsConvenienceInitializers final public class IndexLessThan : airflex_dfp.Evaluator.IndexEvaluator {
+    override public init(_ index: Swift.Int)
+    override final public func matches(_ root: airflex_dfp.Element, _ element: airflex_dfp.Element) throws -> Swift.Bool
+    override final public func toString() -> Swift.String
+    @objc deinit
+  }
+  @_inheritsConvenienceInitializers final public class IndexGreaterThan : airflex_dfp.Evaluator.IndexEvaluator {
+    override public init(_ index: Swift.Int)
+    override final public func matches(_ root: airflex_dfp.Element, _ element: airflex_dfp.Element) throws -> Swift.Bool
+    override final public func toString() -> Swift.String
+    @objc deinit
+  }
+  @_inheritsConvenienceInitializers final public class IndexEquals : airflex_dfp.Evaluator.IndexEvaluator {
+    override public init(_ index: Swift.Int)
+    override final public func matches(_ root: airflex_dfp.Element, _ element: airflex_dfp.Element) throws -> Swift.Bool
+    override final public func toString() -> Swift.String
+    @objc deinit
+  }
+  @_inheritsConvenienceInitializers final public class IsLastChild : airflex_dfp.Evaluator {
+    override final public func matches(_ root: airflex_dfp.Element, _ element: airflex_dfp.Element) throws -> Swift.Bool
+    override final public func toString() -> Swift.String
+    override public init()
+    @objc deinit
+  }
+  final public class IsFirstOfType : airflex_dfp.Evaluator.IsNthOfType {
+    public init()
+    override final public func toString() -> Swift.String
+    @objc deinit
+  }
+  final public class IsLastOfType : airflex_dfp.Evaluator.IsNthLastOfType {
+    public init()
+    override final public func toString() -> Swift.String
+    @objc deinit
+  }
+  public class CssNthEvaluator : airflex_dfp.Evaluator {
+    final public let a: Swift.Int
+    final public let b: Swift.Int
+    public init(_ a: Swift.Int, _ b: Swift.Int)
+    public init(_ b: Swift.Int)
+    override open func matches(_ root: airflex_dfp.Element, _ element: airflex_dfp.Element) throws -> Swift.Bool
+    override open func toString() -> Swift.String
+    open func getPseudoClass() -> Swift.String
+    open func calculatePosition(_ root: airflex_dfp.Element, _ element: airflex_dfp.Element) throws -> Swift.Int
+    @objc deinit
+  }
+  final public class IsNthChild : airflex_dfp.Evaluator.CssNthEvaluator {
+    override public init(_ a: Swift.Int, _ b: Swift.Int)
+    override final public func calculatePosition(_ root: airflex_dfp.Element, _ element: airflex_dfp.Element) throws -> Swift.Int
+    override final public func getPseudoClass() -> Swift.String
+    @objc deinit
+  }
+  final public class IsNthLastChild : airflex_dfp.Evaluator.CssNthEvaluator {
+    override public init(_ a: Swift.Int, _ b: Swift.Int)
+    override final public func calculatePosition(_ root: airflex_dfp.Element, _ element: airflex_dfp.Element) throws -> Swift.Int
+    override final public func getPseudoClass() -> Swift.String
+    @objc deinit
+  }
+  public class IsNthOfType : airflex_dfp.Evaluator.CssNthEvaluator {
+    override public init(_ a: Swift.Int, _ b: Swift.Int)
+    override open func calculatePosition(_ root: airflex_dfp.Element, _ element: airflex_dfp.Element) -> Swift.Int
+    override open func getPseudoClass() -> Swift.String
+    @objc deinit
+  }
+  public class IsNthLastOfType : airflex_dfp.Evaluator.CssNthEvaluator {
+    override public init(_ a: Swift.Int, _ b: Swift.Int)
+    override open func calculatePosition(_ root: airflex_dfp.Element, _ element: airflex_dfp.Element) throws -> Swift.Int
+    override open func getPseudoClass() -> Swift.String
+    @objc deinit
+  }
+  @_inheritsConvenienceInitializers final public class IsFirstChild : airflex_dfp.Evaluator {
+    override final public func matches(_ root: airflex_dfp.Element, _ element: airflex_dfp.Element) throws -> Swift.Bool
+    override final public func toString() -> Swift.String
+    override public init()
+    @objc deinit
+  }
+  @_inheritsConvenienceInitializers final public class IsRoot : airflex_dfp.Evaluator {
+    override final public func matches(_ root: airflex_dfp.Element, _ element: airflex_dfp.Element) throws -> Swift.Bool
+    override final public func toString() -> Swift.String
+    override public init()
+    @objc deinit
+  }
+  @_inheritsConvenienceInitializers final public class IsOnlyChild : airflex_dfp.Evaluator {
+    override final public func matches(_ root: airflex_dfp.Element, _ element: airflex_dfp.Element) throws -> Swift.Bool
+    override final public func toString() -> Swift.String
+    override public init()
+    @objc deinit
+  }
+  @_inheritsConvenienceInitializers final public class IsOnlyOfType : airflex_dfp.Evaluator {
+    override final public func matches(_ root: airflex_dfp.Element, _ element: airflex_dfp.Element) throws -> Swift.Bool
+    override final public func toString() -> Swift.String
+    override public init()
+    @objc deinit
+  }
+  @_inheritsConvenienceInitializers final public class IsEmpty : airflex_dfp.Evaluator {
+    override final public func matches(_ root: airflex_dfp.Element, _ element: airflex_dfp.Element) throws -> Swift.Bool
+    override final public func toString() -> Swift.String
+    override public init()
+    @objc deinit
+  }
+  public class IndexEvaluator : airflex_dfp.Evaluator {
+    public init(_ index: Swift.Int)
+    @objc deinit
+  }
+  final public class ContainsText : airflex_dfp.Evaluator {
+    public init(_ searchText: Swift.String)
+    override final public func matches(_ root: airflex_dfp.Element, _ element: airflex_dfp.Element) throws -> Swift.Bool
+    override final public func toString() -> Swift.String
+    @objc deinit
+  }
+  final public class ContainsOwnText : airflex_dfp.Evaluator {
+    public init(_ searchText: Swift.String)
+    override final public func matches(_ root: airflex_dfp.Element, _ element: airflex_dfp.Element) throws -> Swift.Bool
+    override final public func toString() -> Swift.String
+    @objc deinit
+  }
+  final public class Matches : airflex_dfp.Evaluator {
+    public init(_ pattern: airflex_dfp.Pattern)
+    override final public func matches(_ root: airflex_dfp.Element, _ element: airflex_dfp.Element) throws -> Swift.Bool
+    override final public func toString() -> Swift.String
+    @objc deinit
+  }
+  final public class MatchesOwn : airflex_dfp.Evaluator {
+    public init(_ pattern: airflex_dfp.Pattern)
+    override final public func matches(_ root: airflex_dfp.Element, _ element: airflex_dfp.Element) throws -> Swift.Bool
+    override final public func toString() -> Swift.String
+    @objc deinit
+  }
+  @objc deinit
+}
+public enum ExceptionType {
+  case IllegalArgumentException
+  case IOException
+  case XmlDeclaration
+  case MalformedURLException
+  case CloneNotSupportedException
+  case SelectorParseException
+  public static func == (a: airflex_dfp.ExceptionType, b: airflex_dfp.ExceptionType) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public enum Exception : Swift.Error {
+  case Error(type: airflex_dfp.ExceptionType, Message: Swift.String)
+}
+@_hasMissingDesignatedInitializers public class Fingerprinter {
+  @objc deinit
+}
+extension airflex_dfp.Fingerprinter {
+  public func getDeviceId(_ completion: @escaping (Swift.String?) -> Swift.Void)
+  public func getFingerprint(_ completion: @escaping (Swift.String?) -> Swift.Void)
+  public func getFingerprintTree(_ completion: @escaping (airflex_dfp.FingerprintTree) -> Swift.Void)
+}
+@available(iOS 13, macOS 11, *)
+extension airflex_dfp.Fingerprinter {
+  public func getDeviceId() async -> Swift.String?
+  public func getFingerprintTree() async -> airflex_dfp.FingerprintTree
+  public func getFingerprint() async -> Swift.String?
+}
+public protocol FingerprinterInstanceProviding {
+  static func getInstance(_ configuration: airflex_dfp.Configuration) -> airflex_dfp.Fingerprinter
+}
+@_hasMissingDesignatedInitializers public class FingerprinterFactory : airflex_dfp.FingerprinterInstanceProviding {
+  public static func getInstance(_ configuration: airflex_dfp.Configuration = Configuration()) -> airflex_dfp.Fingerprinter
+  @objc deinit
+}
+public protocol FingerprintFunction {
+  func fingerprint(data: Foundation.Data) -> Swift.String
+}
+public struct FingerprintTree {
+  public let info: airflex_dfp.DeviceInfoItem
+  public let children: [airflex_dfp.FingerprintTree]?
+  public var fingerprint: Swift.String {
+    get
+  }
+}
+public class FormElement : airflex_dfp.Element {
+  override public init(_ tag: airflex_dfp.Tag, _ baseUri: Swift.String, _ attributes: airflex_dfp.Attributes)
+  public func elements() -> airflex_dfp.Elements
+  @discardableResult
+  public func addElement(_ element: airflex_dfp.Element) -> airflex_dfp.FormElement
+  override public func copy(with zone: ObjectiveC.NSZone? = nil) -> Any
+  override public func copy(parent: airflex_dfp.Node?) -> airflex_dfp.Node
+  override public func copy(clone: airflex_dfp.Node, parent: airflex_dfp.Node?) -> airflex_dfp.Node
+  @objc deinit
+}
+public struct JailBrokenHelper {
+}
+@_hasMissingDesignatedInitializers public class Logger {
+  @objc deinit
+}
+open class Node : Swift.Equatable, Swift.Hashable {
+  public var siblingIndex: Swift.Int {
+    get
+  }
+  public init(_ baseUri: Swift.String, _ attributes: airflex_dfp.Attributes)
+  public init(_ baseUri: Swift.String)
+  public init()
+  public func nodeName() -> Swift.String
+  open func attr(_ attributeKey: Swift.String) throws -> Swift.String
+  open func getAttributes() -> airflex_dfp.Attributes?
+  @discardableResult
+  open func attr(_ attributeKey: Swift.String, _ attributeValue: Swift.String) throws -> airflex_dfp.Node
+  open func hasAttr(_ attributeKey: Swift.String) -> Swift.Bool
+  @discardableResult
+  open func removeAttr(_ attributeKey: Swift.String) throws -> airflex_dfp.Node
+  open func getBaseUri() -> Swift.String
+  open func setBaseUri(_ baseUri: Swift.String) throws
+  open func absUrl(_ attributeKey: Swift.String) throws -> Swift.String
+  open func childNode(_ index: Swift.Int) -> airflex_dfp.Node
+  open func getChildNodes() -> Swift.Array<airflex_dfp.Node>
+  open func childNodesCopy() -> Swift.Array<airflex_dfp.Node>
+  public func childNodeSize() -> Swift.Int
+  open func parent() -> airflex_dfp.Node?
+  open func ownerDocument() -> airflex_dfp.Document?
+  open func remove() throws
+  @discardableResult
+  open func before(_ html: Swift.String) throws -> airflex_dfp.Node
+  @discardableResult
+  open func before(_ node: airflex_dfp.Node) throws -> airflex_dfp.Node
+  @discardableResult
+  open func after(_ html: Swift.String) throws -> airflex_dfp.Node
+  @discardableResult
+  open func after(_ node: airflex_dfp.Node) throws -> airflex_dfp.Node
+  @discardableResult
+  open func after(html: Swift.String) throws -> airflex_dfp.Node
+  @discardableResult
+  open func after(node: airflex_dfp.Node) throws -> airflex_dfp.Node
+  open func addSiblingHtml(index: Swift.Int, _ html: Swift.String) throws
+  @discardableResult
+  open func wrap(_ html: Swift.String) throws -> airflex_dfp.Node?
+  @discardableResult
+  open func unwrap() throws -> airflex_dfp.Node?
+  public func replaceWith(_ input: airflex_dfp.Node) throws
+  public func setParentNode(_ parentNode: airflex_dfp.Node) throws
+  public func replaceChild(_ out: airflex_dfp.Node, _ input: airflex_dfp.Node) throws
+  public func removeChild(_ out: airflex_dfp.Node) throws
+  public func addChildren(_ children: airflex_dfp.Node...) throws
+  public func addChildren(_ children: [airflex_dfp.Node]) throws
+  public func addChildren(_ index: Swift.Int, _ children: airflex_dfp.Node...) throws
+  public func addChildren(_ index: Swift.Int, _ children: [airflex_dfp.Node]) throws
+  public func ensureChildNodes()
+  public func reparentChild(_ child: airflex_dfp.Node) throws
+  open func siblingNodes() -> Swift.Array<airflex_dfp.Node>
+  open func nextSibling() -> airflex_dfp.Node?
+  open func previousSibling() -> airflex_dfp.Node?
+  public func setSiblingIndex(_ siblingIndex: Swift.Int)
+  @discardableResult
+  open func traverse(_ nodeVisitor: any airflex_dfp.NodeVisitor) throws -> airflex_dfp.Node
+  open func outerHtml() throws -> Swift.String
+  public func outerHtml(_ accum: airflex_dfp.StringBuilder) throws
+  open func html(_ appendable: airflex_dfp.StringBuilder) throws -> airflex_dfp.StringBuilder
+  public func indent(_ accum: airflex_dfp.StringBuilder, _ depth: Swift.Int, _ out: airflex_dfp.OutputSettings)
+  open func equals(_ o: airflex_dfp.Node) -> Swift.Bool
+  open func hasSameValue(_ o: airflex_dfp.Node) throws -> Swift.Bool
+  public func copy(with zone: ObjectiveC.NSZone? = nil) -> Any
+  public func copy(parent: airflex_dfp.Node?) -> airflex_dfp.Node
+  public func copy(clone: airflex_dfp.Node) -> airflex_dfp.Node
+  public func copy(clone: airflex_dfp.Node, parent: airflex_dfp.Node?) -> airflex_dfp.Node
+  public static func == (lhs: airflex_dfp.Node, rhs: airflex_dfp.Node) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  @objc deinit
+  open var hashValue: Swift.Int {
+    get
+  }
+}
+extension airflex_dfp.Node : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+extension airflex_dfp.Node : Swift.CustomDebugStringConvertible {
+  public var debugDescription: Swift.String {
+    get
+  }
+}
+public protocol NodeVisitor {
+  func head(_ node: airflex_dfp.Node, _ depth: Swift.Int) throws
+  func tail(_ node: airflex_dfp.Node, _ depth: Swift.Int) throws
+}
+public class OrderedSet<T> where T : Swift.Hashable {
+  public typealias Index = Swift.Int
+  public init()
+  @objc deinit
+  public init<S>(sequence: S) where T == S.Element, S : Swift.Sequence
+  required public init(arrayLiteral elements: T...)
+  public func index(of object: T) -> airflex_dfp.OrderedSet<T>.Index?
+  public func append(_ object: T)
+  public func append<S>(contentsOf sequence: S) where T == S.Element, S : Swift.Sequence
+  public func remove(_ object: T)
+  public func remove<S>(_ objects: S) where T == S.Element, S : Swift.Sequence
+  public func removeObject(at index: airflex_dfp.OrderedSet<T>.Index)
+  public func removeAllObjects()
+  public func swapObject(_ first: T, with second: T)
+  public func intersects<S>(_ other: S) -> Swift.Bool where T == S.Element, S : Swift.Sequence
+  public func isSubset<S>(of sequence: S) -> Swift.Bool where T == S.Element, S : Swift.Sequence
+  public func moveObject(_ object: T, toIndex index: airflex_dfp.OrderedSet<T>.Index)
+  public func moveObject(at index: airflex_dfp.OrderedSet<T>.Index, to toIndex: airflex_dfp.OrderedSet<T>.Index)
+  public func insert(_ object: T, at index: airflex_dfp.OrderedSet<T>.Index)
+  public func insert<S>(_ objects: S, at index: airflex_dfp.OrderedSet<T>.Index) where T == S.Element, S : Swift.Sequence
+  public var last: T? {
+    get
+  }
+}
+extension airflex_dfp.OrderedSet : Swift.ExpressibleByArrayLiteral {
+  public typealias ArrayLiteralElement = T
+}
+extension airflex_dfp.OrderedSet {
+  public var count: Swift.Int {
+    get
+  }
+  public var isEmpty: Swift.Bool {
+    get
+  }
+  public var first: T? {
+    get
+  }
+  public func index(after i: Swift.Int) -> Swift.Int
+  public var startIndex: Swift.Int {
+    get
+  }
+  public var endIndex: Swift.Int {
+    get
+  }
+  public subscript(index: airflex_dfp.OrderedSet<T>.Index) -> T {
+    get
+    set
+  }
+}
+extension airflex_dfp.OrderedSet : Swift.Sequence {
+  public typealias Iterator = airflex_dfp.OrderedSetGenerator<T>
+  public func makeIterator() -> airflex_dfp.OrderedSet<T>.Iterator
+  public typealias Element = airflex_dfp.OrderedSetGenerator<T>.Element
+}
+public struct OrderedSetGenerator<T> : Swift.IteratorProtocol where T : Swift.Hashable {
+  public typealias Element = T
+  public init(set: airflex_dfp.OrderedSet<T>)
+  public mutating func next() -> airflex_dfp.OrderedSetGenerator<T>.Element?
+}
+public func + <T, S>(lhs: airflex_dfp.OrderedSet<T>, rhs: S) -> airflex_dfp.OrderedSet<T> where T : Swift.Hashable, T == S.Element, S : Swift.Sequence
+public func += <T, S>(lhs: inout airflex_dfp.OrderedSet<T>, rhs: S) where T : Swift.Hashable, T == S.Element, S : Swift.Sequence
+public func - <T, S>(lhs: airflex_dfp.OrderedSet<T>, rhs: S) -> airflex_dfp.OrderedSet<T> where T : Swift.Hashable, T == S.Element, S : Swift.Sequence
+public func -= <T, S>(lhs: inout airflex_dfp.OrderedSet<T>, rhs: S) where T : Swift.Hashable, T == S.Element, S : Swift.Sequence
+extension airflex_dfp.OrderedSet : Swift.Equatable {
+}
+public func == <T>(lhs: airflex_dfp.OrderedSet<T>, rhs: airflex_dfp.OrderedSet<T>) -> Swift.Bool where T : Swift.Hashable
+extension airflex_dfp.OrderedSet : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+@_hasMissingDesignatedInitializers open class ParseError {
+  open func getErrorMessage() -> Swift.String
+  open func getPosition() -> Swift.Int
+  open func toString() -> Swift.String
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class ParseErrorList {
+  open func add(_ e: airflex_dfp.ParseError)
+  open func add(_ index: Swift.Int, _ element: airflex_dfp.ParseError)
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class Parser {
+  public func parseInput(_ html: Swift.String, _ baseUri: Swift.String) throws -> airflex_dfp.Document
+  public func getTreeBuilder() -> airflex_dfp.TreeBuilder
+  @discardableResult
+  public func setTreeBuilder(_ treeBuilder: airflex_dfp.TreeBuilder) -> airflex_dfp.Parser
+  public func isTrackErrors() -> Swift.Bool
+  @discardableResult
+  public func setTrackErrors(_ maxErrors: Swift.Int) -> airflex_dfp.Parser
+  public func getErrors() -> airflex_dfp.ParseErrorList
+  @discardableResult
+  public func settings(_ settings: airflex_dfp.ParseSettings) -> airflex_dfp.Parser
+  public func settings() -> airflex_dfp.ParseSettings
+  public static func parse(_ html: Swift.String, _ baseUri: Swift.String) throws -> airflex_dfp.Document
+  public static func parseFragment(_ fragmentHtml: Swift.String, _ context: airflex_dfp.Element?, _ baseUri: Swift.String) throws -> Swift.Array<airflex_dfp.Node>
+  public static func parseXmlFragment(_ fragmentXml: Swift.String, _ baseUri: Swift.String) throws -> Swift.Array<airflex_dfp.Node>
+  public static func parseBodyFragment(_ bodyHtml: Swift.String, _ baseUri: Swift.String) throws -> airflex_dfp.Document
+  public static func unescapeEntities(_ string: Swift.String, _ inAttribute: Swift.Bool) throws -> Swift.String
+  public static func parseBodyFragmentRelaxed(_ bodyHtml: Swift.String, _ baseUri: Swift.String) throws -> airflex_dfp.Document
+  public static func htmlParser() -> airflex_dfp.Parser
+  public static func xmlParser() -> airflex_dfp.Parser
+  @objc deinit
+}
+open class ParseSettings {
+  public static let htmlDefault: airflex_dfp.ParseSettings
+  public static let preserveCase: airflex_dfp.ParseSettings
+  public init(_ tag: Swift.Bool, _ attribute: Swift.Bool)
+  open func normalizeTag(_ name: Swift.String) -> Swift.String
+  open func normalizeAttribute(_ name: Swift.String) -> Swift.String
+  open func normalizeAttributes(_ attributes: airflex_dfp.Attributes) throws -> airflex_dfp.Attributes
+  @objc deinit
+}
+public struct Pattern {
+  public static let CASE_INSENSITIVE: Swift.Int
+  public static func compile(_ s: Swift.String) -> airflex_dfp.Pattern
+  public static func compile(_ s: Swift.String, _ op: Swift.Int) -> airflex_dfp.Pattern
+  public func validate() throws
+  public func matcher(in text: Swift.String) -> airflex_dfp.Matcher
+  public func toString() -> Swift.String
+}
+@_hasMissingDesignatedInitializers public class Matcher {
+  public var count: Swift.Int {
+    get
+  }
+  @discardableResult
+  public func find() -> Swift.Bool
+  public func group(_ i: Swift.Int) -> Swift.String?
+  public func group() -> Swift.String?
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class QueryParser {
+  public static func parse(_ query: Swift.String) throws -> airflex_dfp.Evaluator
+  public func parse() throws -> airflex_dfp.Evaluator
+  @objc deinit
+}
+public class SimpleDictionary<KeyType, ValueType> where KeyType : Swift.Hashable {
+  public typealias DictionaryType = [KeyType : ValueType]
+  public var values: airflex_dfp.SimpleDictionary<KeyType, ValueType>.DictionaryType {
+    get
+  }
+  public init()
+  public var count: Swift.Int {
+    get
+  }
+  public func remove(_ key: KeyType)
+  public func contains(_ key: KeyType) -> Swift.Bool
+  public func put(_ value: ValueType, forKey key: KeyType)
+  public func get(_ key: KeyType) -> ValueType?
+  @objc deinit
+}
+extension Swift.String.Encoding {
+  public func displayName() -> Swift.String
+}
+open class StringBuilder {
+  public init(string: Swift.String = "")
+  public init(_ size: Swift.Int)
+  open func toString() -> Swift.String
+  open var xlength: Swift.Int {
+    get
+  }
+  open var isEmpty: Swift.Bool {
+    get
+  }
+  open func append(_ string: Swift.String)
+  open func appendCodePoint(_ chr: Swift.Character)
+  open func appendCodePoints(_ chr: [Swift.Character])
+  open func appendCodePoint(_ ch: Swift.Int)
+  open func appendCodePoint(_ ch: Swift.UnicodeScalar)
+  open func appendCodePoints(_ chr: [Swift.UnicodeScalar])
+  @discardableResult
+  open func append<T>(_ value: T) -> airflex_dfp.StringBuilder where T : Swift.CustomStringConvertible
+  @discardableResult
+  open func append(_ value: Swift.UnicodeScalar) -> airflex_dfp.StringBuilder
+  @discardableResult
+  open func appendLine(_ string: Swift.String) -> airflex_dfp.StringBuilder
+  @discardableResult
+  open func appendLine<T>(_ value: T) -> airflex_dfp.StringBuilder where T : Swift.CustomStringConvertible
+  @discardableResult
+  open func clear() -> airflex_dfp.StringBuilder
+  @objc deinit
+}
+public func += (lhs: airflex_dfp.StringBuilder, rhs: Swift.String)
+public func += <T>(lhs: airflex_dfp.StringBuilder, rhs: T) where T : Swift.CustomStringConvertible
+public func + (lhs: airflex_dfp.StringBuilder, rhs: airflex_dfp.StringBuilder) -> airflex_dfp.StringBuilder
+@_hasMissingDesignatedInitializers open class StringUtil {
+  public static func join(_ strings: [Swift.String], sep: Swift.String) -> Swift.String
+  public static func join(_ strings: Swift.Set<Swift.String>, sep: Swift.String) -> Swift.String
+  public static func join(_ strings: airflex_dfp.OrderedSet<Swift.String>, sep: Swift.String) -> Swift.String
+  public static func padding(_ width: Swift.Int) -> Swift.String
+  public static func isBlank(_ string: Swift.String) -> Swift.Bool
+  public static func isNumeric(_ string: Swift.String) -> Swift.Bool
+  public static func isWhitespace(_ c: Swift.Character) -> Swift.Bool
+  public static func normaliseWhitespace(_ string: Swift.String) -> Swift.String
+  public static func appendNormalisedWhitespace(_ accum: airflex_dfp.StringBuilder, string: Swift.String, stripLeading: Swift.Bool)
+  public static func resolve(_ base: Foundation.URL, relUrl: Swift.String) -> Foundation.URL?
+  public static func resolve(_ baseUrl: Swift.String, relUrl: Swift.String) -> Swift.String
+  @objc deinit
+}
+public class StructuralEvaluator : airflex_dfp.Evaluator {
+  public init(_ evaluator: airflex_dfp.Evaluator)
+  @_inheritsConvenienceInitializers public class Root : airflex_dfp.Evaluator {
+    override public func matches(_ root: airflex_dfp.Element, _ element: airflex_dfp.Element) -> Swift.Bool
+    override public init()
+    @objc deinit
+  }
+  @_inheritsConvenienceInitializers public class Has : airflex_dfp.StructuralEvaluator {
+    override public init(_ evaluator: airflex_dfp.Evaluator)
+    override public func matches(_ root: airflex_dfp.Element, _ element: airflex_dfp.Element) throws -> Swift.Bool
+    override public func toString() -> Swift.String
+    @objc deinit
+  }
+  @_inheritsConvenienceInitializers public class Not : airflex_dfp.StructuralEvaluator {
+    override public init(_ evaluator: airflex_dfp.Evaluator)
+    override public func matches(_ root: airflex_dfp.Element, _ node: airflex_dfp.Element) -> Swift.Bool
+    override public func toString() -> Swift.String
+    @objc deinit
+  }
+  @_inheritsConvenienceInitializers public class Parent : airflex_dfp.StructuralEvaluator {
+    override public init(_ evaluator: airflex_dfp.Evaluator)
+    override public func matches(_ root: airflex_dfp.Element, _ element: airflex_dfp.Element) -> Swift.Bool
+    override public func toString() -> Swift.String
+    @objc deinit
+  }
+  @_inheritsConvenienceInitializers public class ImmediateParent : airflex_dfp.StructuralEvaluator {
+    override public init(_ evaluator: airflex_dfp.Evaluator)
+    override public func matches(_ root: airflex_dfp.Element, _ element: airflex_dfp.Element) -> Swift.Bool
+    override public func toString() -> Swift.String
+    @objc deinit
+  }
+  @_inheritsConvenienceInitializers public class PreviousSibling : airflex_dfp.StructuralEvaluator {
+    override public init(_ evaluator: airflex_dfp.Evaluator)
+    override public func matches(_ root: airflex_dfp.Element, _ element: airflex_dfp.Element) throws -> Swift.Bool
+    override public func toString() -> Swift.String
+    @objc deinit
+  }
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class SwiftSoup {
+  public static func parse(_ html: Swift.String, _ baseUri: Swift.String) throws -> airflex_dfp.Document
+  public static func parse(_ html: Swift.String, _ baseUri: Swift.String, _ parser: airflex_dfp.Parser) throws -> airflex_dfp.Document
+  public static func parse(_ html: Swift.String) throws -> airflex_dfp.Document
+  public static func parseBodyFragment(_ bodyHtml: Swift.String, _ baseUri: Swift.String) throws -> airflex_dfp.Document
+  public static func parseBodyFragment(_ bodyHtml: Swift.String) throws -> airflex_dfp.Document
+  public static func clean(_ bodyHtml: Swift.String, _ baseUri: Swift.String, _ whitelist: airflex_dfp.Whitelist) throws -> Swift.String?
+  public static func clean(_ bodyHtml: Swift.String, _ whitelist: airflex_dfp.Whitelist) throws -> Swift.String?
+  public static func clean(_ bodyHtml: Swift.String, _ baseUri: Swift.String, _ whitelist: airflex_dfp.Whitelist, _ outputSettings: airflex_dfp.OutputSettings) throws -> Swift.String?
+  public static func isValid(_ bodyHtml: Swift.String, _ whitelist: airflex_dfp.Whitelist) throws -> Swift.Bool
+  @objc deinit
+}
+open class Tag : Swift.Hashable {
+  public init(_ tagName: Swift.String)
+  open func getName() -> Swift.String
+  open func getNameNormal() -> Swift.String
+  public static func valueOf(_ tagName: Swift.String, _ settings: airflex_dfp.ParseSettings) throws -> airflex_dfp.Tag
+  public static func valueOf(_ tagName: Swift.String) throws -> airflex_dfp.Tag
+  open func isBlock() -> Swift.Bool
+  open func formatAsBlock() -> Swift.Bool
+  open func canContainBlock() -> Swift.Bool
+  open func isInline() -> Swift.Bool
+  open func isData() -> Swift.Bool
+  open func isEmpty() -> Swift.Bool
+  open func isSelfClosing() -> Swift.Bool
+  open func isKnownTag() -> Swift.Bool
+  public static func isKnownTag(_ tagName: Swift.String) -> Swift.Bool
+  public func preserveWhitespace() -> Swift.Bool
+  public func isFormListed() -> Swift.Bool
+  public func isFormSubmittable() -> Swift.Bool
+  public static func == (lhs: airflex_dfp.Tag, rhs: airflex_dfp.Tag) -> Swift.Bool
+  public func equals(_ tag: airflex_dfp.Tag) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  open func toString() -> Swift.String
+  @objc deinit
+  open var hashValue: Swift.Int {
+    get
+  }
+}
+open class TextNode : airflex_dfp.Node {
+  public init(_ text: Swift.String, _ baseUri: Swift.String?)
+  override open func nodeName() -> Swift.String
+  open func text() -> Swift.String
+  @discardableResult
+  public func text(_ text: Swift.String) -> airflex_dfp.TextNode
+  open func getWholeText() -> Swift.String
+  open func isBlank() -> Swift.Bool
+  open func splitText(_ offset: Swift.Int) throws -> airflex_dfp.TextNode
+  public static func createFromEncoded(_ encodedText: Swift.String, _ baseUri: Swift.String) throws -> airflex_dfp.TextNode
+  public static func normaliseWhitespace(_ text: Swift.String) -> Swift.String
+  public static func stripLeadingWhitespace(_ text: Swift.String) -> Swift.String
+  public static func lastCharIsWhitespace(_ sb: airflex_dfp.StringBuilder) -> Swift.Bool
+  override open func attr(_ attributeKey: Swift.String) throws -> Swift.String
+  override open func getAttributes() -> airflex_dfp.Attributes
+  override open func attr(_ attributeKey: Swift.String, _ attributeValue: Swift.String) throws -> airflex_dfp.Node
+  override open func hasAttr(_ attributeKey: Swift.String) -> Swift.Bool
+  override open func removeAttr(_ attributeKey: Swift.String) throws -> airflex_dfp.Node
+  override open func absUrl(_ attributeKey: Swift.String) throws -> Swift.String
+  override public func copy(with zone: ObjectiveC.NSZone? = nil) -> Any
+  override public func copy(parent: airflex_dfp.Node?) -> airflex_dfp.Node
+  override public func copy(clone: airflex_dfp.Node, parent: airflex_dfp.Node?) -> airflex_dfp.Node
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers open class Token {
+  @discardableResult
+  public func reset() -> airflex_dfp.Token
+  open func toString() throws -> Swift.String
+  public enum TokenType {
+    case Doctype
+    case StartTag
+    case EndTag
+    case Comment
+    case Char
+    case EOF
+    public static func == (a: airflex_dfp.Token.TokenType, b: airflex_dfp.Token.TokenType) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  @objc deinit
+}
+extension airflex_dfp.Token : Swift.CustomDebugStringConvertible {
+  public var debugDescription: Swift.String {
+    get
+  }
+}
+@_hasMissingDesignatedInitializers public class TokeniserStateVars {
+  public static let nullScalr: Swift.UnicodeScalar
+  @objc deinit
+}
+open class TokenQueue {
+  public init(_ data: Swift.String)
+  open func isEmpty() -> Swift.Bool
+  open func peek() -> Swift.Character
+  open func addFirst(_ c: Swift.Character)
+  open func addFirst(_ seq: Swift.String)
+  open func matches(_ seq: Swift.String) -> Swift.Bool
+  open func matchesCS(_ seq: Swift.String) -> Swift.Bool
+  open func matchesAny(_ seq: [Swift.String]) -> Swift.Bool
+  open func matchesAny(_ seq: Swift.String...) -> Swift.Bool
+  open func matchesAny(_ seq: Swift.Character...) -> Swift.Bool
+  open func matchesStartTag() -> Swift.Bool
+  @discardableResult
+  open func matchChomp(_ seq: Swift.String) -> Swift.Bool
+  open func matchesWhitespace() -> Swift.Bool
+  open func matchesWord() -> Swift.Bool
+  open func advance()
+  open func consume() -> Swift.Character
+  open func consume(_ seq: Swift.String) throws
+  @discardableResult
+  open func consumeTo(_ seq: Swift.String) -> Swift.String
+  open func consumeToIgnoreCase(_ seq: Swift.String) -> Swift.String
+  open func consumeToAny(_ seq: Swift.String...) -> Swift.String
+  open func consumeToAny(_ seq: [Swift.String]) -> Swift.String
+  open func chompTo(_ seq: Swift.String) -> Swift.String
+  open func chompToIgnoreCase(_ seq: Swift.String) -> Swift.String
+  open func chompBalanced(_ open: Swift.Character, _ close: Swift.Character) -> Swift.String
+  public static func unescape(_ input: Swift.String) -> Swift.String
+  @discardableResult
+  open func consumeWhitespace() -> Swift.Bool
+  @discardableResult
+  open func consumeWord() -> Swift.String
+  open func consumeTagName() -> Swift.String
+  open func consumeElementSelector() -> Swift.String
+  open func consumeCssIdentifier() -> Swift.String
+  open func consumeAttributeKey() -> Swift.String
+  open func remainder() -> Swift.String
+  open func toString() -> Swift.String
+  @objc deinit
+}
+public class TreeBuilder {
+  public var reader: airflex_dfp.CharacterReader
+  public var doc: airflex_dfp.Document
+  public var stack: Swift.Array<airflex_dfp.Element>
+  public var baseUri: Swift.String
+  public var currentToken: airflex_dfp.Token?
+  public var errors: airflex_dfp.ParseErrorList
+  public var settings: airflex_dfp.ParseSettings
+  public func defaultSettings() -> airflex_dfp.ParseSettings
+  public init()
+  public func initialiseParse(_ input: Swift.String, _ baseUri: Swift.String, _ errors: airflex_dfp.ParseErrorList, _ settings: airflex_dfp.ParseSettings)
+  public func runParser() throws
+  @discardableResult
+  public func process(_ token: airflex_dfp.Token) throws -> Swift.Bool
+  @discardableResult
+  public func processStartTag(_ name: Swift.String) throws -> Swift.Bool
+  @discardableResult
+  public func processStartTag(_ name: Swift.String, _ attrs: airflex_dfp.Attributes) throws -> Swift.Bool
+  @discardableResult
+  public func processEndTag(_ name: Swift.String) throws -> Swift.Bool
+  public func currentElement() -> airflex_dfp.Element?
+  @objc deinit
+}
+extension Swift.Unicode.Scalar {
+  public static let Ampersand: Swift.UnicodeScalar
+  public static let LessThan: Swift.UnicodeScalar
+  public static let GreaterThan: Swift.UnicodeScalar
+  public static let Space: Swift.UnicodeScalar
+  public static let BackslashF: Swift.UnicodeScalar
+  public static let BackslashT: Swift.UnicodeScalar
+  public static let BackslashN: Swift.UnicodeScalar
+  public static let BackslashR: Swift.UnicodeScalar
+  public static let Slash: Swift.UnicodeScalar
+  public static let FormFeed: Swift.UnicodeScalar
+  public static let VerticalTab: Swift.UnicodeScalar
+}
+@_hasMissingDesignatedInitializers public class Whitelist {
+  public static func none() -> airflex_dfp.Whitelist
+  public static func simpleText() throws -> airflex_dfp.Whitelist
+  public static func basic() throws -> airflex_dfp.Whitelist
+  public static func basicWithImages() throws -> airflex_dfp.Whitelist
+  public static func relaxed() throws -> airflex_dfp.Whitelist
+  @discardableResult
+  open func addTags(_ tags: Swift.String...) throws -> airflex_dfp.Whitelist
+  @discardableResult
+  open func removeTags(_ tags: Swift.String...) throws -> airflex_dfp.Whitelist
+  @discardableResult
+  open func addAttributes(_ tag: Swift.String, _ keys: Swift.String...) throws -> airflex_dfp.Whitelist
+  @discardableResult
+  open func removeAttributes(_ tag: Swift.String, _ keys: Swift.String...) throws -> airflex_dfp.Whitelist
+  @discardableResult
+  open func addEnforcedAttribute(_ tag: Swift.String, _ key: Swift.String, _ value: Swift.String) throws -> airflex_dfp.Whitelist
+  @discardableResult
+  open func removeEnforcedAttribute(_ tag: Swift.String, _ key: Swift.String) throws -> airflex_dfp.Whitelist
+  @discardableResult
+  open func preserveRelativeLinks(_ preserve: Swift.Bool) -> airflex_dfp.Whitelist
+  @discardableResult
+  open func addProtocols(_ tag: Swift.String, _ key: Swift.String, _ protocols: Swift.String...) throws -> airflex_dfp.Whitelist
+  @discardableResult
+  open func removeProtocols(_ tag: Swift.String, _ key: Swift.String, _ protocols: Swift.String...) throws -> airflex_dfp.Whitelist
+  public func isSafeTag(_ tag: Swift.String) -> Swift.Bool
+  public func isSafeAttribute(_ tagName: Swift.String, _ el: airflex_dfp.Element, _ attr: airflex_dfp.Attribute) throws -> Swift.Bool
+  public func getEnforcedAttributes(_ tagName: Swift.String) throws -> airflex_dfp.Attributes
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers open class TagName : airflex_dfp.TypedValue {
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers open class AttributeKey : airflex_dfp.TypedValue {
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers open class AttributeValue : airflex_dfp.TypedValue {
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers open class Protocol : airflex_dfp.TypedValue {
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers open class TypedValue {
+  public func toString() -> Swift.String
+  @objc deinit
+}
+extension airflex_dfp.TypedValue : Swift.Hashable {
+  public func hash(into hasher: inout Swift.Hasher)
+  open var hashValue: Swift.Int {
+    get
+  }
+}
+public func == (lhs: airflex_dfp.TypedValue, rhs: airflex_dfp.TypedValue) -> Swift.Bool
+public class XmlDeclaration : airflex_dfp.Node {
+  public init(_ name: Swift.String, _ baseUri: Swift.String, _ isProcessingInstruction: Swift.Bool)
+  override public func nodeName() -> Swift.String
+  public func name() -> Swift.String
+  public func getWholeDeclaration() throws -> Swift.String
+  override public func copy(with zone: ObjectiveC.NSZone? = nil) -> Any
+  override public func copy(parent: airflex_dfp.Node?) -> airflex_dfp.Node
+  override public func copy(clone: airflex_dfp.Node, parent: airflex_dfp.Node?) -> airflex_dfp.Node
+  @objc deinit
+}
+@_inheritsConvenienceInitializers public class XmlTreeBuilder : airflex_dfp.TreeBuilder {
+  override public init()
+  override public func defaultSettings() -> airflex_dfp.ParseSettings
+  public func parse(_ input: Swift.String, _ baseUri: Swift.String) throws -> airflex_dfp.Document
+  override public func initialiseParse(_ input: Swift.String, _ baseUri: Swift.String, _ errors: airflex_dfp.ParseErrorList, _ settings: airflex_dfp.ParseSettings)
+  override public func process(_ token: airflex_dfp.Token) throws -> Swift.Bool
+  @objc deinit
+}
+extension airflex_dfp.FingerprintJSVersion : Swift.Equatable {}
+extension airflex_dfp.FingerprintJSVersion : Swift.Hashable {}
+extension airflex_dfp.Network : Swift.Equatable {}
+extension airflex_dfp.Network : Swift.Hashable {}
+extension airflex_dfp.Network : Swift.RawRepresentable {}
+extension airflex_dfp.Document.QuirksMode : Swift.Equatable {}
+extension airflex_dfp.Document.QuirksMode : Swift.Hashable {}
+extension airflex_dfp.OutputSettings.Syntax : Swift.Equatable {}
+extension airflex_dfp.OutputSettings.Syntax : Swift.Hashable {}
+extension airflex_dfp.ExceptionType : Swift.Equatable {}
+extension airflex_dfp.ExceptionType : Swift.Hashable {}
+extension airflex_dfp.Token.TokenType : Swift.Equatable {}
+extension airflex_dfp.Token.TokenType : Swift.Hashable {}

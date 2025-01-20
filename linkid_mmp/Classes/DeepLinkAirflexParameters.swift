@@ -9,7 +9,7 @@ import Foundation
 
 public class DeepLinkAirflexParameters {
     public var shortLinkId: String?
-    public var name: String?
+    public var name: String
     public var source: String?
     public var code: String?
     public var medium: String?
@@ -18,7 +18,8 @@ public class DeepLinkAirflexParameters {
     public var content: String?
     public var redirectUrl: String?
     
-    public init(source: String? = nil, code: String? = nil, medium: String? = nil, campaign: String? = nil, redirectUrl: String? = nil) {
+    public init(name: String, source: String? = nil, code: String? = nil, medium: String? = nil, campaign: String? = nil, redirectUrl: String? = nil) {
+        self.name = name
         self.source = source
         self.code = code
         self.medium = medium
@@ -31,9 +32,7 @@ public class DeepLinkAirflexParameters {
         if shortLinkId != nil {
             params["short_link_id"] = shortLinkId
         }
-        if name != nil {
-            params["name"] = name
-        }
+        params["name"] = name
         if source != nil {
             params["utm_source"] = source
         }

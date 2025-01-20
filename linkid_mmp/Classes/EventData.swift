@@ -6,19 +6,20 @@
 //
 
 import Foundation
-@_implementationOnly import GRDB
+//@_implementationOnly import GRDB
 
 class EventData: Codable, FetchableRecord, PersistableRecord {
     var id: String
     var key: String
     var time: Int
     var sessionId: String
+    var appId: String
     var realtime: Bool
     var data: String = "{}"
     var preEvent: String = ""
     private static var savedPreEvent: String = ""
     
-    init(id: String, key: String, time: Int, sessionId: String, realtime: Bool, data: String?, preEvent: String?) {
+    init(id: String, key: String, time: Int, sessionId: String, realtime: Bool, data: String?, preEvent: String?, appId: String) {
         self.id = id
         self.key = key
         self.time = time
@@ -26,6 +27,7 @@ class EventData: Codable, FetchableRecord, PersistableRecord {
         self.realtime = realtime
         self.data = data ?? "{}"
         self.preEvent = preEvent ?? ""
+        self.appId = appId
     }
     
     static func makeEvent(key: String, sessionId: String, realtime: Bool, data: [String: Any]?) -> EventData {
@@ -40,7 +42,7 @@ class EventData: Codable, FetchableRecord, PersistableRecord {
             preEvent = savedPreEvent
             savedPreEvent = filteredID
         }
-        let event = EventData(id: filteredID, key: key, time: Int(timestamp/1000), sessionId: sessionId, realtime: realtime, data: EventData.toJsonString(dictionary: data), preEvent: preEvent)
+        let event = EventData(id: filteredID, key: key, time: Int(timestamp/1000), sessionId: sessionId, realtime: realtime, data: EventData.toJsonString(dictionary: data), preEvent: preEvent, appId: DeviceInfo.getAppId())
         return event
     }
     
@@ -74,7 +76,8 @@ class EventData: Codable, FetchableRecord, PersistableRecord {
             "sessionId": event.getSessionId(),
             "realtime": event.realtime,
             "data": data,
-            "preEvent": event.preEvent
+            "preEvent": event.preEvent,
+            "appId": event.appId
         ]
     }
     
@@ -108,15 +111,16 @@ class EventData: Codable, FetchableRecord, PersistableRecord {
     }
     
     public static func convertToDictionary2(_ event: EventData) -> [String: Any] {
-        return ["id": event.id, "key": event.key, "time": event.time, "sessionId": event.getSessionId(), "realtime": event.realtime, "data": event.data, "preEvent": event.preEvent]
+        return ["id": event.id, "key": event.key, "time": event.time, "sessionId": event.getSessionId(), "realtime": event.realtime, "data": event.data, "preEvent": event.preEvent, "appId": event.appId]
     }
     
     public static func fromDictionary2(_ data: [String: Any]) -> EventData? {
         if let key = data["key"] as? String, let id = data["id"] as? String, let time = data["time"] as? Int, let realtime = data["realtime"] as? Bool  {
             let sessionId = (data["sessionId"] as? String) ?? ""
             let preEvent = (data["preEvent"] as? String) ?? ""
+            let appId = (data["appId"] as? String) ?? ""
             let jsonString = (data["data"] as? String) ?? "{}"
-            let event = EventData.init(id: id, key: key, time: time, sessionId: sessionId, realtime: realtime, data: jsonString, preEvent: preEvent)
+            let event = EventData.init(id: id, key: key, time: time, sessionId: sessionId, realtime: realtime, data: jsonString, preEvent: preEvent, appId: appId)
             return event
         }
         return nil

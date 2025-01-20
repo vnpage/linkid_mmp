@@ -10,9 +10,11 @@ import Foundation
 public class DeepLinkBuilderResult {
     public var shortLink: String
     public var longLink: String
+    public var qrLink: String
     
-    init(shortLink: String, longLink: String) {
+    init(shortLink: String, longLink: String, qrLink: String) {
         self.shortLink = shortLink
         self.longLink = longLink
+        self.qrLink = qrLink
     }
 }

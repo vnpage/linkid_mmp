@@ -322,6 +322,14 @@ SWIFT_CLASS("_TtC10linkid_mmp17DetectWindowTouch")
 @end
 
 
+
+
+
+
+
+
+
+
 #endif
 #if __has_attribute(external_source_symbol)
 # pragma clang attribute pop
@@ -652,6 +660,14 @@ SWIFT_CLASS("_TtC10linkid_mmp17DetectWindowTouch")
 - (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
 @end
+
+
+
+
+
+
+
+
 
 
 #endif
