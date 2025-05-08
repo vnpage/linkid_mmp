@@ -106,7 +106,9 @@ Handle a deep link:
 Sets a feature flag with a key-value pair.
 
 **Declaration**:  
-`public static func setFlag(flagKey: String, flagValue: String, description: String = "", completion: @escaping (FlagData) -> Void)`
+```swift
+public static func setFlag(flagKey: String, flagValue: String, description: String = "", completion: @escaping (FlagData) -> Void)
+```
 
 **Parameters**:  
 - `flagKey`: The key of the feature flag.  
@@ -116,7 +118,9 @@ Sets a feature flag with a key-value pair.
 
 **Usage**:  
 Set a feature flag:  
-`Airflex.setFlag(flagKey: "feature_x", flagValue: "enabled", description: "Enable feature X") { flagData in print(flagData) }`
+```swift
+Airflex.setFlag(flagKey: "feature_x", flagValue: "enabled", description: "Enable feature X") { flagData in print(flagData) }
+```
 
 ---
 
