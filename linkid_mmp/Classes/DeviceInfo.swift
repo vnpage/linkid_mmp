@@ -8,7 +8,6 @@
 import Foundation
 import DeviceCheck
 import CoreTelephony
-import airflex_dfp
 
 public enum Network: String {
     case wifi = "en0"
@@ -282,6 +281,7 @@ class DeviceInfo {
         if let userId = StorageHelper.shared.getValue(forKey: "LinkID_MMP_UserID") as String?, userId != "" {
             data["userId"] = userId
         }
+
         let fingerprinter = FingerprinterFactory.getInstance()
         fingerprinter.getFingerprint { fingerprint in
             data["fingerprint"] = fingerprint

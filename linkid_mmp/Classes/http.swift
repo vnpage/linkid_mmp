@@ -215,7 +215,7 @@ class HttpClient {
             }
 
             // Add headers
-            if newUrl.endsWith("/partner/auth") {
+            if newUrl.endWith("/partner/auth") {
                 let timestamp = Int64(Date().timeIntervalSince1970)
                 let str = "\(StorageHelper.shared.getPartnerCode())\(DeviceInfo.getAppId())\(StorageHelper.shared.getDeviceId())\(timestamp)IJODNVU@OJIFOISJF"
                 let auth = Common.sha256(str)

@@ -3,16 +3,16 @@ use_frameworks!
 platform :ios, '11.0'
 
 target 'linkid_mmp_Example' do
+     
+#  pod 'gami_afl', :path => '../'
   pod 'linkid_mmp', :path => '../'
-#  pod 'lynkid_afl', :path => '../'
-#  pod 'linkid_mmp_internal', :path => '../'
 #  pod 'linkid_mmp_sdk', :podspec => 'https://repo-dev.lynkid.vn/ios/airflex/linkid_mmp_sdk_20250107_2.podspec'
 #  pod 'linkid_mmp_sdk', :podspec => 'https://raw.githubusercontent.com/vnpage/linkid_mmp_ios/main/linkid_mmp_sdk_20231114.podspec'
   pod 'SnapKit', '~> 5.6.0'
+#  pod 'linkid_livestream', :podspec => 'https://repo-dev.linkid.vn/ios/livestream/linkid_livestream_1.0.16.podspec'
 #
 #  target 'linkid_mmp_Tests' do
 #    inherit! :search_paths
-#
 #    pod 'Quick', '~> 2.2.0'
 #    pod 'Nimble', '~> 10.0.0'
 #    pod 'FBSnapshotTestCase' , '~> 2.1.4'

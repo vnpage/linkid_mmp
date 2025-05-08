@@ -32,6 +32,9 @@ class TrackingEvent {
     class func trackEvent(name: String, data: [String: Any]?) {
         Logger.log("tracking event: \(name)")
         checkAuth()
+        if(SessionManager.disableTracking) {
+            return
+        }
         var realtime = false
         if let _data = data, let afRealtime = _data["afRealtime"] {
             if afRealtime is Bool && afRealtime as! Bool == true {
@@ -70,6 +73,9 @@ class TrackingEvent {
     }
     
     private class func syncRealtime(_ eventData: EventData) {
+        if(SessionManager.disableTracking) {
+            return
+        }
         var _data: [EventData] = []
         _data.append(eventData)
         if _data.isEmpty {
@@ -100,6 +106,9 @@ class TrackingEvent {
     }
 
     private class func sync() {
+        if(SessionManager.disableTracking) {
+            return
+        }
         // send the queued events to the server
         // you can use a library like Alamofire to make the HTTP request
         // alternatively, you can use a third-party service like Mixpanel or Amplitude to track the events
@@ -142,6 +151,9 @@ class TrackingEvent {
     }
     
     private class func heartBeat() {
+        if(SessionManager.disableTracking) {
+            return
+        }
         if lastCheckHeartBeatTime != nil {
             if Date().timeIntervalSince(lastCheckHeartBeatTime!) >= beatInterval {
                 lastCheckHeartBeatTime = Date()
@@ -174,6 +186,9 @@ class TrackingEvent {
     }
 
     private class func startSyncTimer() {
+        if(SessionManager.disableTracking) {
+            return
+        }
         lastSyncTime = Date()
         lastCheckHeartBeatTime = Date()
         Logger.log("startSyncTimer")

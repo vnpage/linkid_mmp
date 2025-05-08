@@ -23,12 +23,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let options = AirflexOptions()
         options.showLog = true
-        Airflex.initSDK(partnerCode: "myvpbank_uat", appSecret: "7fe95468c204397de9bcda2d702d4501a174976b1d003d92d1e5550b03f9fcb5", options: options)
+        print("init SDK 1 \(TimeInterval(Date().timeIntervalSince1970))")
+        Airflex.initSDK(partnerCode: "lynk_id_uat", appSecret: "b3ccd1c20fa9154a559c304956f99b302027a87b87ad520c1c4dbdd4bb54be7a", options: options)
+        print("init SDK 2 \(TimeInterval(Date().timeIntervalSince1970))")
 //        Airflex.addAppDelegate(AirflexDeepLinkDelegate.shared)
 //        UIApplication.shared.delegate = AirflexDeepLinkDelegate.shared
-        Airflex.handleDeeplink { url in
-            print(url)
-        }
+//        Airflex.handleDeeplink { url in
+//            print(url)
+//        }
         self.window?.rootViewController = controller
         self.window?.makeKeyAndVisible()
         return true
@@ -59,7 +61,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
       let url = userActivity.webpageURL!
       // Take decision according to URL
-      AirflexDeepLinkDelegate.shared.handleDeeplink(url: url.absoluteString)
+        AirflexDeepLinkDelegate.shared.handleUniversalLink(incomingURL: url.absoluteString, completion: { redirectUrl, longLink, error in
+            print("Redirect URL: \(String(describing: redirectUrl))")
+        })
       return true
     }
 
@@ -67,7 +71,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                   continue userActivity: NSUserActivity,
                                   restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
         if userActivity.activityType == NSUserActivityTypeBrowsingWeb, let url = userActivity.webpageURL {
-            AirflexDeepLinkDelegate.shared.handleDeeplink(url: url.absoluteString)
+            AirflexDeepLinkDelegate.shared.handleUniversalLink(incomingURL: url.absoluteString, completion: { redirectUrl, longLink, error in
+                print("Redirect URL: \(String(describing: redirectUrl))")
+            })
         }
         return true
     }

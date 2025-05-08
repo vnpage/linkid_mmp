@@ -28,15 +28,16 @@ extension String {
 //        return self.prefix(str.count) == str
 //    }
     
-    func startsWith(_ prefix: String) -> Bool {
+    
+    func startWith(_ prefix: String) -> Bool {
         return self.hasPrefix(prefix)
     }
 
-    func endsWith(_ suffix: String) -> Bool {
+    func endWith(_ suffix: String) -> Bool {
         return self.hasSuffix(suffix)
     }
     
-    func replaceAll(of pattern: String, with replacement: String, options: NSRegularExpression.Options = []) -> String {
+    func replaceAlls(of pattern: String, with replacement: String, options: NSRegularExpression.Options = []) -> String {
         do {
             let regex = try NSRegularExpression(pattern: pattern, options: [])
             let range = NSRange(0..<self.utf16.count)

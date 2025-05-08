@@ -10,8 +10,13 @@ import Foundation
 class SessionManager {
     
     static var baseUrl: String = ""
+    static var currentUserInfo: UserInfo?
+    static var currentInfo: [String: Any] = [:]
+    static let disableTracking: Bool = false
+    static var currentToken: String = ""
     
     class func retry() {
+        currentToken = ""
         let partnerCode = StorageHelper.shared.getPartnerCode()
         let appSecret = StorageHelper.shared.getAppSecret()
         if(baseUrl == "") {
@@ -48,6 +53,9 @@ class SessionManager {
         let deviceId = DeviceInfo.getDeviceId()
         let appId = DeviceInfo.getAppId()
         let data = ["partnerCode": partnerCode, "appId": appId, "deviceId": deviceId]
+        if (currentToken != "") {
+            return
+        }
         HttpClient.shared.post(with: "/public/partner/auth", params: data) { data, error in
             if let data = data {
                 do {
@@ -56,9 +64,10 @@ class SessionManager {
                     let authData = try JSONDecoder().decode(AuthData.self, from: data)
                     if authData.responseCode == 200 {
                         Logger.log(authData.data?.token ?? "")
+                        SessionManager.currentToken = authData.data?.token ?? ""
                         StorageHelper.shared.saveAuthData(data)
-                        updateInfo(data: DeviceInfo.getDeviceInfo())
                         DeviceInfo.getFingerprint()
+                        updateInfo(data: DeviceInfo.getDeviceInfo())
                         let is_first = StorageHelper.shared.getValue(forKey: "___first_open") ?? "0"
                         if is_first == "0" {
                             StorageHelper.shared.save("1", forKey: "___first_open")
@@ -90,8 +99,19 @@ class SessionManager {
         authWithBaseUrl(partnerCode: partnerCode, appSecret: appSecret, baseUrl: baseUrl)
     }
     
+    private static let updateInfoDebouncer = Debouncer(delay: 1.0)
     public class func updateInfo(data: [String: Any]?) {
-        HttpClient.shared.post(with: "/partner/device-info/update", params: data ?? [:]) { _data, _error in
+        currentInfo.merged(with: data ?? [:])
+        updateInfoDebouncer.debounce {
+            updateInfoDebounce()
+        }
+    }
+    
+    private class func updateInfoDebounce() {
+        if(SessionManager.disableTracking) {
+            return
+        }
+        HttpClient.shared.post(with: "/partner/device-info/update", params: currentInfo) { _data, _error in
             if let _data = _data {
                     let dataStr = String(data: _data, encoding: .utf8)
                 Logger.log(dataStr ?? "Loi")
@@ -101,6 +121,7 @@ class SessionManager {
     
     public class func clear() {
         baseUrl = ""
+        SessionManager.currentToken = ""
         StorageHelper.shared.removeAuthData()
         TrackingEvent.stopSyncTimer()
     }

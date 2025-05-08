@@ -20,11 +20,7 @@
   },
   "source_files": [
     "linkid_mmp/Classes/**/*",
-    "GRDB.swift/**/*"
-  ],
-  "preserve_paths": "airflex_dfp.xcframework/**/*",
-  "xcconfig": {
-    "OTHER_LDFLAGS": "-framework airflex_dfp"
-  },
-  "vendored_frameworks": "airflex_dfp.xcframework"
+    "GRDB.swift/**/*",
+    "SwiftSoup/**/*"
+  ]
 }

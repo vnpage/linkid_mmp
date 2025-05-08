@@ -17,6 +17,7 @@ public class DeepLinkAirflexParameters {
     public var term: String?
     public var content: String?
     public var redirectUrl: String?
+    public var customParams: [String: Any] = [:]
     
     public init(name: String, source: String? = nil, code: String? = nil, medium: String? = nil, campaign: String? = nil, redirectUrl: String? = nil) {
         self.name = name
@@ -27,8 +28,18 @@ public class DeepLinkAirflexParameters {
         self.redirectUrl = redirectUrl
     }
     
+    public func addCustomParam(key: String, value: Any) {
+        customParams[key] = value
+    }
+    
+    public func addCustomParams(params: [String: Any]) {
+        customParams.merged(with: params)
+    }
+    
     public func buildParams()-> [String: Any] {
         var params: [String: Any] = [:]
+        params.merged(with: customParams)
+        
         if shortLinkId != nil {
             params["short_link_id"] = shortLinkId
         }

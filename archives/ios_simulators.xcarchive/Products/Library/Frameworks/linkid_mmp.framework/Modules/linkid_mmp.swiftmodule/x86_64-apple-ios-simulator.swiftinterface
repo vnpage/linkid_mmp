@@ -4,16 +4,17 @@
 import CommonCrypto
 import CoreGraphics
 import CoreTelephony
+import CryptoKit
 import DeviceCheck
 import Dispatch
 import Foundation
 import SQLite3
 import Swift
+import SwiftUI
 import UIKit
 import _Concurrency
 import _StringProcessing
 import _SwiftConcurrencyShims
-import airflex_dfp
 @_exported import linkid_mmp
 @_hasMissingDesignatedInitializers @objcMembers public class Airflex {
   @objc public static func logEvent(name: Swift.String, data: [Swift.String : Any]?)
@@ -37,7 +38,7 @@ import airflex_dfp
 @objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) public class AirflexDeepLinkDelegate : UIKit.UIResponder, UIKit.UIApplicationDelegate {
   @_Concurrency.MainActor(unsafe) public static let shared: linkid_mmp.AirflexDeepLinkDelegate
   @_Concurrency.MainActor(unsafe) @objc public func application(_ application: UIKit.UIApplication, open url: Foundation.URL, options: [UIKit.UIApplication.OpenURLOptionsKey : Any] = [:]) -> Swift.Bool
-  @_Concurrency.MainActor(unsafe) public func handleDeeplink(url: Swift.String)
+  @_Concurrency.MainActor(unsafe) public func handleUniversalLink(incomingURL: Swift.String, completion: @escaping (_ redirectUrl: Swift.String?, _ longLink: Swift.String?, _ error: Swift.String?) -> Swift.Void)
   @_Concurrency.MainActor(unsafe) @objc override dynamic public init()
   @objc deinit
 }
@@ -168,6 +169,11 @@ extension CoreFoundation.CGFloat : linkid_mmp.DatabaseValueConvertible {
     get
   }
   public static func fromDatabaseValue(_ dbValue: linkid_mmp.DatabaseValue) -> CoreFoundation.CGFloat?
+}
+extension CoreFoundation.CGSize : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
 }
 public protocol ColumnExpression : linkid_mmp.SQLExpression {
   var name: Swift.String { get }
@@ -311,6 +317,21 @@ public struct Configuration {
   public init()
 }
 public typealias TraceFunction = (Swift.String) -> Swift.Void
+public enum FingerprintJSVersion {
+  case v1
+  public static func == (a: linkid_mmp.FingerprintJSVersion, b: linkid_mmp.FingerprintJSVersion) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public enum FingerprintAlgorithm {
+  case sha256
+  case custom(any linkid_mmp.FingerprintFunction)
+}
+public struct ConfigurationFJS {
+  public init(version: linkid_mmp.FingerprintJSVersion = .v1, algorithm: linkid_mmp.FingerprintAlgorithm = .sha256)
+}
 @_hasMissingDesignatedInitializers public class Crashlytics {
   public static func setup()
   public static func recordError(name: Swift.String, stackTrace: Swift.String)
@@ -1333,7 +1354,10 @@ public class DeepLinkAirflexParameters {
   public var term: Swift.String?
   public var content: Swift.String?
   public var redirectUrl: Swift.String?
+  public var customParams: [Swift.String : Any]
   public init(name: Swift.String, source: Swift.String? = nil, code: Swift.String? = nil, medium: Swift.String? = nil, campaign: Swift.String? = nil, redirectUrl: Swift.String? = nil)
+  public func addCustomParam(key: Swift.String, value: Any)
+  public func addCustomParams(params: [Swift.String : Any])
   public func buildParams() -> [Swift.String : Any]
   @objc deinit
 }
@@ -1403,6 +1427,15 @@ public enum Network : Swift.String {
   public var rawValue: Swift.String {
     get
   }
+}
+public enum DeviceInfoValueType {
+  case category
+  case info(Swift.String)
+}
+public struct DeviceInfoItem {
+  public let label: Swift.String
+  public let value: linkid_mmp.DeviceInfoValueType
+  public let children: [linkid_mmp.DeviceInfoItem]?
 }
 public protocol EncodableRecord {
   func encode(to container: inout linkid_mmp.PersistenceContainer)
@@ -1649,6 +1682,43 @@ public struct AnyFetchRequest<T> : linkid_mmp.FetchRequest {
   public func makePreparedRequest(_ db: linkid_mmp.Database, forSingleResult singleResult: Swift.Bool) throws -> linkid_mmp.PreparedRequest
   public func fetchCount(_ db: linkid_mmp.Database) throws -> Swift.Int
   public func databaseRegion(_ db: linkid_mmp.Database) throws -> linkid_mmp.DatabaseRegion
+}
+@_hasMissingDesignatedInitializers public class Fingerprinter {
+  @objc deinit
+}
+extension linkid_mmp.Fingerprinter {
+  public func getDeviceId(_ completion: @escaping (Swift.String?) -> Swift.Void)
+  public func getFingerprint(_ completion: @escaping (Swift.String?) -> Swift.Void)
+  public func getFingerprintTree(_ completion: @escaping (linkid_mmp.FingerprintTree) -> Swift.Void)
+}
+@available(iOS 13, macOS 11, *)
+extension linkid_mmp.Fingerprinter {
+  #if compiler(>=5.3) && $AsyncAwait
+  public func getDeviceId() async -> Swift.String?
+  #endif
+  #if compiler(>=5.3) && $AsyncAwait
+  public func getFingerprintTree() async -> linkid_mmp.FingerprintTree
+  #endif
+  #if compiler(>=5.3) && $AsyncAwait
+  public func getFingerprint() async -> Swift.String?
+  #endif
+}
+public protocol FingerprinterInstanceProviding {
+  static func getInstance(_ configuration: linkid_mmp.ConfigurationFJS) -> linkid_mmp.Fingerprinter
+}
+@_hasMissingDesignatedInitializers public class FingerprinterFactory : linkid_mmp.FingerprinterInstanceProviding {
+  public static func getInstance(_ configuration: linkid_mmp.ConfigurationFJS = ConfigurationFJS()) -> linkid_mmp.Fingerprinter
+  @objc deinit
+}
+public protocol FingerprintFunction {
+  func fingerprint(data: Foundation.Data) -> Swift.String
+}
+public struct FingerprintTree {
+  public let info: linkid_mmp.DeviceInfoItem
+  public let children: [linkid_mmp.FingerprintTree]?
+  public var fingerprint: Swift.String {
+    get
+  }
 }
 @_hasMissingDesignatedInitializers public class FlagData {
   public var success: Swift.Bool
@@ -3742,6 +3812,7 @@ extension Foundation.URL : linkid_mmp.DatabaseValueConvertible {
   public class func create(userId: Swift.String, name: Swift.String, gender: Swift.String, email: Swift.String, phone: Swift.String, age: Swift.Int32, country: Swift.String, city: Swift.String, deviceToken: Swift.String) -> linkid_mmp.UserInfo
   @objc public func toDictionary() -> [Swift.String : Any]
   public class func fromDictionary(data: [Swift.String : Any]) -> linkid_mmp.UserInfo
+  public func isEqual(user: linkid_mmp.UserInfo) -> Swift.Bool
   @objc deinit
 }
 extension Swift.String {
@@ -3810,6 +3881,28 @@ extension Foundation.UUID : linkid_mmp.StatementColumnConvertible {
             fatalConversionError(to: UUID.self, sqliteStatement: sqliteStatement, index: index)
         }
     }
+}
+@_hasMissingDesignatedInitializers public class AdItem : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+  public func toJsonObject() -> [Swift.String : Any]
+  public func toJsonString() -> Swift.String?
+  @_hasMissingDesignatedInitializers public class AdSize : Swift.CustomStringConvertible {
+    public var description: Swift.String {
+      get
+    }
+    public func toJsonObject() -> [Swift.String : Any]
+    @objc deinit
+  }
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class AirflexAdHelper {
+  public static func showAd()
+  public static func getAd(adId: Swift.String, adType: Swift.String, callback: @escaping (linkid_mmp.AdItem?) -> Swift.Void)
+  public static func trackImpression(adId: Swift.String, productId: Swift.String = "")
+  public static func trackClick(adId: Swift.String, productId: Swift.String = "")
+  @objc deinit
 }
 public enum ValueScheduling {
   case mainQueue
@@ -3973,6 +4066,8 @@ extension linkid_mmp.Database {
   final public func create(virtualTable name: Swift.String, ifNotExists: Swift.Bool = false, using module: Swift.String) throws
   final public func create<Module>(virtualTable tableName: Swift.String, ifNotExists: Swift.Bool = false, using module: Module, _ body: ((Module.TableDefinition) -> Swift.Void)? = nil) throws where Module : linkid_mmp.VirtualTableModule
 }
+extension linkid_mmp.FingerprintJSVersion : Swift.Equatable {}
+extension linkid_mmp.FingerprintJSVersion : Swift.Hashable {}
 extension linkid_mmp.Database.CheckpointMode : Swift.Equatable {}
 extension linkid_mmp.Database.CheckpointMode : Swift.Hashable {}
 extension linkid_mmp.Database.CheckpointMode : Swift.RawRepresentable {}

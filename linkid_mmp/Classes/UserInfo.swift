@@ -64,4 +64,65 @@ public class UserInfo {
         return UserInfo(userId: userId, name: name, gender: gender, email: email, phone: phone, age: age, country: country, city: city, deviceToken: deviceToken)
     }
     
+    public func isEqual(user: UserInfo) -> Bool {
+        return dictionariesAreEqual(user.toDictionary(), toDictionary())
+    }
+    
+    private func dictionariesAreEqual(_ dict1: [String: Any], _ dict2: [String: Any]) -> Bool {
+        // Check if both dictionaries have the same number of keys
+        guard dict1.keys == dict2.keys else { return false }
+
+        for (key, value1) in dict1 {
+            guard let value2 = dict2[key] else { return false } // Key must exist in both
+
+            switch (value1, value2) {
+            case let (v1 as Int, v2 as Int):
+                if v1 != v2 { return false }
+            case let (v1 as String, v2 as String):
+                if v1 != v2 { return false }
+            case let (v1 as Double, v2 as Double):
+                if v1 != v2 { return false }
+            case let (v1 as Bool, v2 as Bool):
+                if v1 != v2 { return false }
+
+            case let (v1 as [String: Any], v2 as [String: Any]):
+                if !dictionariesAreEqual(v1, v2) { return false } // Recursive call for nested dictionaries
+
+            case let (v1 as [Any], v2 as [Any]):
+                if !arraysAreEqual(v1, v2) { return false } // Compare arrays separately
+
+            default:
+                return false // If types don't match or unsupported type
+            }
+        }
+        return true
+    }
+
+    private func arraysAreEqual(_ arr1: [Any], _ arr2: [Any]) -> Bool {
+        guard arr1.count == arr2.count else { return false }
+        for (index, value1) in arr1.enumerated() {
+            let value2 = arr2[index]
+
+            switch (value1, value2) {
+            case let (v1 as Int, v2 as Int):
+                if v1 != v2 { return false }
+            case let (v1 as String, v2 as String):
+                if v1 != v2 { return false }
+            case let (v1 as Double, v2 as Double):
+                if v1 != v2 { return false }
+            case let (v1 as Bool, v2 as Bool):
+                if v1 != v2 { return false }
+
+            case let (v1 as [String: Any], v2 as [String: Any]):
+                if !dictionariesAreEqual(v1, v2) { return false } // Recursive call for nested dictionaries
+
+            case let (v1 as [Any], v2 as [Any]):
+                if !arraysAreEqual(v1, v2) { return false } // Recursive call for nested arrays
+
+            default:
+                return false
+            }
+        }
+        return true
+    }
 }

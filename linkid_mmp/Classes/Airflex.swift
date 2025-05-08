@@ -65,7 +65,11 @@ public class Airflex {
         Crashlytics.recordError(name: name, stackTrace: stackTrace)
     }
 
+    
     static public func setUserInfo(userInfo: UserInfo) {
+        if(SessionManager.currentUserInfo != nil && userInfo.isEqual(user: SessionManager.currentUserInfo!)) {
+            return
+        }
         var data: [String: Any] = [:]
         Logger.log("user info")
         Logger.log(userInfo.toDictionary())

@@ -50,9 +50,9 @@ class DatabaseHelper {
     // MARK: - Add Record
     
     func addEvent(event: EventData) {
-        if (checkExistsByKeyAndTime(key: event.key, time: event.time)) {
-            return
-        }
+//        if (checkExistsByKeyAndTime(key: event.key, time: event.time)) {
+//            return
+//        }
         do {
             try dbQueue?.write { db in
                 try event.insert(db)

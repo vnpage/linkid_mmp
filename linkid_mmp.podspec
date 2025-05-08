@@ -30,7 +30,7 @@ TODO: Add long description of the pod here.
 
   s.ios.deployment_target = '10.0'
 
-  s.source_files = 'linkid_mmp/Classes/**/*', 'GRDB.swift/**/*'
+  s.source_files = 'linkid_mmp/Classes/**/*', 'GRDB.swift/**/*', 'SwiftSoup/**/*'
   
   # s.resource_bundles = {
   #   'linkid_mmp' => ['linkid_mmp/Assets/*.png']
@@ -38,7 +38,7 @@ TODO: Add long description of the pod here.
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
+  # s.dependency 'AFNetworking', '~> 2.3'ai
 #  s.dependency 'SQLite.swift', '~> 0.14.0'
 #  s.dependency 'KeychainSwift', '~> 20.0'
 #  s.dependency 'CryptoSwift', '1.3.3'

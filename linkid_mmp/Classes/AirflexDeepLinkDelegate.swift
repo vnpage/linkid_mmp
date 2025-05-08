@@ -49,10 +49,51 @@ public class AirflexDeepLinkDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
-    public func handleDeeplink(url: String) {
+    private func handleDeeplink(url: String) {
         if(url != "" && deeplink != url) {
             deeplink = url
             checkDeepLink()
+        }
+    }
+    
+    public func handleUniversalLink(incomingURL: String, completion: @escaping (_ redirectUrl: String?, _ longLink: String?, _ error: String?) -> Void) {
+        if(incomingURL != "" && deeplink != incomingURL && incomingURL.startsWith("http")    ) {
+            let parameters: [String: Any] = [
+                "short_link" : incomingURL
+            ]
+            HttpClient.shared.post(with: "/partner/deeplink/get-full-link-from-short-link", params: parameters) { data, error in
+                if error != nil {
+                    completion(incomingURL, incomingURL, nil)
+                    self.handleDeeplink(url: incomingURL)
+                    return
+                } else {
+                    if let data = data {
+                        do {
+                            let json = try JSONSerialization.jsonObject(with: data, options: [])
+                            guard let result = json as? [String: Any], let dictionary = result["data"] as? [String: Any] else {
+                                completion(incomingURL, incomingURL, nil)
+                                self.handleDeeplink(url: incomingURL)
+                                return
+                            }
+                            let longLink: String? = dictionary["longLink"] as? String
+                            let redirectUrl: String? = dictionary["redirectUrl"] as? String
+                            if(longLink != "") {
+                                self.handleDeeplink(url: longLink ?? incomingURL)
+                                completion(redirectUrl, longLink, nil)
+                            } else {
+                                self.handleDeeplink(url: incomingURL)
+                                completion(incomingURL, incomingURL, nil)
+                            }
+                        } catch {
+                            self.handleDeeplink(url: incomingURL)
+                            completion(incomingURL, incomingURL, nil)
+                        }
+                    }
+                }
+            }
+        } else {
+            self.handleDeeplink(url: incomingURL)
+            completion(incomingURL, incomingURL, nil)
         }
     }
 }
