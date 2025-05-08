@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 70;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -31,15 +31,12 @@
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		7390F5052A1B220A00997F44 /* linkid_mmp_Example.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = linkid_mmp_Example.entitlements; sourceTree = "<group>"; };
+		739D5A2B2DCC9CBA00683C4F /* airflex.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = airflex.md; sourceTree = "<group>"; };
 		AE89F2E6D0B998A9F3D52B84 /* Pods_linkid_mmp_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_linkid_mmp_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4AC56856051F7BB1A440A96 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		E8C32BC6AE294B7F86F96A6C /* Pods-linkid_mmp_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-linkid_mmp_Example.debug.xcconfig"; path = "Target Support Files/Pods-linkid_mmp_Example/Pods-linkid_mmp_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		EFE863C17EE036FAC35ADD7D /* Pods_linkid_mmp_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_linkid_mmp_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		739D5A2A2DCC977900683C4F /* docs */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = docs; sourceTree = "<group>"; };
-/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		607FACCD1AFB9204008FA782 /* Frameworks */ = {
@@ -56,7 +53,7 @@
 		607FACC71AFB9204008FA782 = {
 			isa = PBXGroup;
 			children = (
-				739D5A2A2DCC977900683C4F /* docs */,
+				739D5A2C2DCC9CBA00683C4F /* docs */,
 				7390F5052A1B220A00997F44 /* linkid_mmp_Example.entitlements */,
 				607FACF51AFB993E008FA782 /* Podspec Metadata */,
 				607FACD21AFB9204008FA782 /* Example for linkid_mmp */,
@@ -123,6 +120,15 @@
 			);
 			name = "Podspec Metadata";
 			sourceTree = "<group>";
+		};
+		739D5A2C2DCC9CBA00683C4F /* docs */ = {
+			isa = PBXGroup;
+			children = (
+				739D5A2B2DCC9CBA00683C4F /* airflex.md */,
+			);
+			name = docs;
+			path = ../docs;
+			sourceTree = SOURCE_ROOT;
 		};
 		8C38D847896BDCE9A6B3758A /* Pods */ = {
 			isa = PBXGroup;
@@ -386,8 +392,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -403,10 +408,7 @@
 				INFOPLIST_FILE = linkid_mmp/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Link ID UAT";
 				IPHONEOS_DEPLOYMENT_TARGET = 10;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 1.1.8;
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = com.linkid.demokit;
@@ -431,10 +433,7 @@
 				INFOPLIST_FILE = linkid_mmp/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Link ID UAT";
 				IPHONEOS_DEPLOYMENT_TARGET = 10;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 1.1.8;
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = com.linkid.demokit;
