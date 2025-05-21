@@ -1,4 +1,4 @@
-sudo xcode-select -s /Applications/Xcode15.app
+sudo xcode-select -s /Applications/Xcode16.app
 xcodebuild archive \
   -workspace Example/linkid_mmp.xcworkspace \
   -scheme linkid_mmp \
@@ -31,10 +31,10 @@ xcodebuild -create-xcframework \
 #   -framework archives/ios_simulators.xcarchive/Products/Library/Frameworks/GRDB.framework \
 #   -output build/GRDB.xcframework  && \
 
-rm -rf /Users/leonacky/Data/dev/flutter_linkid_mmp/ios/linkid_mmp.xcframework  && \
-# rm -rf /Users/leonacky/Data/dev/flutter_linkid_mmp/ios/CryptoSwift.xcframework  && \
-# rm -rf /Users/leonacky/Data/dev/flutter_linkid_mmp/ios/GRDB.xcframework  && \
+rm -rf /Users/vpbank1/dev/projects/work/AirFlex/flutter_linkid_mmp/ios/linkid_mmp.xcframework  && \
+# rm -rf /Users/vpbank1/dev/projects/work/AirFlex/flutter_linkid_mmp/ios/CryptoSwift.xcframework  && \
+# rm -rf /Users/vpbank1/dev/projects/work/AirFlex/flutter_linkid_mmp/ios/GRDB.xcframework  && \
 
-cp -R build/linkid_mmp.xcframework /Users/leonacky/Data/dev/flutter_linkid_mmp/ios
-# cp -R build/GRDB.xcframework /Users/leonacky/Data/dev/flutter_linkid_mmp/ios
-# cp -R build/CryptoSwift.xcframework /Users/leonacky/Data/dev/flutter_linkid_mmp/ios
+cp -R build/linkid_mmp.xcframework /Users/vpbank1/dev/projects/work/AirFlex/flutter_linkid_mmp/ios
+# cp -R build/GRDB.xcframework /Users/vpbank1/dev/projects/work/AirFlex/flutter_linkid_mmp/ios
+# cp -R build/CryptoSwift.xcframework /Users/vpbank1/dev/projects/work/AirFlex/flutter_linkid_mmp/ios

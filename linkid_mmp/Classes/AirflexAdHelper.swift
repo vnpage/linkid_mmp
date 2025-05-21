@@ -19,6 +19,10 @@ public class AirflexAdHelper {
             // Parse adData
             guard let adDataArray = jsonObject["adData"] as? [String] else { return nil }
             let adData = adDataArray
+            
+            // Parse adDataJson
+            guard let adDataJsonString = jsonObject["adDataJson"] as? String else { return nil }
+            let adDataJson = adDataJsonString
 
             // Parse size
             guard let sizeObject = jsonObject["size"] as? [String: Int],
@@ -27,7 +31,7 @@ public class AirflexAdHelper {
             let size = AdItem.AdSize(width: width, height: height)
 
             // Create and return AdItem
-            return AdItem(adData: adData, size: size)
+            return AdItem(adData: adData, adDataJson: adDataJson, size: size)
         } catch {
             print(error.localizedDescription)
         }

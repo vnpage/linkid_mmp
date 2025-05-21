@@ -9,20 +9,23 @@ import Foundation
 
 public class AdItem: CustomStringConvertible {
     var adData: [String]
+    var adDataJson: String
     var size: AdSize
 
-    init(adData: [String], size: AdSize) {
+    init(adData: [String], adDataJson: String, size: AdSize) {
         self.adData = adData
+        self.adDataJson = adDataJson
         self.size = size
     }
 
     public var description: String {
-        return "AdItem(adData: \(adData), size: \(size))"
+        return "AdItem(adData: \(adData), adDataJson: \(adDataJson), size: \(size))"
     }
 
     public func toJsonObject() -> [String: Any] {
         var jsonObject: [String: Any] = [:]
         jsonObject["adData"] = adData
+        jsonObject["adDataJson"] = adDataJson
         jsonObject["size"] = size.toJsonObject()
         return jsonObject
     }

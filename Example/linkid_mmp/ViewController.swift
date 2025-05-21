@@ -117,7 +117,7 @@ class ViewController: UIViewController {
 //        }
 //        Airflex.clear()
 //        Airflex.intSDK(partnerCode: "myvpbank_uat", appSecret: "7fe95468c204397de9bcda2d702d4501a174976b1d003d92d1e5550b03f9fcb5", extra: "game1")
-        AirflexAdHelper.getAd(adId: "29fe05c6-fba3-401b-99e6-8a770894b001", adType: "BANNER") { adItem in
+        AirflexAdHelper.getAd(adId: "93cc89ad-f1d9-4674-a8e1-6df6f55805a7", adType: "BANNER") { adItem in
             if let adItem = adItem {
                 print("onSuccess: \(adItem.toJsonString() ?? "")")
             } else {

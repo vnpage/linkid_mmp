@@ -252,7 +252,12 @@ class DeviceInfo {
     }
     
     public static func isSimulator() -> Bool {
-        return TARGET_OS_SIMULATOR != 0
+        #if targetEnvironment(simulator)
+        return true
+        #else
+        return false
+        #endif
+//        return TARGET_OS_SIMULATOR != 0
     }
     
     public static func isJailBroken() -> Bool {
